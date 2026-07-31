@@ -22,7 +22,7 @@ A sleek, minimalist Pomodoro timer and task management dashboard designed to hel
 
 - **Framework:** React (Vite)
 - **Language:** TypeScript
-- **Styling:** Tailwind CSS / CSS Modules
+- **Styling:** CSS / CSS Modules
 - **State Management:** React Hooks (`useState`, `useEffect`, `useReducer`)
 - **Storage:** Browser `localStorage`
 
