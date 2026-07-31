@@ -64,3 +64,25 @@ body {
   color: #ffffff;
 }
 
+
+.name-input-box {
+  width: 50px;
+  width: 320px;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 15px auto;
+
+  background-color: var(--bg-color);
+  color: #ffffff;
+  border: 1px solid var(--border-color);
+  transition: border-color 0.2s ease;
+}
+
+.name-input-box::placeholder {
+  color: var(--text-muted);
+}
+
+.name-input-box:focus {
+  border-color: var(--electric-blue);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
