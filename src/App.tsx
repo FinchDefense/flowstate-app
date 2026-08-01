@@ -14,6 +14,7 @@ export function App() {
     const currentName = localStorage.getItem("flowstate_userName");
     return currentName ? currentName : "";
   });
+
   const [inputName, setInputName] = useState<string>("");
   useEffect(() => {
     setInputName(displayName);
@@ -24,6 +25,11 @@ export function App() {
   }
 
   const handleDisplayChange = () => {
+    if (inputName.trim() === "") {
+      alert("Please enter a name");
+      return;
+    }
+
     setDisplayName(inputName);
     localStorage.setItem('flowstate_userName', inputName);
     setInputName('');
@@ -66,25 +72,13 @@ export function App() {
             Profile
           </button>
         </div>
-        <div className="name-container">
-          <input 
-          className="name-input-box"
-          placeholder="Type Your Name Here "
-          value={inputName}
-          onChange={handleInputChange}
-          />
-          <button
-            onClick={handleDisplayChange}>
-            Enter
-          </button>
-        </div>
       </div>
       <div className="content">
         {activeTab === "timer" && <Timer />}
         {activeTab === "taskList" && <TaskList />}
         {activeTab === "statistics" && <Statistics />}
         {activeTab === "settings" && <Settings />}
-        {activeTab === "profile" && <Profile />}
+        {activeTab === "profile" && <Profile inputName={inputName} handleInputChange={handleInputChange} handleDisplayChange={handleDisplayChange} />}
       </div>
     </div>
   );
