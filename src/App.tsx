@@ -10,23 +10,30 @@ import "./index.css";
 
 export function App() {
   const [activeTab, setActiveTab] = useState<"timer" | "taskList" | "statistics" | "settings" | "profile">("timer");
-  const [userName, setUserName] = useState<string>(() => {
+  const [displayName, setDisplayName] = useState<string>(() => {
     const currentName = localStorage.getItem("flowstate_userName");
     return currentName ? currentName : "";
   });
+  const [inputName, setInputName] = useState<string>("");
+  const [isSaved, setIsSaved] = useState<boolean>(false);
 
   useEffect(() => {
-    localStorage.setItem("flowstate_userName", userName);
-  }, [userName]);
+    setInputName(displayName);
+  }, []);
 
-  const updateUserName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName(event.target.value);
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputName(event.target.value);
+  }
+
+  const handleDisplayChange = () => {
+    setDisplayName(inputName);
+    localStorage.setItem('flowstate_username', inputName);
   }
 
   return (
     <div className="app-container">
       <div className="header">
-        <h1 className="welcome-message">Welcome back {userName} </h1>
+        <h1 className="welcome-message">Welcome back {displayName || "Guest"} </h1>
         <h2 className="welcome-message">Ready to Focus?</h2>
         <div className="tabs">
           <button
@@ -64,9 +71,13 @@ export function App() {
           <input 
           className="name-input-box"
           placeholder="Type Your Name Here "
-          onChange={updateUserName}
+          value={inputName}
+          onChange={handleInputChange}
           />
-          <button>Enter</button>
+          <button
+            onClick={handleDisplayChange}>
+            Enter
+          </button>
         </div>
       </div>
       <div className="content">
