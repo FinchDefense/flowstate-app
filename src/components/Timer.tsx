@@ -7,9 +7,9 @@ export function Timer() {
         <div className="timer-display-time"></div>
       </div>
       <div className="timer-buttons">
-        <button>Start</button>
-        <button>Reset</button>
-        <button>Stop</button>
+        <button>▶ Start</button>
+        <button>⟳ Reset</button>
+        <button>⏹ Stop</button>
       </div>
     </div>
   );
