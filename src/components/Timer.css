@@ -1,0 +1,36 @@
+.timer-container {
+  display: flex;
+  flex-direction: column;
+
+  margin: 0 auto;
+  width: 560px;
+  padding: 48px;
+  border-radius: 16px;
+}
+
+.timer-display {
+  width: 280px;
+  padding: 24px 16px;
+}
+
+.timer-buttons {
+  margin: 0 auto;
+  display: flex;
+  gap: 12px;
+}
+
+.timer-buttons button {
+  height: 48px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  min-width: 100px;
+  border-radius: 8px;
+  border: none;
+
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+.timer-buttons button:hover {
+  background-color: #2563eb;
+}
