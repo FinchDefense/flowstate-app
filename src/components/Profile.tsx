@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import './Profile.css';
 
 interface ProfileProps {
@@ -7,6 +8,8 @@ interface ProfileProps {
 }
 
 export function Profile({ inputName, handleInputChange, handleDisplayChange }: ProfileProps) {
+  const [isSaved, setIsSaved] = useState<boolean>(false);
+
   return (
     <div className="name-container">
       <input 
@@ -16,8 +19,14 @@ export function Profile({ inputName, handleInputChange, handleDisplayChange }: P
       onChange={handleInputChange}
       />
       <button
-        onClick={handleDisplayChange}>
-        Enter
+        onClick={() => {
+          handleDisplayChange();
+          setIsSaved(true);
+          setTimeout(() => {
+            setIsSaved(false);
+          }, 2000);
+        }}>
+        {isSaved ? <span style={{ color: "light gray", fontWeight: 300, fontStyle: 'italic'}}>Saved ✅</span>: "Enter"}
       </button>
     </div>
   )
