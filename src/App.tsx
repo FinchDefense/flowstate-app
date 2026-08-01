@@ -15,7 +15,6 @@ export function App() {
     return currentName ? currentName : "";
   });
   const [inputName, setInputName] = useState<string>("");
-  const [isSaved, setIsSaved] = useState<boolean>(false);
   useEffect(() => {
     setInputName(displayName);
   }, [displayName]);
@@ -25,9 +24,9 @@ export function App() {
   }
 
   const handleDisplayChange = () => {
-    setIsSaved(true);
     setDisplayName(inputName);
     localStorage.setItem('flowstate_userName', inputName);
+    setInputName('');
   }
 
   return (
@@ -71,7 +70,7 @@ export function App() {
           <input 
           className="name-input-box"
           placeholder="Type Your Name Here "
-          value={isSaved ? inputName : ''}
+          value={inputName}
           onChange={handleInputChange}
           />
           <button
