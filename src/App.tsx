@@ -15,16 +15,17 @@ export function App() {
     return currentName ? currentName : "";
   });
   const [inputName, setInputName] = useState<string>("");
-
+  const [isSaved, setIsSaved] = useState<boolean>(false);
   useEffect(() => {
     setInputName(displayName);
-  }, []);
+  }, [displayName]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputName(event.target.value);
   }
 
   const handleDisplayChange = () => {
+    setIsSaved(true);
     setDisplayName(inputName);
     localStorage.setItem('flowstate_userName', inputName);
   }
@@ -70,7 +71,7 @@ export function App() {
           <input 
           className="name-input-box"
           placeholder="Type Your Name Here "
-          value={inputName}
+          value={isSaved ? inputName : ''}
           onChange={handleInputChange}
           />
           <button
