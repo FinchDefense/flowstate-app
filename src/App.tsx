@@ -15,7 +15,6 @@ export function App() {
     return currentName ? currentName : "";
   });
   const [inputName, setInputName] = useState<string>("");
-  const [isSaved, setIsSaved] = useState<boolean>(false);
 
   useEffect(() => {
     setInputName(displayName);
@@ -27,7 +26,7 @@ export function App() {
 
   const handleDisplayChange = () => {
     setDisplayName(inputName);
-    localStorage.setItem('flowstate_username', inputName);
+    localStorage.setItem('flowstate_userName', inputName);
   }
 
   return (
