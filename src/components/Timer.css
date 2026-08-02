@@ -74,7 +74,7 @@
 }
 
 .timer-buttons-time-options button {
-  width: 52px;
+  width: 48px;
   height: 32px;
   font-size: 0.75rem;
   font-weight: 500;
@@ -82,5 +82,20 @@
   color: #a1a1aa;
   border: 1px solid #27272a;
   border-radius: 6px;
-  padding: 4px 10px;
+  padding: 4px 8px;
+}
+
+.timer-buttons-time-options button:hover {
+  transform: scale(1.05);
+  opacity: 0.8; 
+
+  background-color: #27272a;
+  color: #f4f4f5;
+  border: 1px solid #3f3f46;
+}
+
+.timer-buttons-time-options button:active {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border: 1px solid #3b82f6;
 }
