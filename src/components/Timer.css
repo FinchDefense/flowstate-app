@@ -2,7 +2,9 @@
   display: flex;
   flex-direction: column;
 
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -40px;
   width: 560px;
   padding: 48px;
   border-radius: 16px;
@@ -63,4 +65,22 @@
   background-color: #2563eb;
   opacity: 0.8; 
   transform: scale(1.05);
+}
+
+.timer-buttons-time-options {
+  display: flex;
+  gap: 10px;
+  margin: 15px auto;
+}
+
+.timer-buttons-time-options button {
+  width: 52px;
+  height: 32px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background-color: transparent;
+  color: #a1a1aa;
+  border: 1px solid #27272a;
+  border-radius: 6px;
+  padding: 4px 10px;
 }
