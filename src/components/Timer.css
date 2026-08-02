@@ -9,13 +9,41 @@
 }
 
 .timer-display {
-  width: 280px;
+  width: 100%;
+  max-width: 320px;
   padding: 24px 16px;
+  margin: 20px auto;
+  background: #0f0f1a;
+  border: 1px solid #27272a;
+  border-radius: 12px;
+}
+
+.timer-display-time {
+  font-size: 4.5rem;
+  font-weight: 700;
+  color: #f4f4f5;
+  letter-spacing: 4px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  line-height: 1.2;
 }
 
 .timer-buttons {
+  display: flex;
+  flex-direction: column;
+
   margin: 0 auto;
   display: flex;
+}
+
+.timer-buttons-main-controls {
+  display: flex;
+  gap: 12px;
+}
+
+
+.timer-buttons-secondary-controls {
+  display: flex;
+  margin-top: 20px;
   gap: 12px;
 }
 
@@ -33,4 +61,6 @@
 
 .timer-buttons button:hover {
   background-color: #2563eb;
+  opacity: 0.8; 
+  transform: scale(1.05);
 }
