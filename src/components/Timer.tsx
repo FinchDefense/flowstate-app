@@ -8,7 +8,7 @@ export function Timer() {
 
   useEffect(() => {
     document.title = isRunning ? `⏱️ ${formatTime(time)} - FlowState` : "FlowState - Focus Timer"
-  })
+  }, [isRunning, time]);
 
   function formatTime(totalSeconds: number): string {
     const minutes = Math.floor(totalSeconds / 60);
@@ -88,7 +88,7 @@ export function Timer() {
       <div className="timer-buttons">
         <div className="timer-buttons-main-controls">
           <button onClick={handleStartPause}>
-            {isRunning ? "⏸️ Pause": "▶️ Start"}
+            {isRunning ? "⏸️ Pause" : time === 0 ? "🔄 Restart" : "▶️ Start"}
           </button>
           <button onClick={handleReset}>⟳ Reset</button>
         </div>
