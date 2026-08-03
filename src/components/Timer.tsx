@@ -1,17 +1,65 @@
-import { useState } from 'react';
-import './Timer.css'
+import { useState, useRef, useEffect } from "react";
+import "./Timer.css";
 
 export function Timer() {
   const [time, setTime] = useState<number>(1500);
+  const [isRunning, setIsRunning] = useState<boolean>(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const formatTime = (totalSeconds: number): string => {
-    const minutes = Math.floor(totalSeconds/60);
+    const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
-    const paddedMinutes = String(minutes).padStart(2, '0');
-    const paddedSeconds = String(seconds).padStart(2, '0');
-
+    const paddedMinutes = String(minutes).padStart(2, "0");
+    const paddedSeconds = String(seconds).padStart(2, "0");
     return `${paddedMinutes}:${paddedSeconds}`;
+  };
+
+  const startTimer = () => {
+    if (timerRef.current !== null) return;
+    timerRef.current = setInterval(() => {
+      setTime((prevTime) => {
+        if (prevTime <= 1) {
+          if (timerRef.current) { // Check if an active timer ID exists
+            clearInterval(timerRef.current); // If an active timer ID does exist, clear it
+            timerRef.current = null;
+          }
+          setIsRunning(false); // Clock has run out, set back to "start"
+          return 0; 
+        }
+        return prevTime-1; // Decrement by 1 every second like an actual timer
+      });
+    }, 1000)
+  };
+
+  const stopTimer = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null; // Reset the ref
+    }
+    setIsRunning(false);
   }
+
+  const handleStartResume = () => {
+    if (isRunning) {
+      stopTimer();
+    }
+    else {
+      if (time <= 0) { // reset to standard 25:00
+        setTime(1500);
+      }
+      setIsRunning(true);
+      startTimer();
+    }
+  }
+
+  useEffect(() => { // Clean up on mount
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, []);
 
   return (
     <div className="timer-container">
@@ -20,24 +68,26 @@ export function Timer() {
       </div>
       <div className="timer-buttons">
         <div className="timer-buttons-main-controls">
-          <button>▶ Start</button>
+          <button onClick={handleStartResume}>
+            {isRunning ? "⏸️ Resume" : "▶ Start"}
+          </button>
           <button>⏹ Stop</button>
           <button>⟳ Reset</button>
         </div>
         <div className="timer-buttons-secondary-controls">
           <button>⏭ Skip</button>
-          <button>+ 5</button>
-          <button>- 5 </button>
+          <button>➕ 5</button>
+          <button>➖ 5 </button>
         </div>
       </div>
       <div className="timer-buttons-time-options">
-          <button onClick={() => setTime(300)}>5m</button>
-          <button onClick={() => setTime(900)}>15m</button>
-          <button onClick={() => setTime(1500)}>25m</button>
-          <button onClick={() => setTime(1800)}>30m</button>
-          <button onClick={() => setTime(2700)}>45m</button>
-          <button onClick={() => setTime(3600)}>60m</button>
-        </div>
+        <button onClick={() => setTime(300)}>5m</button>
+        <button onClick={() => setTime(900)}>15m</button>
+        <button onClick={() => setTime(1500)}>25m</button>
+        <button onClick={() => setTime(1800)}>30m</button>
+        <button onClick={() => setTime(2700)}>45m</button>
+        <button onClick={() => setTime(3600)}>60m</button>
+      </div>
     </div>
   );
 }
