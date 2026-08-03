@@ -76,6 +76,15 @@ export function Timer() {
     else { setTime(0) }
   }
 
+  const presetTime = (seconds: number) => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    setIsRunning(false);
+    setTime(seconds);
+  }
+
   useEffect(() => { // Clean up on mount
     return () => {
       if (timerRef.current) {
@@ -104,12 +113,12 @@ export function Timer() {
         </div>
       </div>
       <div className="timer-buttons-time-options">
-        <button onClick={() => setTime(300)}>5m</button>
-        <button onClick={() => setTime(900)}>15m</button>
-        <button onClick={() => setTime(1500)}>25m</button>
-        <button onClick={() => setTime(1800)}>30m</button>
-        <button onClick={() => setTime(2700)}>45m</button>
-        <button onClick={() => setTime(3600)}>60m</button>
+        <button onClick={() => presetTime(300)}>5m</button>
+        <button onClick={() => presetTime(900)}>15m</button>
+        <button onClick={() => presetTime(1500)}>25m</button>
+        <button onClick={() => presetTime(1800)}>30m</button>
+        <button onClick={() => presetTime(2700)}>45m</button>
+        <button onClick={() => presetTime(3600)}>60m</button>
       </div>
     </div>
   );
