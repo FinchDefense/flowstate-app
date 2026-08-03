@@ -41,6 +41,7 @@
 .timer-buttons-main-controls {
   display: flex;
   gap: 12px;
+  margin: 0 auto;
 }
 
 
