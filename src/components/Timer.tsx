@@ -57,6 +57,11 @@ export function Timer() {
   }
 
   const handleReset = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    setIsRunning(false);
     setTime(1500);
   }
 
