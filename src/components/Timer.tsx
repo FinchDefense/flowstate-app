@@ -10,13 +10,13 @@ export function Timer() {
     document.title = isRunning ? `⏱️ ${formatTime(time)} - FlowState` : "FlowState - Focus Timer"
   })
 
-  const formatTime = (totalSeconds: number): string => {
+  function formatTime(totalSeconds: number): string {
     const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
+    const seconds = Math.floor(totalSeconds % 60); 
     const paddedMinutes = String(minutes).padStart(2, "0");
     const paddedSeconds = String(seconds).padStart(2, "0");
     return `${paddedMinutes}:${paddedSeconds}`;
-  };
+}
 
   const startTimer = () => {
     if (timerRef.current !== null) return;
@@ -56,6 +56,10 @@ export function Timer() {
     }
   }
 
+  const handleReset = () => {
+    setTime(1500);
+  }
+
   useEffect(() => { // Clean up on mount
     return () => {
       if (timerRef.current) {
@@ -76,7 +80,7 @@ export function Timer() {
             {isRunning ? "⏸️ Resume" : "▶ Start"}
           </button>
           <button>⏹ Stop</button>
-          <button>⟳ Reset</button>
+          <button onClick={handleReset}>⟳ Reset</button>
         </div>
         <div className="timer-buttons-secondary-controls">
           <button>⏭ Skip</button>
