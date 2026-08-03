@@ -60,6 +60,17 @@ export function Timer() {
     setTime(1500);
   }
 
+  const addFiveMinutes = () => {
+    setTime((prevTime) => prevTime + 300);
+  }
+
+  const minusFiveMinutes = () => {
+    if (time >= 300) {
+      setTime((prevTime) => prevTime - 300);
+    }
+    else { setTime(0) }
+  }
+
   useEffect(() => { // Clean up on mount
     return () => {
       if (timerRef.current) {
@@ -83,8 +94,8 @@ export function Timer() {
         </div>
         <div className="timer-buttons-secondary-controls">
           <button>⏭ Skip</button>
-          <button>➕ 5</button>
-          <button>➖ 5 </button>
+          <button onClick={addFiveMinutes}>➕ 5</button>
+          <button onClick={minusFiveMinutes}>➖ 5 </button>
         </div>
       </div>
       <div className="timer-buttons-time-options">
