@@ -43,7 +43,7 @@ export function Timer() {
     setIsRunning(false);
   }
 
-  const handleStartResume = () => {
+  const handleStartPause = () => {
     if (isRunning) {
       stopTimer();
     }
@@ -76,10 +76,9 @@ export function Timer() {
       </div>
       <div className="timer-buttons">
         <div className="timer-buttons-main-controls">
-          <button onClick={handleStartResume}>
-            {isRunning ? "⏸️ Resume" : "▶ Start"}
+          <button onClick={handleStartPause}>
+            {isRunning ? "⏸️ Pause": "▶️ Start"}
           </button>
-          <button>⏹ Stop</button>
           <button onClick={handleReset}>⟳ Reset</button>
         </div>
         <div className="timer-buttons-secondary-controls">
