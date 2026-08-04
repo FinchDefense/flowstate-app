@@ -7,6 +7,10 @@ export function Timer() {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const [glowColor, setGlowColor] = useState<string>('#00ffff');
+  const[glowIntensity, setGlowIntensity] = useState<number>(0.6);
+  const[glowBlur, setGlowBlur] = useState<number>(25);
+  const[glowSpread, setGlowSpread] = useState<number>(5);
+
   const colors = [
     '#00ffff', // cyan
     '#ff6b6b', // red  
@@ -31,10 +35,14 @@ export function Timer() {
 
   const getRandomColor = () => {
     const newColor = colors[Math.floor(Math.random() * colors.length)];
+    const newIntensity = 0.4 + Math.random() * 0.4; // 0.3-0.8
+    const newBlur = 15 + Math.random() * 25; // 15px - 40px
+    const newSpread = 3 + Math.random() * 8; // 3px - 11px
     setGlowColor(newColor);
+    setGlowIntensity(newIntensity);
+    setGlowBlur(newBlur);
+    setGlowSpread(newSpread);
   };
-
-
 
   const startTimer = () => {
     if (timerRef.current !== null) return;
@@ -117,9 +125,14 @@ export function Timer() {
     };
   }, []);
 
+  const getOpacityHex = (glowIntensity: number) => {
+    const opacity = Math.round(glowIntensity * 255);
+    return opacity.toString(16).padStart(2, '0').toUpperCase();
+  };
+
   const timerDisplayStyle = {
     borderColor: glowColor,
-    boxShadow: `0 0 25px 5px ${glowColor}99` 
+    boxShadow: `0 0 ${glowBlur}px ${glowSpread}px ${glowColor}${getOpacityHex(glowIntensity)}` 
   };
 
   return (
