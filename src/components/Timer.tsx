@@ -98,13 +98,14 @@ export function Timer() {
     <div className="timer-container">
       <div className="timer-display">
         <div className="timer-display-time">{formatTime(time)}</div>
+        <div className="">Pomodoros</div>
       </div>
       <div className="timer-buttons">
         <div className="timer-buttons-main-controls">
-          <button onClick={handleStartPause}>
+          <button onClick={handleStartPause} className="start-pause-button">
             {isRunning ? "⏸️ Pause" : time === 0 ? "🔄 Restart" : "▶️ Start"}
           </button>
-          <button onClick={handleReset}>⟳ Reset</button>
+          <button onClick={handleReset} className="reset-button">⟳ Reset</button>
         </div>
         <div className="timer-buttons-secondary-controls">
           <button>⏭ Skip</button>
