@@ -10,16 +10,14 @@ export function Timer() {
   const[glowIntensity, setGlowIntensity] = useState<number>(0.6);
   const[glowBlur, setGlowBlur] = useState<number>(25);
   const[glowSpread, setGlowSpread] = useState<number>(5);
+  const [currentMood, setCurrentMood] = useState<'energetic' | 'calm' | 'creative' | 'focused'>('calm');
 
-  const colors = [
-    '#00ffff', // cyan
-    '#ff6b6b', // red  
-    '#ffd93d', // yellow
-    '#6bcb77', // green
-    '#4d96ff', // blue
-    '#ff6bd6', // pink
-    '#a66bff', // purple
-  ]
+  const moodColors = {
+    energetic: ['#ff6b6b', '#ff9f43', '#f0932b', '#ff7979'],
+    calm: ['#00ffff', '#4d96ff', '#00d2d3', '#7bed9f'],
+    creative: ['#ff6bd6', '#a66bff', '#ff00ff', '#7b2ffc'],
+    focused: ['#6bcb77', '#00d4ff', '#7dd3fc', '#fcd34d']
+  };
 
   useEffect(() => {
     document.title = isRunning ? `⏱️ ${formatTime(time)} - FlowState` : "FlowState - Focus Timer"
@@ -43,6 +41,13 @@ export function Timer() {
     setGlowBlur(newBlur);
     setGlowSpread(newSpread);
   };
+
+  const toggleMood = () => {
+    const moods = ['energetic', 'calm', 'creative', 'focused'];
+    const currentIndex = moods.indexOf(currentMood);
+    const nextIndex = (currentIndex + 1) % moods.length;
+    setCurrentMood(moods[nextIndex] as typeof currentMood);
+  }
 
   const startTimer = () => {
     if (timerRef.current !== null) return;
@@ -148,6 +153,7 @@ export function Timer() {
             {isRunning ? "⏸️ Pause" : time === 0 ? "🔄 Restart" : "▶️ Start"}
           </button>
           <button onClick={handleReset} className="reset-button">⟳ Reset</button>
+          <button onClick={toggleMood}>{currentMood}</button> 
         </div>
         <div className="timer-buttons-secondary-controls">
           <button>⏭ Skip</button>
