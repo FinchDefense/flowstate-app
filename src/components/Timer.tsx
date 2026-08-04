@@ -71,6 +71,7 @@ export function Timer() {
 
   const handleStartPause = () => {
     if (isRunning) {
+      getRandomColor();
       stopTimer();
     }
     else {
