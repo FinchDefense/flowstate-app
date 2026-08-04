@@ -6,6 +6,17 @@ export function Timer() {
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  const [glowColor, setGlowColor] = useState<string>('#00ffff');
+  const colors = [
+    '#00ffff', // cyan
+    '#ff6b6b', // red  
+    '#ffd93d', // yellow
+    '#6bcb77', // green
+    '#4d96ff', // blue
+    '#ff6bd6', // pink
+    '#a66bff', // purple
+  ]
+
   useEffect(() => {
     document.title = isRunning ? `⏱️ ${formatTime(time)} - FlowState` : "FlowState - Focus Timer"
   }, [isRunning, time]);
@@ -17,6 +28,13 @@ export function Timer() {
     const paddedSeconds = String(seconds).padStart(2, "0");
     return `${paddedMinutes}:${paddedSeconds}`;
 }
+
+  const getRandomColor = () => {
+    const newColor = colors[Math.floor(Math.random() * colors.length)];
+    setGlowColor(newColor);
+  };
+
+
 
   const startTimer = () => {
     if (timerRef.current !== null) return;
@@ -51,6 +69,9 @@ export function Timer() {
       if (time <= 0) { // reset to standard 25:00
         setTime(1500);
       }
+      if (time > 0) {
+        getRandomColor();
+      }
       setIsRunning(true);
       startTimer();
     }
@@ -61,6 +82,7 @@ export function Timer() {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
+    setGlowColor('#00ffff');
     setIsRunning(false);
     setTime(1500);
   }
@@ -83,6 +105,7 @@ export function Timer() {
     }
     setIsRunning(false);
     setTime(seconds);
+    getRandomColor();
   }
 
   useEffect(() => { // Clean up on mount
@@ -94,9 +117,14 @@ export function Timer() {
     };
   }, []);
 
+  const timerDisplayStyle = {
+    borderColor: glowColor,
+    boxShadow: `0 0 25px 5px ${glowColor}99` 
+  };
+
   return (
     <div className="timer-container">
-      <div className="timer-display">
+      <div className="timer-display" style={timerDisplayStyle}>
         <div className="timer-display-time">{formatTime(time)}</div>
         <div className="">Pomodoros</div>
       </div>
