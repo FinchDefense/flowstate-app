@@ -3,8 +3,10 @@ import "./Timer.css";
 
 export function Timer() {
   const [time, setTime] = useState<number>(1500);
+  const [numPomos, setNumPomos] = useState<number>(1);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const hasCompletedRef = useRef<boolean>(false);
 
   const [glowColor, setGlowColor] = useState<string>("#00ffff");
   const [glowIntensity, setGlowIntensity] = useState<number>(0.6);
@@ -65,6 +67,7 @@ export function Timer() {
 
   const startTimer = () => {
     if (timerRef.current !== null) return;
+    hasCompletedRef.current = false;
     setIsRunning(true);
     timerRef.current = setInterval(() => {
       setTime((prevTime) => {
@@ -73,6 +76,10 @@ export function Timer() {
             // Check if an active timer ID exists
             clearInterval(timerRef.current); // If an active timer ID does exist, clear it
             timerRef.current = null;
+          }
+          if (!hasCompletedRef.current) {
+            hasCompletedRef.current = true;
+            setNumPomos((prevPomos) => prevPomos + 1);
           }
           setIsRunning(false); // Clock has run out, set back to "start"
           return 0;
@@ -112,6 +119,7 @@ export function Timer() {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
+    hasCompletedRef.current = false;
     setGlowColor("#00ffff");
     setIsRunning(false);
     setTime(1500);
@@ -134,6 +142,7 @@ export function Timer() {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
+    hasCompletedRef.current = false;
     setIsRunning(false);
     setTime(seconds);
     getRandomColor();
@@ -164,6 +173,14 @@ export function Timer() {
       <div className="timer-display" style={timerDisplayStyle}>
         <div className="timer-display-time">{formatTime(time)}</div>
       </div>
+        <div 
+          className="number-of-pomodoros"
+          style={{
+              color: glowColor,
+            }}
+        >
+          #{numPomos}
+        </div>
       <div className="timer-buttons">
         <div className="timer-buttons-main-controls">
           <button onClick={handleStartPause} className="start-pause-button">
@@ -192,6 +209,7 @@ export function Timer() {
         </div>
       </div>
       <div className="timer-buttons-time-options">
+        <button onClick={() => presetTime(5)}>1m</button>
         <button onClick={() => presetTime(300)}>5m</button>
         <button onClick={() => presetTime(900)}>15m</button>
         <button onClick={() => presetTime(1500)}>25m</button>
