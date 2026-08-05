@@ -88,6 +88,7 @@
 }
 
 .timer-buttons-main-controls .start-pause-button {
+  min-width: 140px;
   background: rgba(0, 255, 255, 0.05);
   color: var(--accent-cyan);
   box-shadow: 0 0 10px rgba(0, 255, 255, 0.15);
