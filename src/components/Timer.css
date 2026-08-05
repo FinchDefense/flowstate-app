@@ -221,8 +221,10 @@
 
 .timer-buttons-time-options {
   display: flex;
-  gap: 10px;
-  margin: 15px auto;
+  gap: 8px;
+  margin: 16px auto;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .timer-buttons-time-options button {
@@ -235,6 +237,8 @@
   border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 4px 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .timer-buttons-time-options button:hover {
@@ -245,8 +249,9 @@
   border: 1px solid var(--border-hover);
 }
 
-.timer-buttons-time-options button:active {
-  background-color: #3b82f6;
-  color: #ffffff;
-  border: 1px solid #3b82f6;
+.timer-buttons-time-options button.active {
+  background-color: var(--accent-cyan);
+  color: var(--bg-dark);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
 }
