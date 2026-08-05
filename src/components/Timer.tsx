@@ -6,33 +6,46 @@ export function Timer() {
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const [glowColor, setGlowColor] = useState<string>('#00ffff');
-  const[glowIntensity, setGlowIntensity] = useState<number>(0.6);
-  const[glowBlur, setGlowBlur] = useState<number>(25);
-  const[glowSpread, setGlowSpread] = useState<number>(5);
-  const [currentMood, setCurrentMood] = useState<'⚡ ENERGETIC' | '◉ CALM' | '✦ CREATIVE' | '◎ FOCUSED'>('◉ CALM');
+  const [glowColor, setGlowColor] = useState<string>("#00ffff");
+  const [glowIntensity, setGlowIntensity] = useState<number>(0.6);
+  const [glowBlur, setGlowBlur] = useState<number>(25);
+  const [glowSpread, setGlowSpread] = useState<number>(5);
+  const [currentMood, setCurrentMood] = useState<
+    "⚡ ENERGETIC" | "◉ CALM" | "✦ CREATIVE" | "◎ FOCUSED"
+  >("◉ CALM");
 
   const moodColors = {
-    '⚡ ENERGETIC': ['#ff6b6b', '#ff9f43', '#f0932b', '#ff7979'],
-    '◉ CALM': ['#00ffff', '#4d96ff', '#00d2d3', '#7bed9f'],
-    '✦ CREATIVE': ['#ff6bd6', '#a66bff', '#ff00ff', '#7b2ffc'],
-    '◎ FOCUSED': ['#6bcb77', '#00d4ff', '#7dd3fc', '#fcd34d']
+    "⚡ ENERGETIC": ["#ff6b6b", "#ff9f43", "#f0932b", "#ff7979"],
+    "◉ CALM": ["#00ffff", "#4d96ff", "#00d2d3", "#7bed9f"],
+    "✦ CREATIVE": ["#ff6bd6", "#a66bff", "#ff00ff", "#7b2ffc"],
+    "◎ FOCUSED": ["#6bcb77", "#00d4ff", "#7dd3fc", "#fcd34d"],
   };
 
+  const buttonContent = isRunning
+    ? { icon: "⏸", text: "Pause" }
+    : time === 0
+    ? { icon: "🔄", text: "Restart" }
+    : { icon: "▶", text: "Start" };
+
   useEffect(() => {
-    document.title = isRunning ? `⏱️ ${formatTime(time)} - FlowState` : "FlowState - Focus Timer"
+    document.title = isRunning
+      ? `⏱️ ${formatTime(time)} - FlowState`
+      : "FlowState - Focus Timer";
   }, [isRunning, time]);
 
   function formatTime(totalSeconds: number): string {
     const minutes = Math.floor(totalSeconds / 60);
-    const seconds = Math.floor(totalSeconds % 60); 
+    const seconds = Math.floor(totalSeconds % 60);
     const paddedMinutes = String(minutes).padStart(2, "0");
     const paddedSeconds = String(seconds).padStart(2, "0");
     return `${paddedMinutes}:${paddedSeconds}`;
-}
+  }
 
   const getRandomColor = () => {
-    const newColor = moodColors[currentMood][Math.floor(Math.random() * moodColors[currentMood].length)];
+    const newColor =
+      moodColors[currentMood][
+        Math.floor(Math.random() * moodColors[currentMood].length)
+      ];
     const newIntensity = 0.4 + Math.random() * 0.4; // 0.3-0.8
     const newBlur = 15 + Math.random() * 25; // 15px - 40px
     const newSpread = 3 + Math.random() * 8; // 3px - 11px
@@ -43,12 +56,12 @@ export function Timer() {
   };
 
   const toggleMood = () => {
-    const moods = ['⚡ ENERGETIC', '◉ CALM', '✦ CREATIVE', '◎ FOCUSED'];
+    const moods = ["⚡ ENERGETIC", "◉ CALM", "✦ CREATIVE", "◎ FOCUSED"];
     const currentIndex = moods.indexOf(currentMood);
     const nextIndex = (currentIndex + 1) % moods.length;
     setCurrentMood(moods[nextIndex] as typeof currentMood);
     getRandomColor();
-  }
+  };
 
   const startTimer = () => {
     if (timerRef.current !== null) return;
@@ -56,16 +69,17 @@ export function Timer() {
     timerRef.current = setInterval(() => {
       setTime((prevTime) => {
         if (prevTime <= 1) {
-          if (timerRef.current) { // Check if an active timer ID exists
+          if (timerRef.current) {
+            // Check if an active timer ID exists
             clearInterval(timerRef.current); // If an active timer ID does exist, clear it
             timerRef.current = null;
           }
           setIsRunning(false); // Clock has run out, set back to "start"
-          return 0; 
+          return 0;
         }
-        return prevTime-1; // Decrement by 1 every second like an actual timer
+        return prevTime - 1; // Decrement by 1 every second like an actual timer
       });
-    }, 1000)
+    }, 1000);
   };
 
   const stopTimer = () => {
@@ -74,15 +88,15 @@ export function Timer() {
       timerRef.current = null; // Reset the ref
     }
     setIsRunning(false);
-  }
+  };
 
   const handleStartPause = () => {
     if (isRunning) {
       getRandomColor();
       stopTimer();
-    }
-    else {
-      if (time <= 0) { // reset to standard 25:00
+    } else {
+      if (time <= 0) {
+        // reset to standard 25:00
         setTime(1500);
       }
       if (time > 0) {
@@ -91,28 +105,29 @@ export function Timer() {
       setIsRunning(true);
       startTimer();
     }
-  }
+  };
 
   const handleReset = () => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
-    setGlowColor('#00ffff');
+    setGlowColor("#00ffff");
     setIsRunning(false);
     setTime(1500);
-  }
+  };
 
   const addFiveMinutes = () => {
     setTime((prevTime) => prevTime + 300);
-  }
+  };
 
   const minusFiveMinutes = () => {
     if (time >= 300) {
       setTime((prevTime) => prevTime - 300);
+    } else {
+      setTime(0);
     }
-    else { setTime(0) }
-  }
+  };
 
   const presetTime = (seconds: number) => {
     if (timerRef.current) {
@@ -122,9 +137,10 @@ export function Timer() {
     setIsRunning(false);
     setTime(seconds);
     getRandomColor();
-  }
+  };
 
-  useEffect(() => { // Clean up on mount
+  useEffect(() => {
+    // Clean up on mount
     return () => {
       if (timerRef.current) {
         clearInterval(timerRef.current);
@@ -135,12 +151,12 @@ export function Timer() {
 
   const getOpacityHex = (glowIntensity: number) => {
     const opacity = Math.round(glowIntensity * 255);
-    return opacity.toString(16).padStart(2, '0').toUpperCase();
+    return opacity.toString(16).padStart(2, "0").toUpperCase();
   };
 
   const timerDisplayStyle = {
     borderColor: glowColor,
-    boxShadow: `0 0 ${glowBlur}px ${glowSpread}px ${glowColor}${getOpacityHex(glowIntensity)}` 
+    boxShadow: `0 0 ${glowBlur}px ${glowSpread}px ${glowColor}${getOpacityHex(glowIntensity)}`,
   };
 
   return (
@@ -151,20 +167,23 @@ export function Timer() {
       <div className="timer-buttons">
         <div className="timer-buttons-main-controls">
           <button onClick={handleStartPause} className="start-pause-button">
-            {isRunning ? "⏸ Pause" : time === 0 ? "🔄 Restart" : "▶ Start"}
+            <span className="button-icon">{buttonContent.icon}</span>
+            <span>{buttonContent.text}</span>
           </button>
-          <button onClick={handleReset} className="reset-button">⟳ Reset</button>
-          <button 
-            onClick={toggleMood} 
+          <button onClick={handleReset} className="reset-button">
+            ⟳ Reset
+          </button>
+          <button
+            onClick={toggleMood}
             className="mood-toggle-button"
             style={{
               borderColor: glowColor,
               color: glowColor,
-              boxShadow: `0 0 8px ${glowColor}44`
+              boxShadow: `0 0 8px ${glowColor}44`,
             }}
           >
             {currentMood}
-          </button> 
+          </button>
         </div>
         <div className="timer-buttons-secondary-controls">
           <button>⏭ Skip</button>

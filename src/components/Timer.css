@@ -75,6 +75,18 @@
   transform: translateY(-2px);
 }
 
+.start-pause-button,
+.reset-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.button-icon {
+    font-size: 1.1rem;
+}
+
 .timer-buttons-main-controls .start-pause-button {
   background: rgba(0, 255, 255, 0.05);
   color: var(--accent-cyan);
