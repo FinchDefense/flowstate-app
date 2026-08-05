@@ -152,7 +152,17 @@ export function Timer() {
             {isRunning ? "⏸ Pause" : time === 0 ? "🔄 Restart" : "▶ Start"}
           </button>
           <button onClick={handleReset} className="reset-button">⟳ Reset</button>
-          <button onClick={toggleMood} className="mood-toggle-button">{currentMood}</button> 
+          <button 
+            onClick={toggleMood} 
+            className="mood-toggle-button"
+            style={{
+              borderColor: glowColor,
+              color: glowColor,
+              boxShadow: `0 0 8px ${glowColor}44`
+            }}
+          >
+            {currentMood}
+          </button> 
         </div>
         <div className="timer-buttons-secondary-controls">
           <button>⏭ Skip</button>

@@ -97,8 +97,24 @@
   box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
 }
 
-.timer-buttons-main-controls .mood-toggle-button {
-  text-transform: capitalize;
+.mood-toggle-button {
+    padding: 0 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.15);
+
+    background: rgba(255,255,255,.05);
+    color: var(--text-main);
+
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    font-size: .75rem;
+
+    transition: .25s;
+}
+
+.mood-toggle-button:hover {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 12px rgba(0,255,255,.25);
 }
 
 .timer-buttons-secondary-controls {
