@@ -1,7 +1,17 @@
+:root {
+  --bg-dark: #0f0f1a;
+  --accent-cyan: #00ffff;
+  --accent-red: #ef4444;
+  --text-main: #f4f4f5;
+  --text-muted: #a1a1aa;
+  --border-color: #27272a;
+  --border-hover: #3f3f46;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
 .timer-container {
   display: flex;
   flex-direction: column;
-
   margin-left: auto;
   margin-right: auto;
   margin-top: -40px;
@@ -15,8 +25,8 @@
   max-width: 320px;
   padding: 24px 16px;
   margin: 20px auto;
-  background: #0f0f1a;
-  border: 2px solid #00ffff;
+  background: var(--bg-dark);
+  border: 2px solid var(--accent-cyan);
   box-shadow: 0 0 25px 5px rgba(0, 255, 255, 0.6);
   border-radius: 12px;
   transition: border-color 0.8s ease, box-shadow 0.8s ease;
@@ -25,9 +35,9 @@
 .timer-display-time {
   font-size: 4.5rem;
   font-weight: 700;
-  color: #f4f4f5;
+  color: var(--text-main);
   letter-spacing: 4px;
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-family: var(--font-mono);
   line-height: 1.2;
 }
 
@@ -55,55 +65,73 @@
 
 .timer-buttons-main-controls .start-pause-button {
   background: rgba(0, 255, 255, 0.1);
-  color: #00ffff;
-  border: 1px solid #00ffff;
+  color: var(--accent-cyan);
+  border: 1px solid var(--accent-cyan);
   box-shadow: 0 0 12px rgba(0, 255, 255, 0.2);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .timer-buttons-main-controls .start-pause-button:hover {
-  background: #00ffff;
-  color: #0f0f1a;
+  background: var(--accent-cyan);
+  color: var(--bg-dark);
   transform: translateY(-2px);
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
 }
 
 .timer-buttons-main-controls .reset-button {
   background-color: transparent;
-  color: #ef4444;;
-  border: 1px solid #27272a;
+  color: var(--accent-red);
+  border: 1px solid var(--border-color);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .timer-buttons-main-controls .reset-button:hover {
-  background-color: #27272a;
-  color: #f4f4f5;
-  border-color: #ef4444; 
+  background-color: var(--border-color);
+  color: var(--text-main);
+  border-color: var(--accent-red);
   transform: translateY(-2px);
   box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
 }
 
 .timer-buttons-main-controls .mood-toggle-button {
   text-transform: capitalize;
-  color: #a1a1aa;
-  border: 1px solid #27272a;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
   background-color: transparent;
 }
 
 .timer-buttons-main-controls .mood-toggle-button:hover {
-  background-color: #27272a;
-  color: #f4f4f5;
-  border-color: #3f3f46;
+  background-color: var(--border-color);
+  color: var(--text-main);
+  border-color: var(--border-hover);
   transform: translateY(-2px);
 }
-
 
 .timer-buttons-secondary-controls {
   display: flex;
   margin-top: 20px;
   gap: 12px;
+}
+
+.timer-buttons-secondary-controls button {
+  height: 40px;
+  min-width: 60px;
+  padding: 0 14px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 6px;
+  background-color: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+.timer-buttons-secondary-controls button:hover {
+  background-color: var(--border-color);
+  color: var(--text-main);
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
 }
 
 .timer-buttons-time-options {
@@ -118,19 +146,18 @@
   font-size: 0.75rem;
   font-weight: 500;
   background-color: transparent;
-  color: #a1a1aa;
-  border: 1px solid #27272a;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 4px 8px;
 }
 
 .timer-buttons-time-options button:hover {
   transform: scale(1.05);
-  opacity: 0.8; 
-
-  background-color: #27272a;
-  color: #f4f4f5;
-  border: 1px solid #3f3f46;
+  opacity: 0.8;
+  background-color: var(--border-color);
+  color: var(--text-main);
+  border: 1px solid var(--border-hover);
 }
 
 .timer-buttons-time-options button:active {
