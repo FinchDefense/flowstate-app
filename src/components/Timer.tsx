@@ -149,7 +149,7 @@ export function Timer() {
       <div className="timer-buttons">
         <div className="timer-buttons-main-controls">
           <button onClick={handleStartPause} className="start-pause-button">
-            {isRunning ? "⏸️ Pause" : time === 0 ? "🔄 Restart" : "▶️ Start"}
+            {isRunning ? "⏸ Pause" : time === 0 ? "🔄 Restart" : "▶ Start"}
           </button>
           <button onClick={handleReset} className="reset-button">⟳ Reset</button>
           <button onClick={toggleMood} className="mood-toggle-button">{currentMood}</button> 

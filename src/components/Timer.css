@@ -61,52 +61,44 @@
   font-size: 1rem;
   font-weight: 600;
   border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+}
+
+.timer-buttons-main-controls button:hover {
+  background-color: var(--border-color);
+  color: var(--text-main);
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
 }
 
 .timer-buttons-main-controls .start-pause-button {
-  background: rgba(0, 255, 255, 0.1);
+  background: rgba(0, 255, 255, 0.05);
   color: var(--accent-cyan);
-  border: 1px solid var(--accent-cyan);
-  box-shadow: 0 0 12px rgba(0, 255, 255, 0.2);
-  cursor: pointer;
-  transition: all 0.2s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.15);
 }
 
 .timer-buttons-main-controls .start-pause-button:hover {
   background: var(--accent-cyan);
   color: var(--bg-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
 }
 
 .timer-buttons-main-controls .reset-button {
-  background-color: transparent;
   color: var(--accent-red);
-  border: 1px solid var(--border-color);
-  cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .timer-buttons-main-controls .reset-button:hover {
-  background-color: var(--border-color);
-  color: var(--text-main);
   border-color: var(--accent-red);
-  transform: translateY(-2px);
   box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
 }
 
 .timer-buttons-main-controls .mood-toggle-button {
   text-transform: capitalize;
-  color: var(--text-muted);
-  border: 1px solid var(--border-color);
-  background-color: transparent;
-}
-
-.timer-buttons-main-controls .mood-toggle-button:hover {
-  background-color: var(--border-color);
-  color: var(--text-main);
-  border-color: var(--border-hover);
-  transform: translateY(-2px);
 }
 
 .timer-buttons-secondary-controls {
