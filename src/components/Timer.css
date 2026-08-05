@@ -107,7 +107,8 @@
 
 .timer-buttons-main-controls .reset-button:hover {
   border-color: var(--accent-red);
-  box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+  color: var(--accent-red);
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.35);
 }
 
 .mood-toggle-button {
