@@ -44,13 +44,16 @@
   margin: 0 auto;
 }
 
-.timer-buttons-main-controls .start-pause-button {
+.timer-buttons-main-controls button {
   height: 48px;
   min-width: 120px;
   padding: 0 20px;
   font-size: 1rem;
   font-weight: 600;
   border-radius: 8px;
+}
+
+.timer-buttons-main-controls .start-pause-button {
   background: rgba(0, 255, 255, 0.1);
   color: #00ffff;
   border: 1px solid #00ffff;
@@ -67,12 +70,6 @@
 }
 
 .timer-buttons-main-controls .reset-button {
-  height: 48px;
-  min-width: 120px;
-  padding: 0 20px;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 8px;
   background-color: transparent;
   color: #ef4444;;
   border: 1px solid #27272a;
@@ -87,6 +84,21 @@
   transform: translateY(-2px);
   box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
 }
+
+.timer-buttons-main-controls .mood-toggle-button {
+  text-transform: capitalize;
+  color: #a1a1aa;
+  border: 1px solid #27272a;
+  background-color: transparent;
+}
+
+.timer-buttons-main-controls .mood-toggle-button:hover {
+  background-color: #27272a;
+  color: #f4f4f5;
+  border-color: #3f3f46;
+  transform: translateY(-2px);
+}
+
 
 .timer-buttons-secondary-controls {
   display: flex;

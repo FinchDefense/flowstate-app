@@ -32,7 +32,7 @@ export function Timer() {
 }
 
   const getRandomColor = () => {
-    const newColor = colors[Math.floor(Math.random() * colors.length)];
+    const newColor = moodColors[currentMood][Math.floor(Math.random() * moodColors[currentMood].length)];
     const newIntensity = 0.4 + Math.random() * 0.4; // 0.3-0.8
     const newBlur = 15 + Math.random() * 25; // 15px - 40px
     const newSpread = 3 + Math.random() * 8; // 3px - 11px
@@ -145,7 +145,6 @@ export function Timer() {
     <div className="timer-container">
       <div className="timer-display" style={timerDisplayStyle}>
         <div className="timer-display-time">{formatTime(time)}</div>
-        <div className="">Pomodoros</div>
       </div>
       <div className="timer-buttons">
         <div className="timer-buttons-main-controls">
@@ -153,7 +152,7 @@ export function Timer() {
             {isRunning ? "⏸️ Pause" : time === 0 ? "🔄 Restart" : "▶️ Start"}
           </button>
           <button onClick={handleReset} className="reset-button">⟳ Reset</button>
-          <button onClick={toggleMood}>{currentMood}</button> 
+          <button onClick={toggleMood} className="mood-toggle-button">{currentMood}</button> 
         </div>
         <div className="timer-buttons-secondary-controls">
           <button>⏭ Skip</button>
