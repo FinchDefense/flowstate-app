@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Timer } from "./components/Timer";
+import { Timer } from "./components/Timer/Timer.tsx";
 import { TaskList } from "./components/TaskList";
 import { Settings } from "./components/Settings";
 import { Statistics } from "./components/Statistics";
