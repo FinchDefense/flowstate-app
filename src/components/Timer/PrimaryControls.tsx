@@ -5,7 +5,7 @@ interface PrimaryControlsProps {
   time: number;
 }
 
-export function PrimaryControls({ handleStartPause, handleReset, isRunning, time}: PrimaryControlsProps) {
+export function PrimaryControls({ handleReset, handleStartPause, isRunning, time}: PrimaryControlsProps) {
   const buttonContent = isRunning
       ? { icon: "⏸", text: "Pause" }
       : time === 0
@@ -19,9 +19,7 @@ export function PrimaryControls({ handleStartPause, handleReset, isRunning, time
           <span className="button-icon">{buttonContent.icon}</span>
           <span>{buttonContent.text}</span>
         </button>
-        <button onClick={handleReset} className="reset-button">
-          ⟳ Reset
-        </button>
+        <button onClick={handleReset} className="reset-button">⟳</button>
       </div>
     </>
   );

@@ -26,8 +26,8 @@ export function Timer() {
       
       <div className="timer-buttons-main-controls">
         <PrimaryControls
-          handleStartPause={timer.handleStartPause}
           handleReset={timer.handleReset}
+          handleStartPause={timer.handleStartPause}
           isRunning={timer.isRunning}
           time={timer.time}
         />
@@ -37,11 +37,6 @@ export function Timer() {
           currentMood={timer.currentMood}
         />
       </div>
-      
-      <SecondaryControls
-        addFiveMinutes={timer.addFiveMinutes}
-        minusFiveMinutes={timer.minusFiveMinutes}
-      />
       
       <TimerPresets presetTime={timer.presetTime} />
     </div>
