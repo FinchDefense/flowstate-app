@@ -10,13 +10,13 @@ export function Timer() {
   const[glowIntensity, setGlowIntensity] = useState<number>(0.6);
   const[glowBlur, setGlowBlur] = useState<number>(25);
   const[glowSpread, setGlowSpread] = useState<number>(5);
-  const [currentMood, setCurrentMood] = useState<'energetic' | 'calm' | 'creative' | 'focused'>('calm');
+  const [currentMood, setCurrentMood] = useState<'⚡ ENERGETIC' | '◉ CALM' | '✦ CREATIVE' | '◎ FOCUSED'>('◉ CALM');
 
   const moodColors = {
-    energetic: ['#ff6b6b', '#ff9f43', '#f0932b', '#ff7979'],
-    calm: ['#00ffff', '#4d96ff', '#00d2d3', '#7bed9f'],
-    creative: ['#ff6bd6', '#a66bff', '#ff00ff', '#7b2ffc'],
-    focused: ['#6bcb77', '#00d4ff', '#7dd3fc', '#fcd34d']
+    '⚡ ENERGETIC': ['#ff6b6b', '#ff9f43', '#f0932b', '#ff7979'],
+    '◉ CALM': ['#00ffff', '#4d96ff', '#00d2d3', '#7bed9f'],
+    '✦ CREATIVE': ['#ff6bd6', '#a66bff', '#ff00ff', '#7b2ffc'],
+    '◎ FOCUSED': ['#6bcb77', '#00d4ff', '#7dd3fc', '#fcd34d']
   };
 
   useEffect(() => {
@@ -43,14 +43,16 @@ export function Timer() {
   };
 
   const toggleMood = () => {
-    const moods = ['energetic', 'calm', 'creative', 'focused'];
+    const moods = ['⚡ ENERGETIC', '◉ CALM', '✦ CREATIVE', '◎ FOCUSED'];
     const currentIndex = moods.indexOf(currentMood);
     const nextIndex = (currentIndex + 1) % moods.length;
     setCurrentMood(moods[nextIndex] as typeof currentMood);
+    getRandomColor();
   }
 
   const startTimer = () => {
     if (timerRef.current !== null) return;
+    setIsRunning(true);
     timerRef.current = setInterval(() => {
       setTime((prevTime) => {
         if (prevTime <= 1) {
