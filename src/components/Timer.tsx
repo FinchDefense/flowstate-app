@@ -186,9 +186,9 @@ export function Timer() {
           </button>
         </div>
         <div className="timer-buttons-secondary-controls">
-          <button>⏭ Skip</button>
-          <button onClick={addFiveMinutes}>➕ 5</button>
-          <button onClick={minusFiveMinutes}>➖ 5 </button>
+          <button className="skip-button">⏭ Skip</button>
+          <button onClick={addFiveMinutes} className="add-button">➕ 5</button>
+          <button onClick={minusFiveMinutes} className="subtract-button">➖ 5 </button>
         </div>
       </div>
       <div className="timer-buttons-time-options">

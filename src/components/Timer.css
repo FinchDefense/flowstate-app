@@ -52,6 +52,7 @@
   gap: 16px;
   flex-wrap: wrap;
   margin: 0 auto;
+  margin: 10px auto;
 }
 
 .timer-buttons-main-controls button {
@@ -118,7 +119,8 @@
 
 .mood-toggle-button {
     padding: 0 18px;
-    border-radius: 999px;
+    height: 48px;
+    min-width: 60px;
     border: 1px solid rgba(255,255,255,.15);
 
     background: rgba(255,255,255,.05);
@@ -138,20 +140,27 @@
 
 .timer-buttons-secondary-controls {
   display: flex;
-  margin-top: 20px;
+  justify-content: center;
   gap: 12px;
+  margin-top: 5px;
 }
 
 .timer-buttons-secondary-controls button {
   height: 40px;
-  min-width: 60px;
-  padding: 0 14px;
+  min-width: 72px;
+  padding: 0 16px;
   font-size: 0.875rem;
   font-weight: 500;
-  border-radius: 6px;
+  border-radius: 8px;
   background-color: transparent;
   color: var(--text-muted);
   border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .timer-buttons-secondary-controls button:hover {
@@ -159,6 +168,55 @@
   color: var(--text-main);
   border-color: var(--border-hover);
   transform: translateY(-2px);
+}
+
+.timer-buttons-secondary-controls button:active {
+  transform: scale(0.96);
+}
+
+.timer-buttons-secondary-controls button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.timer-buttons-secondary-controls .skip-button {
+  color: var(--text-muted);
+}
+
+.timer-buttons-secondary-controls .skip-button:hover {
+  color: var(--text-main);
+  border-color: var(--border-hover);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.timer-buttons-secondary-controls .add-button {
+  color: #4ade80;
+}
+
+.timer-buttons-secondary-controls .add-button:hover {
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.05);
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.15);
+}
+
+.timer-buttons-secondary-controls .subtract-button {
+  color: #f87171;
+}
+
+.timer-buttons-secondary-controls .subtract-button:hover {
+  border-color: #f87171;
+  background: rgba(248, 113, 113, 0.05);
+  box-shadow: 0 0 20px rgba(248, 113, 113, 0.15);
+}
+
+.timer-buttons-secondary-controls .subtract-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.timer-buttons-secondary-controls .skip-button {
+  color: var(--text-muted);
 }
 
 .timer-buttons-time-options {
