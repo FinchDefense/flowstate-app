@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Timer } from "./components/Timer/Timer.tsx";
-import { TaskList } from "./components/TaskList";
+import { TaskList } from "./components/TaskList/TaskList.tsx";
 import { Settings } from "./components/Settings";
 import { Statistics } from "./components/Statistics";
 import { Profile } from "./components/Profile";

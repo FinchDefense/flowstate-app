@@ -5,7 +5,6 @@ import { TimerPresets } from "./TimerPresets";
 import { PomodoroCounter } from "./PomodoroCounter";
 import { MoodToggle } from "./MoodToggle";
 import { PrimaryControls } from "./PrimaryControls";
-import { SecondaryControls } from "./SecondaryControls";
 
 export function Timer() {
   const timer = useTimer();

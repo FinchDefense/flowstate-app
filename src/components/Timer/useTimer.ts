@@ -113,6 +113,23 @@ export function useTimer(initialTime: number = 1500) {
     getRandomColor();
   };
 
+useEffect(() => {
+  const handleKeyPress = (e: KeyboardEvent) => {
+    if (e.key === ' ' && e.target === document.body) {
+      e.preventDefault();
+      handleStartPause();
+    }
+    
+    if ((e.key === 'r' || e.key === 'R') && !e.ctrlKey && !e.metaKey) {
+      e.preventDefault();
+      handleReset();
+    }
+  };
+  
+  window.addEventListener('keydown', handleKeyPress);
+  return () => window.removeEventListener('keydown', handleKeyPress);
+}, [handleStartPause, handleReset]);
+
   useEffect(() => {
     document.title = isRunning
       ? `⏱️ ${formatTime(time)} - FlowState`
