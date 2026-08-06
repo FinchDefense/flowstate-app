@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { FocusMode } from "./components/Timer/FocusMode.tsx";
+import { useTimer } from "./components/Timer/useTimer.ts";
 import { Timer } from "./components/Timer/Timer.tsx";
 import { TaskList } from "./components/TaskList/TaskList.tsx";
 import { Settings } from "./components/Settings";
@@ -10,15 +12,26 @@ import "./index.css";
 
 export function App() {
   const [activeTab, setActiveTab] = useState<"timer" | "taskList" | "statistics" | "settings" | "profile">("timer");
+  const [inFocusMode, setInFocusMode] = useState<boolean>(false);
   const [displayName, setDisplayName] = useState<string>(() => {
     const currentName = localStorage.getItem("flowstate_userName");
     return currentName ? currentName : "";
   });
 
-  const [inputName, setInputName] = useState<string>("");
-  useEffect(() => {
-    setInputName(displayName);
-  }, [displayName]);
+  const [inputName, setInputName] = useState<string>(() => {
+    const currentName = localStorage.getItem("flowstate_userName");
+    return currentName ? currentName : "";
+  });
+
+  const timer = useTimer();
+  if (inFocusMode) {
+      return <FocusMode
+        time={timer.time}
+        formatTime={timer.formatTime}
+        numPomos={timer.numPomos}
+        setInFocusMode={setInFocusMode}
+       />
+    }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputName(event.target.value);
@@ -80,6 +93,9 @@ export function App() {
         {activeTab === "settings" && <Settings />}
         {activeTab === "profile" && <Profile inputName={inputName} handleInputChange={handleInputChange} handleDisplayChange={handleDisplayChange} />}
       </div>
+      <button onClick={() => setInFocusMode(true)}>
+        🧘 Focus
+      </button>
     </div>
   );
 }

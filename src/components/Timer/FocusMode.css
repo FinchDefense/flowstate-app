@@ -1,0 +1,13 @@
+.Focus-Mode-container {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  padding: 60px;
+}
+
