@@ -4,7 +4,7 @@ export interface Quote {
   author: string;
   source?: string;
   category: 'wisdom' | 'courage' | 'perseverance' | 'hope' | 'growth' | 'focus' | 'strength' | 'love' | 'life' | 'grief' | 'change' | 'truth';
-  language?: 'en' | 'fr' | 'de' | 'zh' | 'ja' | 'la';
+  language?: 'en' | 'fr' | 'de' | 'zh' | 'ja' | 'la' | 'it' | 'fa';
 }
 
 export const QUOTES: Quote[] = [
@@ -1465,6 +1465,12 @@ export const QUOTES: Quote[] = [
   }
 ];
 
+const DEFAULT_QUOTE: Quote = {
+  text: "It is not the critic who counts; not the man who points out how the strong man stumbles... The credit belongs to the man who is actually in the arena.",
+  author: "Theodore Roosevelt",
+  category: "courage",
+  language: "en"
+}
 
 export const getRandomQuote = (
   category?: Quote['category'],
@@ -1479,7 +1485,7 @@ export const getRandomQuote = (
   }
 
   if (filtered.length === 0) {
-    throw new Error('No quotes found matching the criteria');
+    return DEFAULT_QUOTE;
   }
   return filtered[Math.floor(Math.random() * filtered.length)];
 }

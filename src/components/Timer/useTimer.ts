@@ -10,7 +10,7 @@ export function useTimer(initialTime: number = 1500) {
   const [glowSpread, setGlowSpread] = useState<number>(5);
   const [currentMood, setCurrentMood] = useState<"⚡ ENERGETIC" | "◉ CALM" | "✦ CREATIVE" | "◎ FOCUSED">("◉ CALM");
   
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const hasCompletedRef = useRef<boolean>(false);
 
   const moodColors = {

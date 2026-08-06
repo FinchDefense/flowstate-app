@@ -17,7 +17,6 @@ export function Timer() {
       time={timer.time}
       formatTime={timer.formatTime}
       numPomos={timer.numPomos}
-      inFocusMode={inFocusMode}
       setInFocusMode={setInFocusMode}
      />
   }
