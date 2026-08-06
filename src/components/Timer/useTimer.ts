@@ -113,7 +113,7 @@ export function useTimer(initialTime: number = 1500) {
     getRandomColor();
   };
 
-useEffect(() => {
+  useEffect(() => {
   const handleKeyPress = (e: KeyboardEvent) => {
     if (e.key === ' ' && e.target === document.body) {
       e.preventDefault();

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useTimer } from "./useTimer";
 import "./Timer.css";
 import { TimerDisplay } from "./TimerDisplay";
@@ -5,9 +6,21 @@ import { TimerPresets } from "./TimerPresets";
 import { PomodoroCounter } from "./PomodoroCounter";
 import { MoodToggle } from "./MoodToggle";
 import { PrimaryControls } from "./PrimaryControls";
+import { FocusMode } from "./FocusMode"
 
 export function Timer() {
   const timer = useTimer();
+  const [inFocusMode, setInFocusMode] = useState<boolean>(false);
+
+  if (inFocusMode) {
+    return <FocusMode
+      time={timer.time}
+      formatTime={timer.formatTime}
+      numPomos={timer.numPomos}
+      inFocusMode={inFocusMode}
+      setInFocusMode={setInFocusMode}
+     />
+  }
 
   return (
     <div className="timer-container">
@@ -38,6 +51,10 @@ export function Timer() {
       </div>
       
       <TimerPresets presetTime={timer.presetTime} />
+
+      <button onClick={() => setInFocusMode(true)}>
+        🧘 Focus
+      </button>
     </div>
   );
 }
