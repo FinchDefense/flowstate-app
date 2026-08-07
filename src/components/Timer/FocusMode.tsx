@@ -2,8 +2,8 @@ import type { Dispatch, SetStateAction } from "react";
 import { useState, useEffect, useRef } from "react";
 import { getRandomQuote } from "./quotes";
 import type { Quote } from "./quotes";
-import './FocusMode.css';
-import './Timer.css';
+import "./FocusMode.css";
+import "./Timer.css";
 
 interface FocusModeProps {
   time: number;
@@ -14,66 +14,78 @@ interface FocusModeProps {
   isRunning: boolean;
 }
 
-export function FocusMode({ 
-  setInFocusMode, 
-  time, 
-  formatTime, 
+export function FocusMode({
+  setInFocusMode,
+  time,
+  formatTime,
   numPomos,
   handleStartPause,
-  isRunning
- }: FocusModeProps) {
-    const [quote, setQuote] = useState<Quote>(() => getRandomQuote());
+  isRunning,
+}: FocusModeProps) {
+  const [quote, setQuote] = useState<Quote>(() => getRandomQuote());
 
-    const exitFocusMode = () => {
-      setInFocusMode(false);
-    }
+  const exitFocusMode = () => {
+    setInFocusMode(false);
+  };
 
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setQuote(getRandomQuote());
-      }, 30000)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setQuote(getRandomQuote());
+    }, 30000);
 
-      return () => clearInterval(interval);
-    }, []);
+    return () => clearInterval(interval);
+  }, []);
 
-    useEffect(() => {
-      const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === "Escape") { exitFocusMode(); }
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        exitFocusMode();
       }
-      window.addEventListener('keydown', handleKeyDown);
-      return () => window.removeEventListener('keydown', handleKeyDown);
-    }, []);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
-    const buttonContent = isRunning
-      ? { icon: "⏸", text: "Pause" }
-      : time === 0
+  const buttonContent = isRunning
+    ? { icon: "⏸", text: "Pause" }
+    : time === 0
       ? { icon: "🔄", text: "Restart" }
       : { icon: "▶", text: "Start" };
 
-    const buttonRef = useRef<HTMLButtonElement>(null); 
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
-    const animationOnClick = () => {
-      const button = buttonRef.current;
-      if (button) {
-        button.classList.add('animate-click');
+  const animationOnClick = () => {
+    const button = buttonRef.current;
+    if (button) {
+      button.classList.add("animate-click");
 
-        const handleAnimationEnd = () => {
-          button.classList.remove('animate-click');
-          button.removeEventListener('animationend', handleAnimationEnd);
-        };
+      const handleAnimationEnd = () => {
+        button.classList.remove("animate-click");
+        button.removeEventListener("animationend", handleAnimationEnd);
+      };
 
-        button.addEventListener('animationend', handleAnimationEnd);
-      } 
-    };
+      button.addEventListener("animationend", handleAnimationEnd);
+    }
+  };
 
   return (
     <div className="Focus-Mode-container">
+      <div className="bonfire-container">
+        <div className="flame ash"></div>
+        <div className="flame ember-red"></div>
+        <div className="coiled-sword"></div>
+        <div className="flame orange"></div>
+        <div className="flame core"></div>
+      </div>
       <div className="Focus-Mode-Quote">{quote.text}</div>
       <div className="Focus-Mode-Quote-Author">{quote.author}</div>
       <div className="timer-display-time">{formatTime(time)}</div>
-      
-      <button 
-        onClick={() => { handleStartPause(); animationOnClick(); }} 
+
+      <button
+        onClick={() => {
+          handleStartPause();
+          animationOnClick();
+        }}
         className="start-pause-button"
         ref={buttonRef}
       >
@@ -83,8 +95,16 @@ export function FocusMode({
 
       <div className="Focus-Mode-footer">
         <div className="number-of-pomodoros">Focus Session #{numPomos}</div>
-        <button className="Focus-Mode-exit-button" onClick={() => { exitFocusMode(); animationOnClick(); }}>✕</button>
+        <button
+          className="Focus-Mode-exit-button"
+          onClick={() => {
+            exitFocusMode();
+            animationOnClick();
+          }}
+        >
+          ✕
+        </button>
       </div>
     </div>
-  )
+  );
 }

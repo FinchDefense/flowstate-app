@@ -3378,7 +3378,7 @@ export const QUOTES: Quote[] = [
     text: "You are free to choose. You are free to believe.",
     author: "Eren Yeager",
     source: "Attack on Titan",
-    category: "freedom",
+    category: "perseverance",
     language: "en"
   },
   {
