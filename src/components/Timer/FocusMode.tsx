@@ -74,7 +74,8 @@ export function FocusMode({
       <div className="Focus-Mode-Quote-Author">{quote.author}</div>
 
       <div className="bonfire-container">
-        <div className="logs"></div>
+        <div className="logs log-1"></div>
+        <div className="logs log-2"></div>
         <div className="flame red"></div>
         <div className="flame orange"></div>
         <div className="flame gold"></div>
