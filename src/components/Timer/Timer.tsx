@@ -6,7 +6,11 @@ import { PomodoroCounter } from "./PomodoroCounter";
 import { MoodToggle } from "./MoodToggle";
 import { PrimaryControls } from "./PrimaryControls";
 
-export function Timer() {
+interface TimerProps {
+  setInFocusMode: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export function Timer({ setInFocusMode }: TimerProps) {
   const timer = useTimer();
 
   return (
@@ -29,6 +33,7 @@ export function Timer() {
           handleStartPause={timer.handleStartPause}
           isRunning={timer.isRunning}
           time={timer.time}
+          setInFocusMode={setInFocusMode}
         />
         <MoodToggle
           toggleMood={timer.toggleMood}

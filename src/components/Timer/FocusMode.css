@@ -1,8 +1,19 @@
+:root {
+  --bg-color: #020617;
+  --bg-card: #18181b;
+  --border-color: #27272a;
+
+  --text-main: #f4f4f5;
+  --text-muted: #a1a1aa;
+  --electric-blue: #3b82f6;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
 .Focus-Mode-container {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+  background: radial-gradient(circle at center, #0f0f1a 0%, #020617 100%);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -22,6 +33,86 @@
     transform: scale(1);
   }
 }
+
+.Focus-Mode-Quote {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1.8rem;
+  font-weight: 500;
+  letter-spacing: -0.02em; 
+  line-height: 1.4;
+  color: var(--text-main);
+  text-align: center;
+  max-width: 750px;
+  animation: fadeInUp 0.8s ease 0.3s both;
+}
+
+.Focus-Mode-Quote-Author {
+  font-size: 1.2rem;
+  color: #a1a1aa;
+  text-align: center;
+  animation: fadeInUp 0.8s ease 0.5s both;
+}
+
+.Focus-Mode-container .timer-display-time {
+  font-size: 5rem;
+  font-weight: 700;
+  justify-content: center;
+  color: #00ffff;
+  letter-spacing: 6px;
+  font-family: var(--font-mono);
+  text-shadow: 0 0 80px rgba(0, 255, 255, 0.08);
+}
+
+.Focus-Mode-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+  margin-top: 20px;
+}
+
+.Focus-Mode-footer .number-of-pomodoros {
+  color: var(--electric-blue);
+  font-weight: 900;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  margin: auto 0px;
+}
+
+.Focus-Mode-exit-button {
+  padding: 12px 20px;
+  font-size: 1.2rem;
+  color: #a1a1aa;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.Focus-Mode-exit-button:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+  color: var(--text-main);
+}
+
+.Focus-Mode-exit-button:active {
+  transform: scale(0.97);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }  
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
 
 
 

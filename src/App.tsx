@@ -87,15 +87,12 @@ export function App() {
         </div>
       </div>
       <div className="content">
-        {activeTab === "timer" && <Timer />}
+        {activeTab === "timer" && <Timer setInFocusMode={setInFocusMode} />}
         {activeTab === "taskList" && <TaskList />}
         {activeTab === "statistics" && <Statistics />}
         {activeTab === "settings" && <Settings />}
         {activeTab === "profile" && <Profile inputName={inputName} handleInputChange={handleInputChange} handleDisplayChange={handleDisplayChange} />}
       </div>
-      <button onClick={() => setInFocusMode(true)}>
-        🧘 Focus
-      </button>
     </div>
   );
 }

@@ -31,13 +31,21 @@ export function FocusMode({
       return () => clearInterval(interval);
     }, []);
 
+    useEffect(() => {
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === "Escape") { exitFocusMode(); }
+      }
+      window.addEventListener('keydown', handleKeyDown);
+      return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
+
   return (
     <div className="Focus-Mode-container">
       <div className="Focus-Mode-Quote">{quote.text}</div>
       <div className="Focus-Mode-Quote-Author">{quote.author}</div>
       <div className="timer-display-time">{formatTime(time)}</div>
       <div className="Focus-Mode-footer">
-        <div className="number-of-pomodoros">#{numPomos}</div>
+        <div className="number-of-pomodoros">Focus Session #{numPomos}</div>
         <button className="Focus-Mode-exit-button" onClick={exitFocusMode}>✕</button>
       </div>
     </div>
