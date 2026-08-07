@@ -87,30 +87,7 @@
   transform: translateY(-2px);
 }
 
-.timer-buttons-main-controls .reset-button {
-  min-width: 48px;
-  width: 48px;
-  padding: 0;
-  font-size: 1.2rem;
-  color: var(--text-muted);
-  border-color: rgba(255, 255, 255, 0.06);
-  background: transparent;
-}
-
-.timer-buttons-main-controls .reset-button:hover {
-  color: var(--accent-red);
-  border-color: var(--accent-red);
-  background: rgba(239, 68, 68, 0.06);
-  box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);
-  transform: translateY(-2px) rotate(45deg);
-}
-
-.timer-buttons-main-controls .reset-button:active {
-  transform: scale(0.9);
-}
-
-.start-pause-button,
-.reset-button {
+.start-pause-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -133,16 +110,6 @@
   color: var(--bg-dark);
   border-color: var(--accent-cyan);
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-}
-
-.timer-buttons-main-controls .reset-button {
-  color: var(--accent-red);
-}
-
-.timer-buttons-main-controls .reset-button:hover {
-  border-color: var(--accent-red);
-  color: var(--accent-red);
-  box-shadow: 0 0 14px rgba(239, 68, 68, 0.35);
 }
 
 .mood-toggle-button {

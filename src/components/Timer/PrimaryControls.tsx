@@ -1,12 +1,11 @@
 interface PrimaryControlsProps {
   handleStartPause: () => void;
-  handleReset: () => void;
   isRunning: boolean;
   time: number;
   setInFocusMode: React.Dispatch<React.SetStateAction<boolean>>; 
 }
 
-export function PrimaryControls({ handleReset, handleStartPause, setInFocusMode, isRunning, time}: PrimaryControlsProps) {
+export function PrimaryControls({ handleStartPause, setInFocusMode, isRunning, time}: PrimaryControlsProps) {
   const buttonContent = isRunning
       ? { icon: "⏸", text: "Pause" }
       : time === 0
@@ -20,7 +19,6 @@ export function PrimaryControls({ handleReset, handleStartPause, setInFocusMode,
           <span className="button-icon">{buttonContent.icon}</span>
           <span>{buttonContent.text}</span>
         </button>
-        <button onClick={handleReset} className="reset-button">⟳</button>
         <button onClick={() => setInFocusMode(true)}>
         🧘 Focus
       </button>

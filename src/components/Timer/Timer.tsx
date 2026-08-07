@@ -29,7 +29,6 @@ export function Timer({ setInFocusMode }: TimerProps) {
       
       <div className="timer-buttons-main-controls">
         <PrimaryControls
-          handleReset={timer.handleReset}
           handleStartPause={timer.handleStartPause}
           isRunning={timer.isRunning}
           time={timer.time}
