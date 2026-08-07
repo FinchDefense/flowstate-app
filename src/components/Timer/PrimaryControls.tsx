@@ -47,7 +47,7 @@ export function PrimaryControls({ handleStartPause, setInFocusMode, isRunning, t
           }} 
           className="focus-button"
         >
-        🧘 Focus
+        ⚡ Focus
       </button>
       </div>
     </>
