@@ -115,17 +115,30 @@
 
 .bonfire-container {
   position: relative;
-  width: 200px;
-  height: 300px;
+  width: 60px;
+  height: 60px;
+  background: #050505;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  margin-bottom: 50px auto;
+  margin: 10px auto;
 }
 
 .bonfire-container > div {
   position: absolute;
   bottom: 0;
 }
+
+.flame {
+  position: absolute;
+  bottom: 0;
+  transform-origin: center bottom;
+  mix-blend-mode: screen;
+  filter: blur(4px);
+  border-radius: 0% 100% 70% 100% / 0% 70% 100% 100%;
+}
+
+
 
 

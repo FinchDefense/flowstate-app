@@ -70,15 +70,16 @@ export function FocusMode({
 
   return (
     <div className="Focus-Mode-container">
-      <div className="bonfire-container">
-        <div className="flame ash"></div>
-        <div className="flame ember-red"></div>
-        <div className="coiled-sword"></div>
-        <div className="flame orange"></div>
-        <div className="flame core"></div>
-      </div>
       <div className="Focus-Mode-Quote">{quote.text}</div>
       <div className="Focus-Mode-Quote-Author">{quote.author}</div>
+
+      <div className="bonfire-container">
+        <div className="logs"></div>
+        <div className="flame red"></div>
+        <div className="flame orange"></div>
+        <div className="flame gold"></div>
+      </div>
+
       <div className="timer-display-time">{formatTime(time)}</div>
 
       <button
