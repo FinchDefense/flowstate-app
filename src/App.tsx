@@ -30,6 +30,8 @@ export function App() {
         formatTime={timer.formatTime}
         numPomos={timer.numPomos}
         setInFocusMode={setInFocusMode}
+        handleStartPause={timer.handleStartPause}
+        isRunning={timer.isRunning}
        />
     }
 
