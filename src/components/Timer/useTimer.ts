@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 export function useTimer(initialTime: number = 1500) {
   const [time, setTime] = useState<number>(initialTime);
@@ -20,26 +20,26 @@ export function useTimer(initialTime: number = 1500) {
     "◎ FOCUSED": ["#6bcb77", "#00d4ff", "#7dd3fc", "#fcd34d"],
   };
 
-  const formatTime = (totalSeconds: number): string => {
+  const formatTime = useCallback((totalSeconds: number): string => {
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = Math.floor(totalSeconds % 60);
     return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-  };
+  }, []);
 
-  const getOpacityHex = (intensity: number) => {
+  const getOpacityHex = useCallback((intensity: number) => {
     const opacity = Math.round(intensity * 255);
     return opacity.toString(16).padStart(2, "0").toUpperCase();
-  };
+  }, []);
 
-  const getRandomColor = () => {
+  const getRandomColor = useCallback(() => {
     const newColor = moodColors[currentMood][Math.floor(Math.random() * moodColors[currentMood].length)];
     setGlowColor(newColor);
     setGlowIntensity(0.4 + Math.random() * 0.4);
     setGlowBlur(15 + Math.random() * 25);
     setGlowSpread(3 + Math.random() * 8);
-  };
+  }, [currentMood]);
 
-  const startTimer = () => {
+  const startTimer = useCallback(() => {
     if (timerRef.current !== null) return;
     hasCompletedRef.current = false;
     setIsRunning(true);
@@ -60,17 +60,17 @@ export function useTimer(initialTime: number = 1500) {
         return prevTime - 1;
       });
     }, 1000);
-  };
+  }, []);
 
-  const stopTimer = () => {
+  const stopTimer = useCallback(() => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
     setIsRunning(false);
-  };
+  }, []);
 
-  const handleStartPause = () => {
+  const handleStartPause = useCallback(() => {
     if (isRunning) {
       getRandomColor();
       stopTimer();
@@ -79,9 +79,9 @@ export function useTimer(initialTime: number = 1500) {
       if (time > 0) getRandomColor();
       startTimer();
     }
-  };
+  }, [isRunning, time, getRandomColor, stopTimer, startTimer]);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
@@ -90,12 +90,12 @@ export function useTimer(initialTime: number = 1500) {
     setGlowColor("#00ffff");
     setIsRunning(false);
     setTime(1500);
-  };
+  }, []);
 
-  const addFiveMinutes = () => setTime((prev) => prev + 300);
-  const minusFiveMinutes = () => setTime((prev) => (prev >= 300 ? prev - 300 : 0));
+  const addFiveMinutes = useCallback(() => setTime((prev) => prev + 300), []);
+  const minusFiveMinutes = useCallback(() => setTime((prev) => (prev >= 300 ? prev - 300 : 0)), []);
 
-  const presetTime = (seconds: number) => {
+  const presetTime = useCallback((seconds: number) => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
@@ -104,37 +104,37 @@ export function useTimer(initialTime: number = 1500) {
     setIsRunning(false);
     setTime(seconds);
     getRandomColor();
-  };
+  }, [getRandomColor]);
 
-  const toggleMood = () => {
+  const toggleMood = useCallback(() => {
     const moods = ["⚡ ENERGETIC", "◉ CALM", "✦ CREATIVE", "◎ FOCUSED"];
     const currentIndex = moods.indexOf(currentMood);
     setCurrentMood(moods[(currentIndex + 1) % moods.length] as typeof currentMood);
     getRandomColor();
-  };
+  }, [currentMood, getRandomColor]);
 
   useEffect(() => {
-  const handleKeyPress = (e: KeyboardEvent) => {
-    if (e.key === ' ' && e.target === document.body) {
-      e.preventDefault();
-      handleStartPause();
-    }
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === ' ' && e.target === document.body) {
+        e.preventDefault();
+        handleStartPause();
+      }
+      
+      if ((e.key === 'r' || e.key === 'R') && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        handleReset();
+      }
+    };
     
-    if ((e.key === 'r' || e.key === 'R') && !e.ctrlKey && !e.metaKey) {
-      e.preventDefault();
-      handleReset();
-    }
-  };
-  
-  window.addEventListener('keydown', handleKeyPress);
-  return () => window.removeEventListener('keydown', handleKeyPress);
-}, [handleStartPause, handleReset]);
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [handleStartPause, handleReset]);
 
   useEffect(() => {
     document.title = isRunning
       ? `⏱️ ${formatTime(time)} - FlowState`
       : "FlowState - Focus Timer";
-  }, [isRunning, time]);
+  }, [isRunning, time, formatTime]);
 
   useEffect(() => {
     return () => {
