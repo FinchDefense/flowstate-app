@@ -113,6 +113,15 @@
   }
 }
 
+.bonfire-container {
+  position: relative;
+  width: 200px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: 50px auto;
+}
 
 
 
