@@ -40,7 +40,13 @@ export function PrimaryControls({ handleStartPause, setInFocusMode, isRunning, t
           <span className="button-icon">{buttonContent.icon}</span>
           <span>{buttonContent.text}</span>
         </button>
-        <button onClick={() => setInFocusMode(true)}>
+        <button 
+          onClick={() => {
+            setInFocusMode(true);
+            animationOnClick();
+          }} 
+          className="focus-button"
+        >
         🧘 Focus
       </button>
       </div>
