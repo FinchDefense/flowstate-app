@@ -23,7 +23,7 @@ export function App() {
     return currentName ? currentName : "";
   });
 
-  const timer = useTimer();
+  const timer = useTimer(1500);
   if (inFocusMode) {
       return <FocusMode
         time={timer.time}

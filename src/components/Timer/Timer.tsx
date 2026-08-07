@@ -11,12 +11,13 @@ interface TimerProps {
 }
 
 export function Timer({ setInFocusMode }: TimerProps) {
-  const timer = useTimer();
+  const timer = useTimer(1500);
 
   return (
     <div className="timer-container">
       <TimerDisplay
         time={timer.time}
+        isRunning={timer.isRunning}
         formatTime={timer.formatTime}
         glowColor={timer.glowColor}
         glowIntensity={timer.glowIntensity}

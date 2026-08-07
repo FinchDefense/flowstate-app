@@ -1,5 +1,6 @@
 interface TimerDisplayProps {
   time: number;
+  isRunning: boolean;
   formatTime: (totalSeconds: number) => string;
   glowColor: string;
   glowIntensity: number;
@@ -11,6 +12,7 @@ interface TimerDisplayProps {
 export function TimerDisplay({
   time,
   formatTime,
+  isRunning,
   glowColor,
   glowIntensity,
   glowBlur,
