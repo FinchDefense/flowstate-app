@@ -123,5 +123,9 @@
   margin-bottom: 50px auto;
 }
 
+.bonfire-container > div {
+  position: absolute;
+  bottom: 0;
+}
 
 
