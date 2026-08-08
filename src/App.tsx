@@ -55,7 +55,7 @@ export function App() {
   return (
     <div className="app-container">
       <div className="header">
-        <div className="welcome-message main-title">🌀 Welcome back {displayName || "Guest"} </div>
+        <div className="welcome-message main-title">Welcome back {displayName || "Guest"} </div>
         <div className="welcome-message secondary-title">Ready to Focus?</div>
         <div className="tabs">
           <button
