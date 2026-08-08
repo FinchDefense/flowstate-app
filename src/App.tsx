@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FocusMode } from "./components/Timer/FocusMode.tsx";
 import { useTimer } from "./components/Timer/useTimer.ts";
 import { Timer } from "./components/Timer/Timer.tsx";
@@ -28,14 +28,23 @@ export function App() {
     return currentName ? currentName : "";
   });
 
-  if (isStartingPage) {
-    document.addEventListener('keydown', () => {
-      setIsExiting(true);
-        setTimeout(() => {
-          setIsStartingPage(false);
-        }, 1200);
-    })
+  useEffect(() => {
+    if (!isStartingPage) return;
 
+    const handleKeyDown = () => {
+      setIsExiting(true);
+      setTimeout(() => {
+        setIsStartingPage(false);
+      }, 1200);
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isStartingPage]);
+
+  if (isStartingPage) {
     return (
       <div className={`welcome-message ${isExiting ? "exiting" : ""}`}>
         <div className="main-intro">Welcome Back {displayName || "Guest"}</div>
