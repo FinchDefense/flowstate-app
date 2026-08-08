@@ -11,8 +11,12 @@ import "./App.css";
 import "./index.css";
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<"timer" | "taskList" | "statistics" | "settings" | "profile">("timer");
+  const [activeTab, setActiveTab] = useState<
+    "timer" | "taskList" | "statistics" | "settings" | "profile"
+  >("timer");
   const [inFocusMode, setInFocusMode] = useState<boolean>(false);
+  const [isStartingPage, setIsStartingPage] = useState<boolean>(true);
+  const [isExiting, setIsExiting] = useState<boolean>(false);
   const timer = useTimer(1500);
   const [displayName, setDisplayName] = useState<string>(() => {
     const currentName = localStorage.getItem("flowstate_userName");
@@ -24,8 +28,29 @@ export function App() {
     return currentName ? currentName : "";
   });
 
+  if (isStartingPage) {
+    return (
+      <div className={`welcome-message ${isExiting ? "exiting" : ""}`}>
+        <div className="main-intro">Welcome Back {displayName || "Guest"}</div>
+        <div className="sub-intro">Ready to Focus?</div>
+        <button
+          onClick={() => {
+            setIsExiting(true);
+            setTimeout(() => {
+              setIsStartingPage(false);
+            }, 1200);
+          }}
+          disabled={isExiting}
+        >
+          Start
+        </button>
+      </div>
+    );
+  }
+
   if (inFocusMode) {
-      return <FocusMode
+    return (
+      <FocusMode
         time={timer.time}
         formatTime={timer.formatTime}
         numPomos={timer.numPomos}
@@ -34,12 +59,13 @@ export function App() {
         isRunning={timer.isRunning}
         isOnBreak={timer.isOnBreak}
         breakTime={timer.breakTime}
-       />
-    }
+      />
+    );
+  }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputName(event.target.value);
-  }
+  };
 
   const handleDisplayChange = () => {
     if (inputName.trim() === "") {
@@ -48,15 +74,13 @@ export function App() {
     }
 
     setDisplayName(inputName);
-    localStorage.setItem('flowstate_userName', inputName);
-    setInputName('');
-  }
+    localStorage.setItem("flowstate_userName", inputName);
+    setInputName("");
+  };
 
   return (
     <div className="app-container">
       <div className="header">
-        <div className="welcome-message main-title">Welcome back {displayName || "Guest"} </div>
-        <div className="welcome-message secondary-title">Ready to Focus?</div>
         <div className="tabs">
           <button
             onClick={() => setActiveTab("timer")}
@@ -91,11 +115,19 @@ export function App() {
         </div>
       </div>
       <div className="content">
-        {activeTab === "timer" && <Timer timer={timer} setInFocusMode={setInFocusMode} />}
+        {activeTab === "timer" && (
+          <Timer timer={timer} setInFocusMode={setInFocusMode} />
+        )}
         {activeTab === "taskList" && <TaskList />}
         {activeTab === "statistics" && <Statistics />}
         {activeTab === "settings" && <Settings />}
-        {activeTab === "profile" && <Profile inputName={inputName} handleInputChange={handleInputChange} handleDisplayChange={handleDisplayChange} />}
+        {activeTab === "profile" && (
+          <Profile
+            inputName={inputName}
+            handleInputChange={handleInputChange}
+            handleDisplayChange={handleDisplayChange}
+          />
+        )}
       </div>
     </div>
   );
