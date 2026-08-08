@@ -22,6 +22,16 @@
   border-radius: 16px;
 }
 
+.timer-status {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  transition: color 0.5s ease;
+}
+
 .timer-display {
   width: 100%;
   max-width: 320px;
@@ -31,7 +41,7 @@
   border: 2px solid var(--accent-cyan);
   box-shadow: 0 0 25px 5px rgba(0, 255, 255, 0.6);
   border-radius: 12px;
-  transition: border-color 0.8s ease, box-shadow 0.8s ease;
+  transition: border-color 0.5s ease, box-shadow 0.5s ease, background 0.5s ease;
 }
 
 .timer-display-time {
