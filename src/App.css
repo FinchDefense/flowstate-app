@@ -41,6 +41,7 @@ body {
 }
 
 .welcome-message.main-title {
+  margin-top: 30px;
   font-size: 2.2rem;
 }
 
