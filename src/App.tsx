@@ -29,23 +29,18 @@ export function App() {
   });
 
   if (isStartingPage) {
+    document.addEventListener('keydown', () => {
+      setIsExiting(true);
+        setTimeout(() => {
+          setIsStartingPage(false);
+        }, 1200);
+    })
+
     return (
       <div className={`welcome-message ${isExiting ? "exiting" : ""}`}>
         <div className="main-intro">Welcome Back {displayName || "Guest"}</div>
         <div className="sub-intro">Ready to Focus?</div>
         <div className="press-any-key">Press any Key</div>
-        <button
-          onClick={() => {
-            setIsExiting(true);
-            setTimeout(() => {
-              setIsStartingPage(false);
-            }, 1200);
-          }}
-          disabled={isExiting}
-          className="start-button"
-        >
-          Start
-        </button>
       </div>
     );
   }
