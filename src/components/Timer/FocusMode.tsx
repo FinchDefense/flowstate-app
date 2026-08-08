@@ -14,7 +14,6 @@ interface FocusModeProps {
   isRunning: boolean;
   isOnBreak: boolean;
   breakTime: number;
-  glowColor: string;
 }
 
 export function FocusMode({
@@ -26,7 +25,6 @@ export function FocusMode({
   isRunning,
   isOnBreak,
   breakTime,
-  glowColor,
 }: FocusModeProps) {
   const [quote, setQuote] = useState<Quote>(() => getRandomQuote());
 
@@ -79,16 +77,10 @@ export function FocusMode({
       <div className="Focus-Mode-Quote">{quote.text}</div>
       <div className="Focus-Mode-Quote-Author">{quote.author}</div>
 
-      <div
-        className="Focus-Mode-timer"
-        style={{
-          borderColor: isOnBreak ? "#4ade80" : glowColor,
-          boxShadow: `0 0 30px 2px ${isOnBreak ? "rgba(74, 222, 128, 0.15)" : "rgba(0, 255, 255, 0.08)"}`,
-        }}
-      >
-        <div className="Focus-Mode-timer-status">
-          {isOnBreak ? "☕ Break" : "🎯 Focus"}
-        </div>
+      <div className="Focus-Mode-timer">
+        <span className="timer-emoji">
+          {isOnBreak ? '🌿' : '🎯'}
+        </span>
         <div className="timer-display-time">
           {isOnBreak ? formatTime(breakTime) : formatTime(time)}
         </div>
