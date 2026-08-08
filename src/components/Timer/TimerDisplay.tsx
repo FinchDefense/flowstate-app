@@ -21,13 +21,19 @@ export function TimerDisplay({
   breakTime,
   isOnBreak,
 }: TimerDisplayProps) {
+  const displayColor = isOnBreak ? '#4ade80' : glowColor;
+  
   const timerDisplayStyle = {
-    borderColor: glowColor,
-    boxShadow: `0 0 ${glowBlur}px ${glowSpread}px ${glowColor}${getOpacityHex(glowIntensity)}`,
+    borderColor: displayColor,
+    boxShadow: `0 0 ${glowBlur}px ${glowSpread}px ${displayColor}${getOpacityHex(glowIntensity)}`,
+    transition: 'border-color 0.5s ease, box-shadow 0.5s ease',
   };
   
   return (
     <div className="timer-display" style={timerDisplayStyle}>
+      <div className="timer-status">
+        {isOnBreak ? '☕ Break Time' : '🎯 Focus Session'}
+      </div>
       <div className="timer-display-time">{isOnBreak ? formatTime(breakTime) : formatTime(time)}</div>
     </div>
   )
