@@ -15,19 +15,16 @@ export const ImageUploader: React.FC = () => {
   useEffect(() => {
     if (imageUrl) {
       document.body.style.backgroundImage = `url('${imageUrl}')`;
-      document.body.style.backgroundSize = "cover";
-      document.body.style.backgroundPosition = "center";
-      document.body.style.backgroundRepeat = "no-repeat";
-      document.body.style.backgroundAttachment = "fixed";
+      document.body.style.backgroundSize = 'cover'; 
+      document.body.style.backgroundPosition = 'center';
+      document.body.style.backgroundRepeat = 'no-repeat';
+      document.body.style.backgroundAttachment = 'fixed';
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.background = '';
+      document.body.style.overflow = '';
     }
-    else {
-      document.body.style.backgroundImage = "";
-      document.body.style.backgroundSize = "";
-      document.body.style.backgroundPosition = "";
-      document.body.style.backgroundRepeat = "";
-      document.body.style.backgroundAttachment = "";
-    }
-  }, [imageUrl])
+  }, [imageUrl]);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -40,14 +37,14 @@ export const ImageUploader: React.FC = () => {
         const base64String = reader.result as string;
         setimageUrl(base64String);
         localStorage.setItem("savedImage", base64String);
-      }
-    } 
+      };
+    }
   };
 
   const removeImage = () => {
     setimageUrl(null);
-    localStorage.removeItem('savedImage');
-  }
+    localStorage.removeItem("savedImage");
+  };
 
   const triggerFileInput = () => {
     fileInputRef.current?.click();
@@ -56,34 +53,33 @@ export const ImageUploader: React.FC = () => {
   return (
     <div className="upload-container">
       <h3>Your Wallpaper</h3>
-      <input 
+      <input
         type="file"
         ref={fileInputRef}
         onChange={handleImageChange}
         accept="image/*"
-        style={{display: "none"}}
+        style={{ display: "none" }}
       />
 
-    <div className="dropzone-box" onClick={triggerFileInput}>
-      {imageUrl ? (
-        <div className="image-preview-container">
-          <img src={imageUrl} alt="Wallpaper thumbnail" className="thumbnail-preview" />
-        </div>
-       ) : (
-        <div className="Image-placeholder-text">
-          <span>Click to choose an image</span>
-        </div>
-       ) 
-      }
+      <div className="dropzone-box" onClick={triggerFileInput}>
+        {imageUrl ? (
+          <div className="image-placeholder-text">
+            <span>Wallpaper Active</span>
+          </div>
+        ) : (
+          <div className="Image-placeholder-text">
+            <span>Click to choose an image</span>
+          </div>
+        )}
 
-      {imageUrl && (
+        {imageUrl && (
           <div className="action-buttons">
             <button className="remove-image-button" onClick={removeImage}>
               Delete Image
             </button>
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
-    </div>
-  )
+  );
 };
