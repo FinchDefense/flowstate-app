@@ -47,7 +47,26 @@ export function App() {
   if (isStartingPage) {
     return (
       <div className={`welcome-message ${isExiting ? "exiting" : ""}`}>
+        <div className="cinder-container left-edge">
+          <div className="cinder c1"></div>
+          <div className="cinder c2"></div>
+          <div className="cinder c3"></div>
+          <div className="cinder c4"></div>
+          <div className="cinder c5"></div>
+          <div className="cinder c6"></div>
+        </div>
+
         <div className="main-intro">Welcome Back {displayName || "Guest"}</div>
+
+        <div className="cinder-container right-edge">
+          <div className="cinder c7"></div>
+          <div className="cinder c8"></div>
+          <div className="cinder c9"></div>
+          <div className="cinder c10"></div>
+          <div className="cinder c11"></div>
+          <div className="cinder c12"></div>
+        </div>
+
         <div className="sub-intro">Ready to Focus?</div>
         <div className="press-any-key">Press any Key</div>
       </div>
