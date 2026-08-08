@@ -45,26 +45,48 @@ export function App() {
   }, [isStartingPage]);
 
   if (isStartingPage) {
+    const flameColors = [
+      "#FFE808", // White Hot Center
+      "#FFCE00", // Molten Gold
+      "#FC6400", // Cadmium Orange
+      "#FF5A00", // Fire Orange
+      "#FF0000", // Deep Red
+      "#801100", // Dark Cherry
+      "#1A0F0A", // Cinematic Charcoal
+    ];
+
+    const getRandomEmberFormatting = () => {
+      const randomEmberColor = flameColors[Math.floor(Math.random() * flameColors.length)];
+      const randomOpacity = (Math.random() * 0.5 + 0.4).toFixed(2);
+      const randomGlow = Math.floor((Math.random() * 10)) + 6; 
+
+      return {
+        '--ember-color': randomEmberColor,
+        '--ember-opacity': randomOpacity,
+        '--ember-glow': randomGlow,
+      } as React.CSSProperties;
+    };
+
     return (
       <div className={`welcome-message ${isExiting ? "exiting" : ""}`}>
         <div className="cinder-container left-edge">
-          <div className="cinder c1"></div>
-          <div className="cinder c2"></div>
-          <div className="cinder c3"></div>
-          <div className="cinder c4"></div>
-          <div className="cinder c5"></div>
-          <div className="cinder c6"></div>
+          <div className="cinder c1" style={getRandomEmberFormatting()}></div>
+          <div className="cinder c2" style={getRandomEmberFormatting()}></div>
+          <div className="cinder c3" style={getRandomEmberFormatting()}></div>
+          <div className="cinder c4" style={getRandomEmberFormatting()}></div>
+          <div className="cinder c5" style={getRandomEmberFormatting()}></div>
+          <div className="cinder c6" style={getRandomEmberFormatting()}></div>
         </div>
 
         <div className="main-intro">Welcome Back {displayName || "Guest"}</div>
 
         <div className="cinder-container right-edge">
-          <div className="cinder c7"></div>
-          <div className="cinder c8"></div>
-          <div className="cinder c9"></div>
-          <div className="cinder c10"></div>
-          <div className="cinder c11"></div>
-          <div className="cinder c12"></div>
+          <div className="cinder c7" style={getRandomEmberFormatting()}></div>
+          <div className="cinder c8" style={getRandomEmberFormatting()}></div>
+          <div className="cinder c9" style={getRandomEmberFormatting()}></div>
+          <div className="cinder c10" style={getRandomEmberFormatting()}></div>
+          <div className="cinder c11" style={getRandomEmberFormatting()}></div>
+          <div className="cinder c12" style={getRandomEmberFormatting()}></div>
         </div>
 
         <div className="sub-intro">Ready to Focus?</div>

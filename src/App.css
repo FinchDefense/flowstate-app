@@ -1,5 +1,4 @@
 :root {
-  --random-color: #
   --bg-color: #0a0a0c;
   --bg-card: #dac3a9;
   --border-color: #ab2a1b;
@@ -118,10 +117,12 @@ body {
 
 .cinder {
   position: absolute;
-  background: #ff6a00;
   border-radius: 50%;
-  opacity: 0;
-  box-shadow: 0 0 8px #ff2a00, 0 0 15px #ffaa00;
+  background: var(--ember-color, #ff6a00);
+  opacity: var(--ember-opacity, 0.8);
+  box-shadow: 
+    0 0 calc(var(--ember-glow, 8) * 1px) #ff2a00, 
+    0 0 calc(var(--ember-glow, 15) * 1.8px) #ffaa00;
 }
 
 .c1 {
