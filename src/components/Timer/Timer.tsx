@@ -7,12 +7,11 @@ import { MoodToggle } from "./MoodToggle";
 import { PrimaryControls } from "./PrimaryControls";
 
 interface TimerProps {
-  setInFocusMode: React.Dispatch<React.SetStateAction<boolean>>
+  setInFocusMode: React.Dispatch<React.SetStateAction<boolean>>;
+  timer: ReturnType<typeof useTimer>;
 }
 
-export function Timer({ setInFocusMode }: TimerProps) {
-  const timer = useTimer(1500);
-
+export function Timer({ setInFocusMode, timer }: TimerProps) {
   return (
     <div className="timer-container">
       <TimerDisplay

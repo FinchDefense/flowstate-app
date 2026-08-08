@@ -13,6 +13,7 @@ import "./index.css";
 export function App() {
   const [activeTab, setActiveTab] = useState<"timer" | "taskList" | "statistics" | "settings" | "profile">("timer");
   const [inFocusMode, setInFocusMode] = useState<boolean>(false);
+  const timer = useTimer(1500);
   const [displayName, setDisplayName] = useState<string>(() => {
     const currentName = localStorage.getItem("flowstate_userName");
     return currentName ? currentName : "";
@@ -23,7 +24,6 @@ export function App() {
     return currentName ? currentName : "";
   });
 
-  const timer = useTimer(1500);
   if (inFocusMode) {
       return <FocusMode
         time={timer.time}
@@ -91,7 +91,7 @@ export function App() {
         </div>
       </div>
       <div className="content">
-        {activeTab === "timer" && <Timer setInFocusMode={setInFocusMode} />}
+        {activeTab === "timer" && <Timer timer={timer} setInFocusMode={setInFocusMode} />}
         {activeTab === "taskList" && <TaskList />}
         {activeTab === "statistics" && <Statistics />}
         {activeTab === "settings" && <Settings />}
