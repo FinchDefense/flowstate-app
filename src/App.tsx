@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { GameMenu } from "./components/GameMenu/GameMenu.tsx"
 import { FocusMode } from "./components/Timer/FocusMode.tsx";
 import { useTimer } from "./components/Timer/useTimer.ts";
 import { Timer } from "./components/Timer/Timer.tsx";
@@ -16,6 +17,7 @@ export function App() {
   >("timer");
   const [inFocusMode, setInFocusMode] = useState<boolean>(false);
   const [isStartingPage, setIsStartingPage] = useState<boolean>(true);
+  const [isGameMenuPage, setIsGameMenuPage] = useState<boolean>(false);
   const [isExiting, setIsExiting] = useState<boolean>(false);
   const timer = useTimer(1500);
   const [displayName, setDisplayName] = useState<string>(() => {
@@ -32,6 +34,7 @@ export function App() {
     if (!isStartingPage) return;
 
     const handleKeyDown = () => {
+      setIsGameMenuPage(true);
       setIsExiting(true);
       setTimeout(() => {
         setIsStartingPage(false);
@@ -93,6 +96,12 @@ export function App() {
         <div className="press-any-key">Press any Key</div>
       </div>
     );
+  }
+
+  if (isGameMenuPage) {
+    return (
+      <GameMenu />
+    )
   }
 
   if (inFocusMode) {
