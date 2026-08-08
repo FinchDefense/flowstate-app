@@ -53,6 +53,30 @@
   animation: fadeInUp 0.8s ease 0.5s both;
 }
 
+.Focus-Mode-timer {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 40px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 255, 255, 0.1);
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
+  transition: border-color 0.5s ease box-shadow 0.5s ease;
+  min-width: 200px;
+}
+
+.Focus-Mode-timer-status {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-main);
+  opacity: 0.5;
+  margin-bottom: 4px;
+}
+
 .Focus-Mode-container .timer-display-time {
   font-size: 5rem;
   font-weight: 700;

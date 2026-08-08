@@ -34,6 +34,7 @@ export function App() {
         isRunning={timer.isRunning}
         isOnBreak={timer.isOnBreak}
         breakTime={timer.breakTime}
+        glowColor={timer.glowColor}
        />
     }
 
