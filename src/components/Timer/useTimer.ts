@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 
 export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
   const [time, setTime] = useState<number>(initialTime);
+  const [numBreaks, setNumBreaks] = useState<number>(0);
   const [breakTime, setBreakTime] = useState<number>(initalBreakTime);
   const [isOnBreak, setIsOnBreak] = useState<boolean>(false);
   const [isRunning, setIsRunning] = useState<boolean>(false);
@@ -26,6 +27,14 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
     "✦ CREATIVE": ["#ff6bd6", "#a66bff", "#ff00ff", "#7b2ffc"],
     "◎ FOCUSED": ["#6bcb77", "#00d4ff", "#7dd3fc", "#fcd34d"],
   };
+
+  useEffect(() => {
+    if (numBreaks > 0 && numBreaks % 4 === 0) {
+      setBreakTime(900);
+    } else {
+      setBreakTime(300);
+    }
+  }, [numBreaks]);
 
   const formatTime = useCallback((totalSeconds: number): string => {
     const minutes = Math.floor(totalSeconds / 60);
@@ -95,6 +104,7 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
           if (!breakTimerHasCompletedRef.current) {
             breakTimerHasCompletedRef.current = true;
           }
+          setNumBreaks((prevNumBreaks) => prevNumBreaks + 1)
           setIsOnBreak(false);
           return 300;
         }
@@ -222,6 +232,7 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
     isOnBreak,
     breakTime,
     isRunningBreak,
+    numBreaks,
     formatTime,
     getOpacityHex,
     handleStartPause,
