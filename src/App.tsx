@@ -32,6 +32,8 @@ export function App() {
         setInFocusMode={setInFocusMode}
         handleStartPause={timer.handleStartPause}
         isRunning={timer.isRunning}
+        isOnBreak={timer.isOnBreak}
+        breakTime={timer.breakTime}
        />
     }
 

@@ -12,6 +12,8 @@ interface FocusModeProps {
   setInFocusMode: Dispatch<SetStateAction<boolean>>;
   handleStartPause: () => void;
   isRunning: boolean;
+  isOnBreak: boolean;
+  breakTime: number;
 }
 
 export function FocusMode({
@@ -21,6 +23,8 @@ export function FocusMode({
   numPomos,
   handleStartPause,
   isRunning,
+  isOnBreak,
+  breakTime,
 }: FocusModeProps) {
   const [quote, setQuote] = useState<Quote>(() => getRandomQuote());
 
@@ -81,7 +85,7 @@ export function FocusMode({
         <div className="flame gold"></div>
       </div>
 
-      <div className="timer-display-time">{formatTime(time)}</div>
+      <div className="timer-display-time">{isOnBreak ? formatTime(breakTime) : formatTime(time)}</div>
 
       <button
         onClick={() => {
