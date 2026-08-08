@@ -78,9 +78,9 @@ export function FocusMode({
       <div className="Focus-Mode-Quote-Author">{quote.author}</div>
 
       <div className="Focus-Mode-timer">
-        <span className="timer-emoji">
-          {isOnBreak ? '🌿' : '🎯'}
-        </span>
+        <div className="Focus-Mode-timer-status">
+          {isOnBreak ? "🌿 BREAK" : "🎯 FOCUS"}
+        </div>
         <div className="timer-display-time">
           {isOnBreak ? formatTime(breakTime) : formatTime(time)}
         </div>

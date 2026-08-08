@@ -54,20 +54,29 @@
 }
 
 .Focus-Mode-timer {
+  position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 16px;
 }
 
-.timer-emoji {
-  font-size: 2.5rem;
-  line-height: 1;
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
+.Focus-Mode-timer-status {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  transition: all 0.5s ease;
 }
 
-.timer-emoji:hover {
-  opacity: 1;
+.Focus-Mode-timer-status.focus {
+  color: #00ffff;
+  opacity: 0.5;
+}
+
+.Focus-Mode-timer-status.break {
+  color: #4ade80;
+  opacity: 0.5;
 }
 
 .Focus-Mode-container .timer-display-time {
