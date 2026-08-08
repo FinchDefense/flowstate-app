@@ -59,7 +59,6 @@
   padding: 20px 40px;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(0, 255, 255, 0.1);
   border-radius: 16px;
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(4px);
