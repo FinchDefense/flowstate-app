@@ -1,5 +1,5 @@
 :root {
-  --bg-color: #0c0d10;
+  --bg-color: #0a0a0c;
   --bg-card: #dac3a9;
   --border-color: #ab2a1b;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
@@ -32,12 +32,37 @@ body {
 
 .welcome-message {
   animation: cinematic-dissolve 3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
 .welcome-message.exiting {
   animation: ancient-dust 1.2s ease-in forwards;
 }
 
+.main-intro {
+  color: #e2d7c5;
+  font-size: 3rem;
+  letter-spacing: 0.3rem;
+  font-weight: 500;
+  margin: 50px auto;
+}
+
+.sub-intro {
+  color: #8a8d91;
+  font-size:1.5rem;
+  font-weight: 300;
+  margin-bottom: 2rem;
+}
+
+.start-button {
+  background: transparent;
+  padding: 12px 32px;
+
+}
 
 .tabs {
   display: flex;
