@@ -16,10 +16,10 @@
   flex-direction: column;
   margin-left: auto;
   margin-right: auto;
-  margin-top: -40px;
-  width: 560px;
-  padding: 48px;
+  width: min(560px, 100%);
+  padding: 32px;
   border-radius: 16px;
+  box-sizing: border-box;
 }
 
 .timer-status {

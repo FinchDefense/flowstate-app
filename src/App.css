@@ -23,7 +23,7 @@ body {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 20px;
+  padding: 16px;
 }
 
 .header {
@@ -33,7 +33,7 @@ body {
 
 .welcome-message {
   font-family: 'Montserrat', sans-serif;
-  margin-bottom: 25px;
+  margin-bottom: 18px;
   font-weight: 700;
   letter-spacing: -0.03em;
   color: var(--text-main);
