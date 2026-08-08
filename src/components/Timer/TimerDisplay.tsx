@@ -1,5 +1,7 @@
 interface TimerDisplayProps {
   time: number;
+  breakTime: number;
+  isOnBreak: boolean;
   formatTime: (totalSeconds: number) => string;
   glowColor: string;
   glowIntensity: number;
@@ -15,7 +17,9 @@ export function TimerDisplay({
   glowIntensity,
   glowBlur,
   glowSpread,
-  getOpacityHex
+  getOpacityHex,
+  breakTime,
+  isOnBreak,
 }: TimerDisplayProps) {
   const timerDisplayStyle = {
     borderColor: glowColor,
@@ -24,7 +28,7 @@ export function TimerDisplay({
   
   return (
     <div className="timer-display" style={timerDisplayStyle}>
-      <div className="timer-display-time">{formatTime(time)}</div>
+      <div className="timer-display-time">{isOnBreak ? formatTime(breakTime) : formatTime(time)}</div>
     </div>
   )
 }

@@ -17,6 +17,8 @@ export function Timer({ setInFocusMode }: TimerProps) {
     <div className="timer-container">
       <TimerDisplay
         time={timer.time}
+        isOnBreak={timer.isOnBreak}
+        breakTime={timer.breakTime}
         formatTime={timer.formatTime}
         glowColor={timer.glowColor}
         glowIntensity={timer.glowIntensity}
