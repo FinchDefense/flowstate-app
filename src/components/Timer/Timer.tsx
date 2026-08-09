@@ -14,35 +14,38 @@ interface TimerProps {
 export function Timer({ setInFocusMode, timer }: TimerProps) {
   return (
     <div className="timer-container">
-      <TimerDisplay
-        time={timer.time}
-        isOnBreak={timer.isOnBreak}
-        breakTime={timer.breakTime}
-        formatTime={timer.formatTime}
-        glowColor={timer.glowColor}
-        glowIntensity={timer.glowIntensity}
-        glowBlur={timer.glowBlur}
-        glowSpread={timer.glowSpread}
-        getOpacityHex={timer.getOpacityHex}
-      />
-      
-      <PomodoroCounter numPomos={timer.numPomos} glowColor={timer.glowColor} />
-      
-      <div className="timer-buttons-main-controls">
-        <PrimaryControls
-          handleStartPause={timer.handleStartPause}
-          isRunning={timer.isRunning}
+        <TimerDisplay
           time={timer.time}
-          setInFocusMode={setInFocusMode}
-        />
-        <MoodToggle
-          toggleMood={timer.toggleMood}
+          isOnBreak={timer.isOnBreak}
+          breakTime={timer.breakTime}
+          formatTime={timer.formatTime}
           glowColor={timer.glowColor}
-          currentMood={timer.currentMood}
+          glowIntensity={timer.glowIntensity}
+          glowBlur={timer.glowBlur}
+          glowSpread={timer.glowSpread}
+          getOpacityHex={timer.getOpacityHex}
         />
-      </div>
-      
-      <TimerPresets presetTime={timer.presetTime} />
+
+        <PomodoroCounter
+          numPomos={timer.numPomos}
+          glowColor={timer.glowColor}
+        />
+
+        <div className="timer-buttons-main-controls">
+          <PrimaryControls
+            handleStartPause={timer.handleStartPause}
+            isRunning={timer.isRunning}
+            time={timer.time}
+            setInFocusMode={setInFocusMode}
+          />
+          <MoodToggle
+            toggleMood={timer.toggleMood}
+            glowColor={timer.glowColor}
+            currentMood={timer.currentMood}
+          />
+        </div>
+
+        <TimerPresets presetTime={timer.presetTime} />
     </div>
   );
 }

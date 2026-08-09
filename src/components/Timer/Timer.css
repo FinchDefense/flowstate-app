@@ -14,10 +14,9 @@
 .timer-container {
   display: flex;
   flex-direction: column;
-  width: min(560px, 100%);
-  padding: 32px;
-  border-radius: 16px;
-  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .timer-status {
@@ -31,7 +30,7 @@
 }
 
 .timer-display {
-  width: 100%;
+  width: 60vw;
   min-width: 50vw;
   padding: 24px 16px;
   margin: 20px auto;
