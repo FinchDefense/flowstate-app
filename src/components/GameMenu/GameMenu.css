@@ -5,6 +5,7 @@
   height: 100vh;
   margin-left: 10%;
   background-color: rgba(9, 9, 11, 0.85);
+  padding-top: 80px;
 }
 
 .game-title {
@@ -14,6 +15,7 @@
   letter-spacing: 0.3em;
   text-transform: uppercase;   
   animation: game-title-transition 0.4s ease-in-out infinite alternate; 
+  padding: 10px;
 }
 
 .game-title-motivation {
@@ -22,6 +24,25 @@
   font-weight: 400;             
   color: #71717a;
   letter-spacing: 0.05em;      
+}
+
+.game-menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 60px 0;
+}
+
+.game-menu-nav .menu-btn {
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 4px;
+}
+
+.game-menu-nav .menu-btn:hover {
+  animation: active-hover-flashing 0.4s ease-in-out infinite alternate;
 }
 
 @keyframes active-hover-flashing {
