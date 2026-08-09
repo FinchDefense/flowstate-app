@@ -100,7 +100,7 @@ export function App() {
 
   if (isGameMenuPage) {
     return (
-      <GameMenu />
+      <GameMenu timer={timer} setInFocusMode={setInFocusMode} />
     )
   }
 
