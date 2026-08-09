@@ -70,6 +70,7 @@
   display: flex;
   gap: 16px;
   justify-content: center;
+  align-items: center;
   margin: 5px auto;
 }
 
@@ -101,6 +102,14 @@
   background-color: transparent;
   border: 2px solid #FF8C00;
   box-shadow: 0 4px 12px rgba(255, 140, 0, 0.25);
+}
+
+.mood-toggle-button {
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
 }
 
 .timer-buttons-secondary-controls {
