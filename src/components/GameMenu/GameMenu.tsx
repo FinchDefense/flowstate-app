@@ -9,8 +9,10 @@ export function GameMenu() {
         <div className="game-title-motivation">Own the hour, or the hour owns you.</div>
         <div className="game-menu-nav">
           <button className="menu-btn">ENTER THE ZONE</button>
-          <button className="menu-btn">CONTINUE QUEST</button>
-          <button className="menu-btn">SYSTEM OPTIONS</button>
+          <button className="menu-btn">SESSIONS</button>
+          <button className="menu-btn">STATISTICS</button>
+          <button className="menu-btn">OPTIONS</button>
+          <button className="menu-btn">CREDITS</button>
         </div>        
         <div className="menu-footer-tool">
           <ImageUploader />
