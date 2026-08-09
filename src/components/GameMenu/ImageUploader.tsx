@@ -52,7 +52,6 @@ export const ImageUploader: React.FC = () => {
 
   return (
     <div className="upload-container">
-      <h3>Your Wallpaper</h3>
       <input
         type="file"
         ref={fileInputRef}

@@ -1,6 +1,39 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  min-height: 100dvh; /* Dynamic Viewport Height */
-  min-width: 100dvh;
+@import url('https://googleapis.com');
+
+.game-menu-sidebar {
+  width: 25vw;
+  height: 100vh;
+  margin-left: 10%;
+  background-color: rgba(9, 9, 11, 0.85);
+}
+
+.game-title {
+  font-family: "Cinzel", "Trajan Pro", Georgia, "Times New Roman", Times, serif;
+  font-size: 1.8rem;
+  font-weight: 700;             
+  letter-spacing: 0.3em;
+  text-transform: uppercase;   
+  animation: game-title-transition 0.4s ease-in-out infinite alternate; 
+}
+
+.game-title-motivation {
+  font-family: "Inter", "Roboto", sans-serif; 
+  font-size: 0.85rem;
+  font-weight: 400;             
+  color: #71717a;
+  letter-spacing: 0.05em;      
+}
+
+@keyframes active-hover-flashing {
+  0% {
+    opacity: 0.2;
+  }
+
+  60% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

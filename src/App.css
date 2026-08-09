@@ -1,3 +1,5 @@
+@import url('https://googleapis.com');
+
 :root {
   --bg-color: #0a0a0c;
   --bg-card: #dac3a9;
@@ -375,7 +377,4 @@ body {
   50% { opacity: 0.9; margin-left: -8px; }
   100% { margin-left: 0px; opacity: 0.3; }
 }
-
-@keyframes glow-effect {
-  0%
-}
+ 
