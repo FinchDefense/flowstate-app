@@ -11,7 +11,7 @@ export function PomodoroCounter({ numPomos, glowColor }: PomodoroCounterProps) {
           color: glowColor,
         }}
     >
-      #{numPomos}
+      🍅 Focus Session #{numPomos}
     </div>
   )
 }

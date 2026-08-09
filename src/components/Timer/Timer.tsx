@@ -14,38 +14,35 @@ interface TimerProps {
 export function Timer({ setInFocusMode, timer }: TimerProps) {
   return (
     <div className="timer-container">
-        <TimerDisplay
+      <TimerDisplay
+        time={timer.time}
+        isOnBreak={timer.isOnBreak}
+        breakTime={timer.breakTime}
+        formatTime={timer.formatTime}
+        glowColor={timer.glowColor}
+        glowIntensity={timer.glowIntensity}
+        glowBlur={timer.glowBlur}
+        glowSpread={timer.glowSpread}
+        getOpacityHex={timer.getOpacityHex}
+      />
+
+      <div className="timer-buttons-main-controls">
+        <PrimaryControls
+          handleStartPause={timer.handleStartPause}
+          isRunning={timer.isRunning}
           time={timer.time}
-          isOnBreak={timer.isOnBreak}
-          breakTime={timer.breakTime}
-          formatTime={timer.formatTime}
-          glowColor={timer.glowColor}
-          glowIntensity={timer.glowIntensity}
-          glowBlur={timer.glowBlur}
-          glowSpread={timer.glowSpread}
-          getOpacityHex={timer.getOpacityHex}
+          setInFocusMode={setInFocusMode}
         />
-
-        <PomodoroCounter
-          numPomos={timer.numPomos}
+        <MoodToggle
+          toggleMood={timer.toggleMood}
           glowColor={timer.glowColor}
+          currentMood={timer.currentMood}
         />
+      </div>
 
-        <div className="timer-buttons-main-controls">
-          <PrimaryControls
-            handleStartPause={timer.handleStartPause}
-            isRunning={timer.isRunning}
-            time={timer.time}
-            setInFocusMode={setInFocusMode}
-          />
-          <MoodToggle
-            toggleMood={timer.toggleMood}
-            glowColor={timer.glowColor}
-            currentMood={timer.currentMood}
-          />
-        </div>
+      <TimerPresets presetTime={timer.presetTime} />
 
-        <TimerPresets presetTime={timer.presetTime} />
+      <PomodoroCounter numPomos={timer.numPomos} glowColor={timer.glowColor} />
     </div>
   );
 }
