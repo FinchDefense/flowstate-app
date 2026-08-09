@@ -2,10 +2,10 @@
 
 A sleek, minimalist Pomodoro timer and task management dashboard designed to help developers and students maintain deep focus. Built as a portfolio project to master React and TypeScript.
 
-![Project Preview Placeholder](https://img.shields.io/badge/status-in%20development-indigo)
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white)
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)
-![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=flat&logo=vite&logoColor=white)
+
+## 📦 GitHub Repository
+
+[View Source Code] https://github.com/FinchDefense/flowstate-app
 
 ---
 

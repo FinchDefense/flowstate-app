@@ -24,6 +24,10 @@ export const ImageUploader: React.FC = () => {
       document.body.style.background = '';
       document.body.style.overflow = '';
     }
+
+    return () => {
+      document.body.style.background = '';
+    };
   }, [imageUrl]);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
