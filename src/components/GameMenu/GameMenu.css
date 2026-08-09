@@ -14,15 +14,15 @@
   font-weight: 700;             
   letter-spacing: 0.3em;
   text-transform: uppercase;   
-  animation: game-title-transition 0.4s ease-in-out infinite alternate; 
   padding: 10px;
+  line-height: 1.3;
 }
 
 .game-title-motivation {
   font-family: "Inter", "Roboto", sans-serif; 
   font-size: 0.85rem;
   font-weight: 400;             
-  color: #71717a;
+  color: #F8F9FA;
   letter-spacing: 0.05em;      
 }
 
@@ -35,10 +35,12 @@
 
 .game-menu-nav .menu-btn {
   font-family: "Inter", sans-serif;
+  color: #FAFAFA;
   font-weight: 500;
   width: 100%;
   padding: 12px 18px;
-  border-radius: 4px;
+  border: none;
+  background: none;
 }
 
 .game-menu-nav .menu-btn:hover {
