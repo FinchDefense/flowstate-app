@@ -99,7 +99,60 @@
 }
 
 
-.timer-buttons-secondary-controls {
+.timer-buttons-time-options {
+  display: flex;
+  gap: 8px;
+  margin: 10px auto;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.timer-buttons-time-options button {
+  width: 56px;
+  height: 40px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background-color: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.timer-buttons-time-options button:hover {
+  transform: scale(1.05);
+  opacity: 0.8;
+  background-color: var(--border-color);
+  color: var(--text-main);
+  border: 1px solid var(--border-hover);
+}
+
+.timer-buttons-time-options button:active {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border: 1px solid #3b82f6;
+}
+
+@keyframes fadeOutIn {
+  0% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+
+/* .timer-buttons-secondary-controls {
   display: flex;
   justify-content: center;
   gap: 12px;
@@ -178,55 +231,4 @@
 
 .timer-buttons-secondary-controls .skip-button {
   color: var(--text-muted);
-}
-
-.timer-buttons-time-options {
-  display: flex;
-  gap: 8px;
-  margin: 10px auto;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.timer-buttons-time-options button {
-  width: 48px;
-  height: 32px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  background-color: transparent;
-  color: var(--text-muted);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 4px 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.timer-buttons-time-options button:hover {
-  transform: scale(1.05);
-  opacity: 0.8;
-  background-color: var(--border-color);
-  color: var(--text-main);
-  border: 1px solid var(--border-hover);
-}
-
-.timer-buttons-time-options button:active {
-  background-color: #3b82f6;
-  color: #ffffff;
-  border: 1px solid #3b82f6;
-}
-
-@keyframes fadeOutIn {
-  0% {
-    opacity: 1;
-  }
-  25% {
-    opacity: 0.7;
-  }
-  50% {
-    opacity: 0.4;
-  }
-  100% {
-    opacity: 1;
-  }
-}
+} */
