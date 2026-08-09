@@ -206,10 +206,10 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
 
 
   useEffect(() => {
-    document.title = isRunning
-      ? `⏱️ ${formatTime(time)} - FlowState`
-      : "FlowState - Focus Timer";
-  }, [isRunning, time, formatTime]);
+  document.title = isRunning
+    ? `${formatTime(time)} - FlowState`
+    : "FlowState - Focus Timer";
+}, [isRunning, time, formatTime]);
 
   useEffect(() => {
     return () => {
