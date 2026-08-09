@@ -5,7 +5,7 @@ export function GameMenu() {
   return (
     <div className="game-menu-container">
       <div className="game-menu-sidebar">
-        <div className="game-title">AGE QUOD AGIS</div>
+        <div className="game-title">AGE QUOD <br /> AGIS</div>
         <div className="game-title-motivation">Own the hour, or the hour owns you.</div>
         <div className="game-menu-nav">
           <button className="menu-btn">ENTER THE ZONE</button>
