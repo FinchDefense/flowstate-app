@@ -36,7 +36,7 @@ export function PrimaryControls({ handleStartPause, setInFocusMode, isRunning, t
         <button 
           onClick={() => {handleStartPause(); animationOnClick(); }} 
           className="start-pause-button"
-          ref={buttonRef}>
+          ref={buttonRef}>  
           <span className="button-icon">{buttonContent.icon}</span>
           <span>{buttonContent.text}</span>
         </button>
