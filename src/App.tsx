@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { GameMenu } from "./components/GameMenu/GameMenu.tsx"
+import { GameMenu } from "./components/GameMenu/GameMenu.tsx";
 import { FocusMode } from "./components/Timer/FocusMode.tsx";
 import { useTimer } from "./components/Timer/useTimer.ts";
 import { Timer } from "./components/Timer/Timer.tsx";
@@ -59,14 +59,15 @@ export function App() {
     ];
 
     const getRandomEmberFormatting = () => {
-      const randomEmberColor = flameColors[Math.floor(Math.random() * flameColors.length)];
+      const randomEmberColor =
+        flameColors[Math.floor(Math.random() * flameColors.length)];
       const randomOpacity = (Math.random() * 0.5 + 0.4).toFixed(2);
-      const randomGlow = Math.floor((Math.random() * 10)) + 6; 
+      const randomGlow = Math.floor(Math.random() * 10) + 6;
 
       return {
-        '--ember-color': randomEmberColor,
-        '--ember-opacity': randomOpacity,
-        '--ember-glow': randomGlow,
+        "--ember-color": randomEmberColor,
+        "--ember-opacity": randomOpacity,
+        "--ember-glow": randomGlow,
       } as React.CSSProperties;
     };
 
@@ -98,12 +99,6 @@ export function App() {
     );
   }
 
-  if (isGameMenuPage) {
-    return (
-      <GameMenu timer={timer} setInFocusMode={setInFocusMode} />
-    )
-  }
-
   if (inFocusMode) {
     return (
       <FocusMode
@@ -117,6 +112,10 @@ export function App() {
         breakTime={timer.breakTime}
       />
     );
+  }
+
+  if (isGameMenuPage) {
+    return <GameMenu timer={timer} setInFocusMode={setInFocusMode} />;
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
