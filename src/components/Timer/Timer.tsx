@@ -24,6 +24,7 @@ export function Timer({ setInFocusMode, timer }: TimerProps) {
         glowBlur={timer.glowBlur}
         glowSpread={timer.glowSpread}
         getOpacityHex={timer.getOpacityHex}
+        onSkip={timer.skipSession}
       />
 
       <div className="timer-buttons-main-controls">

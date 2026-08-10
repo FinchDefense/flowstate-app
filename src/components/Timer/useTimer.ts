@@ -158,6 +158,34 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
     setTime(1500);
   }, []);
 
+  const skipSession = useCallback(() => {
+    // Clear any active focus interval
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    // Clear any active break interval
+    if (breakTimerRef.current) {
+      clearInterval(breakTimerRef.current);
+      breakTimerRef.current = null;
+    }
+
+    setIsRunning(false);
+    setIsRunningBreak(false);
+
+    if (!isOnBreak) {
+      setNumPomos((prev) => prev + 1);
+      setIsOnBreak(true);
+      setTime(1500);
+      setBreakTime(numBreaks > 0 && (numBreaks + 1) % 4 === 0 ? 900 : 300);
+    } else {
+      setNumBreaks((prev) => prev + 1);
+      setIsOnBreak(false);
+      setTime(1500);
+      setBreakTime(300);
+    }
+  }, [isOnBreak, numBreaks]);
+
   const addFiveMinutes = useCallback(() => setTime((prev) => prev + 300), []);
   const minusFiveMinutes = useCallback(
     () => setTime((prev) => (prev >= 300 ? prev - 300 : 0)),
@@ -198,11 +226,16 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
         e.preventDefault();
         handleReset();
       }
+
+      if ((e.key === "s" || e.key === "S") && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        skipSession();
+      }
     };
 
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [handleStartPause, handleReset]);
+  }, [handleStartPause, handleReset, skipSession]);
 
 
   useEffect(() => {
@@ -245,5 +278,6 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
     stopBreakTimer,
     startTimer,
     stopTimer,
+    skipSession,
   };
 }
