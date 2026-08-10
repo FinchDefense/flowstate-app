@@ -11,9 +11,11 @@ body {
   top: 24px;
   left: 60px;
   z-index: 100;
-  flex-direction: column;
-  align-items: flex-start;
   width: 20vw;
+  display: flex;             
+  flex-direction: column;   
+  align-items: flex-start;   
+  gap: 6px;                  
 }
 
 .back-button {
@@ -38,12 +40,24 @@ body {
 }
 
 .task-list-quote-text {
-  margin-top: 10px;
-  font-size: 0.7rem;
+  margin-top: 8px;
+  font-family: var(--rpg-font-display), Georgia, serif;
+  color: var(--rpg-text-main);
+  font-size: 0.9rem;         
+  line-height: 1.4;          
+  font-style: italic;
+  opacity: 0.75;             
+  max-width: 100%;           
 }
 
 .task-list-quote-author {
-  font-size: 0.5rem;
+  font-family: var(--rpg-font-display), sans-serif;
+  color: var(--rpg-gold);    
+  font-size: 0.75rem;        
+  letter-spacing: 0.15em;    
+  text-transform: uppercase;
+  font-weight: 600;
+  margin: 0 auto;
 }
 
 h1 {
