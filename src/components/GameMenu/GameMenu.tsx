@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import { ImageUploader } from "./ImageUploader";
 import { useTimer } from "../Timer/useTimer.ts";
 import { Timer } from "../Timer/Timer.tsx";
+import { TaskList } from "../TaskList/TaskList.tsx"
 import "./GameMenu.css";
 
 interface GameMenuProps {
@@ -12,9 +13,14 @@ interface GameMenuProps {
 
 export function GameMenu({ timer, setInFocusMode, setIsGameMenuPage }: GameMenuProps) {
   const [showTimer, setShowTimer] = useState<boolean>(false);
+  const [showTaskList, setShowTaskList] = useState<boolean>(false);
 
   if (showTimer) {
     return (<Timer setShowTimer={setShowTimer} setInFocusMode={setInFocusMode} timer={timer} setIsGameMenuPage={setIsGameMenuPage}/>)
+  }
+
+  if (showTaskList) {
+    return <TaskList setShowTaskList={setShowTaskList} setIsGameMenuPage={setIsGameMenuPage} />
   }
 
   return (
@@ -24,7 +30,7 @@ export function GameMenu({ timer, setInFocusMode, setIsGameMenuPage }: GameMenuP
         <div className="game-title-motivation">Own the hour, or the hour owns you.</div>
         <div className="game-menu-nav">
           <button className="menu-btn" onClick={() => setShowTimer(true)}>ENTER THE ZONE</button>
-          <button className="menu-btn">QUEST LOG</button>
+          <button className="menu-btn" onClick={() => setShowTaskList(true)}>QUEST LOG</button>
           <button className="menu-btn">STATISTICS</button>
           <button className="menu-btn">OPTIONS</button>
           <button className="menu-btn">CREDITS</button>

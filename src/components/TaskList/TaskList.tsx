@@ -1,6 +1,11 @@
 import './TaskList.css'
 
-export function TaskList() {
+interface TaskListProps {
+  setShowTaskList: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsGameMenuPage: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export function TaskList ({ setShowTaskList, setIsGameMenuPage }: TaskListProps) {
 
   return (
     <div className="task-list-container">
