@@ -18,7 +18,7 @@ export function TaskList ({ setShowTaskList, setIsGameMenuPage }: TaskListProps)
         <div className="task-list-quote-author">- {quote.author}</div>
       </div>
 
-      <h1>📝 Task Tracker</h1>
+      <h1>📜 QUEST LOG</h1>
       <div className="task-row">
         <input
         placeholder="Add a new task..."
