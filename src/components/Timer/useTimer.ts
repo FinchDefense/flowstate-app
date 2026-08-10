@@ -133,8 +133,8 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
       setIsRunning(false);
       setIsOnBreak(true);
       setIsRunningBreak(false);
+      setNumBreaks((prevNumBreaks) => prevNumBreaks + 1);
       setNumPomos((prevNumPomos) => prevNumPomos + 1);
-      localStorage.setItem("numPomos", String((Number(localStorage.getItem('numPomos'))) + 1));
       if (numBreaks > 0 && (numBreaks + 1) % 4 === 0) {
         setBreakTime(900);
       }
@@ -148,7 +148,7 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
       setIsRunning(false);
       setTime(1500);
     }
-
+    console.log(numBreaks);
   }, [isOnBreak, numBreaks]);
 
   const presetTime = useCallback ((seconds: number) => {
@@ -181,7 +181,6 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
         if (timeRemaining <= 0) {
           workerRef.current?.postMessage("STOP");
           setNumPomos((prevNumPomos) => prevNumPomos + 1);
-          localStorage.setItem("numPomos", String((Number(localStorage.getItem('numPomos'))) + 1));
           setNumBreaks((prevNumBreaks) => prevNumBreaks + 1);
           setIsOnBreak(true);
           setIsRunning(false);
@@ -208,6 +207,10 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
       setBreakTime(300);
     }
   }, [numBreaks]);
+
+  useEffect(() => {
+    localStorage.setItem("numPomos", String(numPomos));
+  }, [numPomos])
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
