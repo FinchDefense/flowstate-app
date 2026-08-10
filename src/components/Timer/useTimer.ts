@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useState, useRef, useEffect, useCallback } from "react";
 
 const workerCode = `
@@ -31,8 +32,8 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
 
   const workerRef = useRef<Worker | null>(null);
   const endTimeRef = useRef<number | null>(null);
-  const timerRef = useRef<any>(null);
-  const breakTimerRef = useRef<any>(null);
+  const timerRef = useRef<number>(null);
+  const breakTimerRef = useRef<number>(null);
   const timerHasCompletedRef = useRef<boolean>(false);
   const breakTimerHasCompletedRef = useRef<boolean>(false);
 
@@ -69,144 +70,15 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
     getRandomColor();
   }, [currentMood, getRandomColor]);
 
-  const startTimer = useCallback(() => {
-    if (timerRef.current !== null) return;
-    timerHasCompletedRef.current = false;
-    setIsRunning(true);
-    timerRef.current = setInterval(() => {
-      setTime((prevTime) => {
-        if (prevTime <= 1) {
-          if (timerRef.current) {
-            clearInterval(timerRef.current);
-            timerRef.current = null;
-          }
-          if (!timerHasCompletedRef.current) {
-            timerHasCompletedRef.current = true;
-            setNumPomos((prev) => prev + 1);
-          }
-          setIsOnBreak(true);
-          setIsRunning(false);
-          return 1500;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
-  }, []);
-
-  const stopTimer = useCallback(() => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
-    setIsRunning(false);
-  }, []);
-
-  const startBreakTimer = useCallback(() => {
-    if (breakTimerRef.current !== null) return;
-    breakTimerHasCompletedRef.current = false;
-    setIsRunningBreak(true);
-    breakTimerRef.current = setInterval(() => {
-      setBreakTime((prevBreakTime) => {
-        if (prevBreakTime <= 1) {
-          if (breakTimerRef.current) {
-            clearInterval(breakTimerRef.current);
-            breakTimerRef.current = null;
-          }
-          if (!breakTimerHasCompletedRef.current) {
-            breakTimerHasCompletedRef.current = true;
-          }
-          setNumBreaks((prevNumBreaks) => prevNumBreaks + 1);
-          setIsOnBreak(false);
-          return 300;
-        }
-        return prevBreakTime - 1;
-      });
-    }, 1000);
-  }, []);
-
-  const stopBreakTimer = useCallback(() => {
-    if (breakTimerRef.current) {
-      clearInterval(breakTimerRef.current);
-      breakTimerRef.current = null;
-    }
-    setIsRunningBreak(false);
-  }, []);
-
-  const handleStartPause = useCallback(() => {
-    if (!isOnBreak) {
-      if (isRunning) {
-        getRandomColor();
-        stopTimer();
-      } else {
-        if (time <= 0) setTime(1500);
-        if (time > 0) getRandomColor();
-        startTimer();
-      }
-    } else {
-      if (isRunningBreak) {
-        stopBreakTimer();
-      } else {
-        if (breakTime <= 0) setBreakTime(300);
-        startBreakTimer();
-      }
-    }
-  }, [isOnBreak, isRunning, isRunningBreak, time, breakTime, getRandomColor, stopTimer, startTimer, startBreakTimer, stopBreakTimer]);
-
-  const handleReset = useCallback(() => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
-    timerHasCompletedRef.current = false;
-    setGlowColor("#00ffff");
-    setIsRunning(false);
-    setTime(1500);
-  }, []);
-
-  const skipSession = useCallback(() => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
-    if (breakTimerRef.current) {
-      clearInterval(breakTimerRef.current);
-      breakTimerRef.current = null;
-    }
-    setIsRunning(false);
-    setIsRunningBreak(false);
-
-    if (!isOnBreak) {
-      setNumPomos((prev) => prev + 1);
-      setIsOnBreak(true);
-      setTime(1500);
-      setBreakTime(numBreaks > 0 && (numBreaks + 1) % 4 === 0 ? 900 : 300);
-    } else {
-      setNumBreaks((prev) => prev + 1);
-      setIsOnBreak(false);
-      setTime(1500);
-      setBreakTime(300);
-    }
-  }, [isOnBreak, numBreaks]);
-
-  const addFiveMinutes = useCallback(() => setTime((prev) => prev + 300), []);
-  const minusFiveMinutes = useCallback(() => setTime((prev) => (prev >= 300 ? prev - 300 : 0)), []);
-
-  const presetTime = useCallback((seconds: number) => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
-    timerHasCompletedRef.current = false;
-    setIsRunning(false);
-    setTime(seconds);
-    getRandomColor();
-  }, [getRandomColor]);
 
   useEffect(() => {
     const blob = new Blob([workerCode], { type: "application/javascript" });
     const worker = new Worker(URL.createObjectURL(blob));
     workerRef.current = worker;
-    return () => worker.terminate();
+    return () => {
+      worker.postMessage("STOP");
+      worker.terminate();
+    };
   }, []);
 
   useEffect(() => {
