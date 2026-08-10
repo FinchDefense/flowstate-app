@@ -1,5 +1,19 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 
+const workerCode = `
+  let timerId = null;
+  self.onmessage = function(e) {
+    if (e.data === 'START') {
+      timerId = setInterval(() => {
+        self.postMessage('TICK');
+      }, 1000);
+    } 
+    if (e.data === 'STOP') {
+      if (timerId) clearInterval(timerId);
+    }
+  };
+`;
+
 export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
   const [time, setTime] = useState<number>(initialTime);
   const [numBreaks, setNumBreaks] = useState<number>(0);
@@ -16,10 +30,8 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
     "⚡ ENERGETIC" | "◉ CALM" | "✦ CREATIVE" | "◎ FOCUSED"
   >("◉ CALM");
 
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const breakTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const timerHasCompletedRef = useRef<boolean>(false);
-  const breakTimerHasCompletedRef = useRef<boolean>(false);
+  const workerRef = useRef<Worker | null>(null);
+  const endTimeRef = useRef<number | null>(null);
 
   const moodColors = {
     "⚡ ENERGETIC": ["#ff6b6b", "#ff9f43", "#f0932b", "#ff7979"],
@@ -27,6 +39,11 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
     "✦ CREATIVE": ["#ff6bd6", "#a66bff", "#ff00ff", "#7b2ffc"],
     "◎ FOCUSED": ["#6bcb77", "#00d4ff", "#7dd3fc", "#fcd34d"],
   };
+
+  useEffect(() => {
+    const blob = new Blob([workerCode], { type: "application/javascript"});
+    const worker = new Worker(URL.createObjectURL(blob));
+  })
 
   useEffect(() => {
     if (numBreaks > 0 && numBreaks % 4 === 0) {
