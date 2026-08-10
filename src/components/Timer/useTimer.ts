@@ -16,22 +16,25 @@ const workerCode = `
 
 export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
   const [time, setTime] = useState<number>(initialTime);
-  const [numBreaks, setNumBreaks] = useState<number>(0);
   const [breakTime, setBreakTime] = useState<number>(initalBreakTime);
+  const [numPomos, setNumPomos] = useState<number>(1);
+  const [numBreaks, setNumBreaks] = useState<number>(0);
   const [isOnBreak, setIsOnBreak] = useState<boolean>(false);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [isRunningBreak, setIsRunningBreak] = useState<boolean>(false);
-  const [numPomos, setNumPomos] = useState<number>(1);
+  
+  const [currentMood, setCurrentMood] = useState<"⚡ ENERGETIC" | "◉ CALM" | "✦ CREATIVE" | "◎ FOCUSED">("◉ CALM");
   const [glowColor, setGlowColor] = useState<string>("#00ffff");
   const [glowIntensity, setGlowIntensity] = useState<number>(0.6);
   const [glowBlur, setGlowBlur] = useState<number>(25);
   const [glowSpread, setGlowSpread] = useState<number>(5);
-  const [currentMood, setCurrentMood] = useState<
-    "⚡ ENERGETIC" | "◉ CALM" | "✦ CREATIVE" | "◎ FOCUSED"
-  >("◉ CALM");
 
   const workerRef = useRef<Worker | null>(null);
   const endTimeRef = useRef<number | null>(null);
+  const timerRef = useRef<any>(null);
+  const breakTimerRef = useRef<any>(null);
+  const timerHasCompletedRef = useRef<boolean>(false);
+  const breakTimerHasCompletedRef = useRef<boolean>(false);
 
   const moodColors = {
     "⚡ ENERGETIC": ["#ff6b6b", "#ff9f43", "#f0932b", "#ff7979"],
@@ -39,19 +42,6 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
     "✦ CREATIVE": ["#ff6bd6", "#a66bff", "#ff00ff", "#7b2ffc"],
     "◎ FOCUSED": ["#6bcb77", "#00d4ff", "#7dd3fc", "#fcd34d"],
   };
-
-  useEffect(() => {
-    const blob = new Blob([workerCode], { type: "application/javascript"});
-    const worker = new Worker(URL.createObjectURL(blob));
-  })
-
-  useEffect(() => {
-    if (numBreaks > 0 && numBreaks % 4 === 0) {
-      setBreakTime(900);
-    } else {
-      setBreakTime(300);
-    }
-  }, [numBreaks]);
 
   const formatTime = useCallback((totalSeconds: number): string => {
     const minutes = Math.floor(totalSeconds / 60);
@@ -65,15 +55,19 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
   }, []);
 
   const getRandomColor = useCallback(() => {
-    const newColor =
-      moodColors[currentMood][
-        Math.floor(Math.random() * moodColors[currentMood].length)
-      ];
+    const newColor = moodColors[currentMood][Math.floor(Math.random() * moodColors[currentMood].length)];
     setGlowColor(newColor);
     setGlowIntensity(0.4 + Math.random() * 0.4);
     setGlowBlur(15 + Math.random() * 25);
     setGlowSpread(3 + Math.random() * 8);
   }, [currentMood]);
+
+  const toggleMood = useCallback(() => {
+    const moods = ["⚡ ENERGETIC", "◉ CALM", "✦ CREATIVE", "◎ FOCUSED"];
+    const currentIndex = moods.indexOf(currentMood);
+    setCurrentMood(moods[(currentIndex + 1) % moods.length] as typeof currentMood);
+    getRandomColor();
+  }, [currentMood, getRandomColor]);
 
   const startTimer = useCallback(() => {
     if (timerRef.current !== null) return;
@@ -121,7 +115,7 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
           if (!breakTimerHasCompletedRef.current) {
             breakTimerHasCompletedRef.current = true;
           }
-          setNumBreaks((prevNumBreaks) => prevNumBreaks + 1)
+          setNumBreaks((prevNumBreaks) => prevNumBreaks + 1);
           setIsOnBreak(false);
           return 300;
         }
@@ -144,21 +138,15 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
         getRandomColor();
         stopTimer();
       } else {
-        if (time <= 0) {
-          setTime(1500);
-        }
+        if (time <= 0) setTime(1500);
         if (time > 0) getRandomColor();
         startTimer();
       }
-    }
-    else {
+    } else {
       if (isRunningBreak) {
         stopBreakTimer();
-      }
-      else {
-        if (breakTime <= 0) {
-          setBreakTime(300);
-        }
+      } else {
+        if (breakTime <= 0) setBreakTime(300);
         startBreakTimer();
       }
     }
@@ -176,17 +164,14 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
   }, []);
 
   const skipSession = useCallback(() => {
-    // Clear any active focus interval
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
-    // Clear any active break interval
     if (breakTimerRef.current) {
       clearInterval(breakTimerRef.current);
       breakTimerRef.current = null;
     }
-
     setIsRunning(false);
     setIsRunningBreak(false);
 
@@ -204,33 +189,33 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
   }, [isOnBreak, numBreaks]);
 
   const addFiveMinutes = useCallback(() => setTime((prev) => prev + 300), []);
-  const minusFiveMinutes = useCallback(
-    () => setTime((prev) => (prev >= 300 ? prev - 300 : 0)),
-    [],
-  );
+  const minusFiveMinutes = useCallback(() => setTime((prev) => (prev >= 300 ? prev - 300 : 0)), []);
 
-  const presetTime = useCallback(
-    (seconds: number) => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-        timerRef.current = null;
-      }
-      timerHasCompletedRef.current = false;
-      setIsRunning(false);
-      setTime(seconds);
-      getRandomColor();
-    },
-    [getRandomColor],
-  );
-
-  const toggleMood = useCallback(() => {
-    const moods = ["⚡ ENERGETIC", "◉ CALM", "✦ CREATIVE", "◎ FOCUSED"];
-    const currentIndex = moods.indexOf(currentMood);
-    setCurrentMood(
-      moods[(currentIndex + 1) % moods.length] as typeof currentMood,
-    );
+  const presetTime = useCallback((seconds: number) => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    timerHasCompletedRef.current = false;
+    setIsRunning(false);
+    setTime(seconds);
     getRandomColor();
-  }, [currentMood, getRandomColor]);
+  }, [getRandomColor]);
+
+  useEffect(() => {
+    const blob = new Blob([workerCode], { type: "application/javascript" });
+    const worker = new Worker(URL.createObjectURL(blob));
+    workerRef.current = worker;
+    return () => worker.terminate();
+  }, []);
+
+  useEffect(() => {
+    if (numBreaks > 0 && numBreaks % 4 === 0) {
+      setBreakTime(900);
+    } else {
+      setBreakTime(300);
+    }
+  }, [numBreaks]);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -238,28 +223,22 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
         e.preventDefault();
         handleStartPause();
       }
-
       if ((e.key === "r" || e.key === "R") && !e.ctrlKey && !e.metaKey) {
         e.preventDefault();
         handleReset();
       }
-
       if ((e.key === "s" || e.key === "S") && !e.ctrlKey && !e.metaKey) {
         e.preventDefault();
         skipSession();
       }
     };
-
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, [handleStartPause, handleReset, skipSession]);
 
-
   useEffect(() => {
-  document.title = isRunning
-    ? `${formatTime(time)} - FlowState`
-    : "FlowState - Focus Timer";
-}, [isRunning, time, formatTime]);
+    document.title = isRunning ? `${formatTime(time)} - FlowState` : "FlowState - Focus Timer";
+  }, [isRunning, time, formatTime]);
 
   useEffect(() => {
     return () => {
