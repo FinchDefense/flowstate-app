@@ -85,27 +85,42 @@ body {
 
 .task-row {
   display: flex;
+  justify-content: center;
   gap: 12px;
   max-width: 400px;
 }
 
 .task-input {
-  flex: 1;
-  min-width: 400px;
-  min-height: 30px;
-  max-height: 150px;
-  field-sizing: content;
-  padding: 8px 12px;
-  border: 2px solid #e1e4e8;
-  border-radius: 6px;
-  font-size: 14px;
-  resize: none;
-  box-sizing: border-box;
+  padding: 12px 18px;
+  font-size: 0.95rem;
+  font-family: var(--rpg-font-display), Georgia, serif;
+  color: var(--rpg-text-main); 
+  width: 100%;
+  background-color: rgba(20, 18, 15, 0.85); 
+  border-radius: 0px; 
+  
+  border: 1px solid var(--rpg-border);
+  border-left: 3px solid var(--rpg-gold);
+  border-right: 3px solid var(--rpg-gold);
+  
+  transition: all 0.25s ease-in-out;
 }
 
 .task-input:focus {
   outline: none;
-  border-color: #4caf50;
+  background-color: rgba(12, 10, 8, 0.95);
+  border-color: var(--rpg-border-highlight);
+  border-left-color: #fff; 
+  border-right-color: #fff;
+  
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.15); 
+}
+
+/* 6. Style the ghost placeholder text inside */
+.task-input::placeholder {
+  color: var(--rpg-text-main);
+  opacity: 0.7; 
+  font-style: italic;
 }
 
 .add-task-button {
@@ -121,8 +136,7 @@ body {
 .add-task-button:hover {
   background-color: var(--rpg-gold);
   border: 2px solid var(--rpg-border-highlight);
+  cursor: pointer;
+  transform: translateY(-2px);
 }
 
-.add-task-button:active {
-
-}
