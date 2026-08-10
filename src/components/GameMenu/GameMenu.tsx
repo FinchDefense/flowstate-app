@@ -3,7 +3,6 @@ import { ImageUploader } from "./ImageUploader";
 import { useTimer } from "../Timer/useTimer.ts";
 import { Timer } from "../Timer/Timer.tsx";
 import { TaskList } from "../TaskList/TaskList.tsx"
-import { QUOTES, getRandomQuote, type Quote } from '../Timer/quotes.ts';
 import "./GameMenu.css";
 
 interface GameMenuProps {
@@ -17,11 +16,11 @@ export function GameMenu({ timer, setInFocusMode, setIsGameMenuPage }: GameMenuP
   const [showTaskList, setShowTaskList] = useState<boolean>(false);
 
   if (showTimer) {
-    return (<Timer setShowTimer={setShowTimer} setInFocusMode={setInFocusMode} timer={timer} setIsGameMenuPage={setIsGameMenuPage}/>)
+    return (<Timer setShowTimer={setShowTimer} setInFocusMode={setInFocusMode} timer={timer} setIsGameMenuPage={setIsGameMenuPage} />)
   }
 
   if (showTaskList) {
-    return <TaskList setShowTaskList={setShowTaskList} setIsGameMenuPage={setIsGameMenuPage} />
+    return <TaskList setShowTaskList={setShowTaskList} />
   }
 
   return (

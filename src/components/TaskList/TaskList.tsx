@@ -4,16 +4,15 @@ import { getRandomQuote, type Quote } from "../Timer/quotes";
 
 interface TaskListProps {
   setShowTaskList: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsGameMenuPage: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function TaskList ({ setShowTaskList, setIsGameMenuPage }: TaskListProps) {
+export function TaskList ({ setShowTaskList }: TaskListProps) {
   const [quote, setQuote] = useState<Quote>(() => getRandomQuote());
 
   return (
     <div className="task-list-container">
       <div className="fixed-button-container">
-        <button className="back-button">← Back to Menu</button>
+        <button className="back-button" onClick={() => setShowTaskList(false)}>← Back to Menu</button>
         <div className="task-list-quote-text">"{quote.text}"</div>
         <div className="task-list-quote-author">- {quote.author}</div>
       </div>
@@ -21,10 +20,10 @@ export function TaskList ({ setShowTaskList, setIsGameMenuPage }: TaskListProps)
       <h1>📜 QUEST LOG</h1>
       <div className="task-row">
         <input
-        placeholder="Add a new task..."
+        placeholder="✍️ What is your next quest?..."
         className="task-input"
         />
-        <button className="add-task-button">Add</button>
+        <button className="add-task-button">➕ Add Quest</button>
       </div>
     </div>
   )
