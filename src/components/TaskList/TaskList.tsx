@@ -26,7 +26,7 @@ export function TaskList ({ setShowTaskList }: TaskListProps) {
         placeholder="✍️ What is your next quest?..."
         className="task-input"
         />
-        <button className="add-task-button">➕ Add Quest</button>
+        <button className="add-task-button">Add Quest</button>
       </div>
     </div>
   )

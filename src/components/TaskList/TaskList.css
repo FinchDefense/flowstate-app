@@ -81,8 +81,6 @@ body {
   flex-direction: column;
   align-items: center;
   margin-top: 40px;
-
-
 }
 
 .task-row {
@@ -111,11 +109,18 @@ body {
 }
 
 .add-task-button {
-
+  font-family: var(--rpg-font-display);
+  font-size: 0.85rem;
+  color: var(--rpg-text-main);
+  border: 1px solid var(--rpg-border);
+  background-color: transparent;
+  padding: 8px 12px;
+  border-radius: 4px;
 }
 
 .add-task-button:hover {
-
+  background-color: var(--rpg-gold);
+  border: 2px solid var(--rpg-border-highlight);
 }
 
 .add-task-button:active {
