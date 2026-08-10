@@ -95,26 +95,37 @@
 
 .timer-buttons-time-options {
   display: flex;
-  gap: 8px;
-  margin: 10px auto;
+  gap: 10px;
+  margin: 16px auto 8px;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 .timer-buttons-time-options button {
-  width: 56px;
-  height: 40px;
-  font-size: 0.9rem;
+  min-width: 52px;
+  height: 38px;
+  padding: 0 14px;
+  font-size: 0.85rem;
   font-weight: 500;
-  background-color: transparent;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   color: var(--text-muted);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 4px 8px;
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
+.timer-buttons-time-options button:hover {
+  color: var(--text-main);
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.timer-buttons-time-options button:active {
+  transform: scale(0.94);
+}
 
 .number-of-pomodoros {
   margin: 12px auto;
