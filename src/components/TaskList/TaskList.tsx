@@ -1,4 +1,6 @@
 import './TaskList.css'
+import { useState } from 'react';
+import { getRandomQuote, type Quote } from "../Timer/quotes";
 
 interface TaskListProps {
   setShowTaskList: React.Dispatch<React.SetStateAction<boolean>>;
@@ -6,18 +8,16 @@ interface TaskListProps {
 }
 
 export function TaskList ({ setShowTaskList, setIsGameMenuPage }: TaskListProps) {
+  const [quote, setQuote] = useState<Quote>(() => getRandomQuote());
 
   return (
     <div className="task-list-container">
-      <button
-        className="back-to-menu-btn"
-        onClick={() => {
-          setIsGameMenuPage(true);
-          setShowTaskList(false);
-        }
-      }>
-        ← Main Menu
-      </button>
+      <div className="fixed-button-container">
+        <button className="back-button">← Back to Menu</button>
+        <div className="task-list-quote-text">"{quote.text}"</div>
+        <div className="task-list-quote-author">- {quote.author}</div>
+      </div>
+
       <h1>📝 Task Tracker</h1>
       <div className="task-row">
         <input

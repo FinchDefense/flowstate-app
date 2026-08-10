@@ -6,6 +6,46 @@ body {
   justify-content: center;
 }
 
+.fixed-button-container {
+  position: fixed;
+  top: 24px;
+  left: 60px;
+  z-index: 100;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 20vw;
+}
+
+.back-button {
+  border: 1px solid var(--rpg-border);
+  backdrop-filter: blur(8px);
+  font-family: var(--rpg-font-display);
+  color: var(--rpg-text-main);
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border-radius: 3px;
+  cursor: pointer;
+  background-color: transparent;
+  opacity: 0.8;
+}
+
+.back-button:hover {
+  border: 2px solid var(--rpg-border-highlight);
+  background: var(--rpg-panel-bg);
+  color: var(--rpg-gold);
+}
+
+.task-list-quote-text {
+  margin-top: 10px;
+  font-size: 0.7rem;
+}
+
+.task-list-quote-author {
+  font-size: 0.5rem;
+}
+
 h1 {
   color: #ffffff;
   font-size: 28px;
