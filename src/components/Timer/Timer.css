@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+
 :root {
   --bg-dark: #0f0f1a;
   --accent-cyan: #00ffff;
@@ -9,6 +11,17 @@
   --border-color: #27272a;
   --border-hover: #3f3f46;
   --font-mono: "JetBrains Mono", "Fira Code", monospace;
+
+  --rpg-bg: #0c0c0e;
+  --rpg-panel-bg: rgba(18, 17, 21, 0.9);
+  --rpg-gold: #c5a059;
+  --rpg-gold-light: #e6ca85;
+  --rpg-border: #383228;
+  --rpg-border-highlight: #5a5040;
+  --rpg-text-main: #e2d7c5;
+  --rpg-text-dim: #8c857b;
+  --rpg-font-display: 'Cinzel', serif;
+  --rpg-font-body: 'EB Garamond', serif;
 }
 
 .timer-container {
@@ -17,6 +30,32 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+.back-to-menu-btn {
+  position: fixed;
+  top: 24px;
+  left: 40px;
+  z-index: 100;
+  
+  border: 1px solid var(--rpg-border);
+  backdrop-filter: blur(8px);
+  font-family: var(--rpg-font-display);
+  color: var(--rpg-text-main);
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border-radius: 3px;
+  cursor: pointer;
+  background-color: transparent;
+  opacity: 0.8;
+}
+
+.back-to-menu-btn:hover {
+  border: 2px solid var(--rpg-border-highlight);
+  background: var(--rpg-panel-bg);
+  color: var(--rpg-gold);
 }
 
 .timer-status {

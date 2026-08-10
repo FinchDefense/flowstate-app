@@ -6,14 +6,15 @@ import "./GameMenu.css";
 
 interface GameMenuProps {
   timer: ReturnType<typeof useTimer>;
+  setIsGameMenuPage: React.Dispatch<React.SetStateAction<boolean>>;
   setInFocusMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function GameMenu({ timer, setInFocusMode }: GameMenuProps) {
+export function GameMenu({ timer, setInFocusMode, setIsGameMenuPage }: GameMenuProps) {
   const [showTimer, setShowTimer] = useState<boolean>(false);
 
   if (showTimer) {
-    return (<Timer setInFocusMode={setInFocusMode} timer={timer} />)
+    return (<Timer setInFocusMode={setInFocusMode} timer={timer} setIsGameMenuPage={setIsGameMenuPage}/>)
   }
 
   return (

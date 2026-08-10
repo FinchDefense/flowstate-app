@@ -115,7 +115,7 @@ export function App() {
   }
 
   if (isGameMenuPage) {
-    return <GameMenu timer={timer} setInFocusMode={setInFocusMode} />;
+    return <GameMenu timer={timer} setInFocusMode={setInFocusMode} setIsGameMenuPage={setIsGameMenuPage} />;
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -171,7 +171,7 @@ export function App() {
       </div>
       <div className="content">
         {activeTab === "timer" && (
-          <Timer timer={timer} setInFocusMode={setInFocusMode} />
+          <Timer timer={timer} setInFocusMode={setInFocusMode} isGameMenuPage={isGameMenuPage} />
         )}
         {activeTab === "taskList" && <TaskList />}
         {activeTab === "statistics" && <Statistics />}
