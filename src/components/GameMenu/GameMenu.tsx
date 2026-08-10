@@ -24,7 +24,7 @@ export function GameMenu({ timer, setInFocusMode, setIsGameMenuPage }: GameMenuP
         <div className="game-title-motivation">Own the hour, or the hour owns you.</div>
         <div className="game-menu-nav">
           <button className="menu-btn" onClick={() => setShowTimer(true)}>ENTER THE ZONE</button>
-          <button className="menu-btn">SESSIONS</button>
+          <button className="menu-btn">QUEST LOG</button>
           <button className="menu-btn">STATISTICS</button>
           <button className="menu-btn">OPTIONS</button>
           <button className="menu-btn">CREDITS</button>
