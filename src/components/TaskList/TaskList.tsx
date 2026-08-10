@@ -9,6 +9,15 @@ export function TaskList ({ setShowTaskList, setIsGameMenuPage }: TaskListProps)
 
   return (
     <div className="task-list-container">
+      <button
+        className="back-to-menu-btn"
+        onClick={() => {
+          setIsGameMenuPage(true);
+          setShowTaskList(false);
+        }
+      }>
+        ← Main Menu
+      </button>
       <h1>📝 Task Tracker</h1>
       <div className="task-row">
         <input
