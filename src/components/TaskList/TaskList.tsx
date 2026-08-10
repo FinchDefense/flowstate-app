@@ -17,7 +17,10 @@ export function TaskList ({ setShowTaskList }: TaskListProps) {
         <div className="task-list-quote-author">- {quote.author}</div>
       </div>
 
-      <h1>📜 QUEST LOG</h1>
+      <h1 className="task-list-header">
+        <span>📜</span> 
+        QUEST LOG
+      </h1>
       <div className="task-row">
         <input
         placeholder="✍️ What is your next quest?..."
