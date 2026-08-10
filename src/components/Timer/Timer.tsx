@@ -10,15 +10,19 @@ interface TimerProps {
   setInFocusMode: React.Dispatch<React.SetStateAction<boolean>>;
   timer: ReturnType<typeof useTimer>;
   setIsGameMenuPage: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowTimer: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function Timer({ setInFocusMode, timer, setIsGameMenuPage }: TimerProps) {
+export function Timer({ setInFocusMode, timer, setIsGameMenuPage, setShowTimer }: TimerProps) {
   return (
     <div className="timer-container">
       <button
         className="back-to-menu-btn"
-        onClick={() => setIsGameMenuPage(true)}
-      >
+        onClick={() => {
+          setIsGameMenuPage(true);
+          setShowTimer(false);
+        }
+      }>
         ← Main Menu
       </button>
 

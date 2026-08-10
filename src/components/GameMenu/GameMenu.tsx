@@ -14,7 +14,7 @@ export function GameMenu({ timer, setInFocusMode, setIsGameMenuPage }: GameMenuP
   const [showTimer, setShowTimer] = useState<boolean>(false);
 
   if (showTimer) {
-    return (<Timer setInFocusMode={setInFocusMode} timer={timer} setIsGameMenuPage={setIsGameMenuPage}/>)
+    return (<Timer setShowTimer={setShowTimer} setInFocusMode={setInFocusMode} timer={timer} setIsGameMenuPage={setIsGameMenuPage}/>)
   }
 
   return (

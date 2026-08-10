@@ -171,7 +171,7 @@ export function App() {
       </div>
       <div className="content">
         {activeTab === "timer" && (
-          <Timer timer={timer} setInFocusMode={setInFocusMode} isGameMenuPage={isGameMenuPage} />
+          <Timer timer={timer} setInFocusMode={setInFocusMode} setIsGameMenuPage={setIsGameMenuPage} />
         )}
         {activeTab === "taskList" && <TaskList />}
         {activeTab === "statistics" && <Statistics />}
