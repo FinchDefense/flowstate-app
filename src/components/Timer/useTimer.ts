@@ -232,8 +232,8 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
   }, [handleStartPause, handleReset, skipSession]);
 
   useEffect(() => {
-    document.title = isRunning ? `${formatTime(time)} - FlowState` : "FlowState - Focus Timer";
-  }, [isRunning, time, formatTime]);
+    document.title = !isOnBreak ? `Lock In - ${formatTime(time)} - FlowState` : `Take a Break - ${formatTime(breakTime)}`;
+  }, [breakTime, time, formatTime, isOnBreak]);
 
   return {
     time,
