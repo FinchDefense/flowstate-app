@@ -19,12 +19,14 @@ const workerCode = `
 export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
   const [time, setTime] = useState<number>(initialTime);
   const [breakTime, setBreakTime] = useState<number>(initalBreakTime);
-  const [numPomos, setNumPomos] = useState<number>(1);
+  const [numPomos, setNumPomos] = useState<number>(() => {
+    const saved = localStorage.getItem("numPomos");
+    return saved ? parseInt(saved, 10) : 1;
+  });
   const [numBreaks, setNumBreaks] = useState<number>(0);
   const [isOnBreak, setIsOnBreak] = useState<boolean>(false);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [isRunningBreak, setIsRunningBreak] = useState<boolean>(false);
-  
   const [currentMood, setCurrentMood] = useState<"⚡ ENERGETIC" | "◉ CALM" | "✦ CREATIVE" | "◎ FOCUSED">("◉ CALM");
   const [glowColor, setGlowColor] = useState<string>("#00ffff");
   const [glowIntensity, setGlowIntensity] = useState<number>(0.6);
@@ -102,6 +104,61 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
     }
   }, [isOnBreak, isRunning, isRunningBreak, startTimer, stopTimer, startBreakTimer, stopBreakTimer]);
 
+  const handleReset = useCallback (() => {
+    if (!workerRef.current) return;
+    workerRef.current?.postMessage("STOP");
+    endTimeRef.current = null;
+
+    if (!isOnBreak) {
+      setIsRunning(false);
+      setTime(1500);
+    }
+    else {
+      setIsRunningBreak(false);
+      if (numBreaks > 0 && numBreaks % 4 === 0) {
+        setBreakTime(900);
+      }
+      else {
+        setBreakTime(300);
+      }
+    }
+  }, [isOnBreak, numBreaks]);
+
+  const skipSession = useCallback (() => {
+    if (!workerRef.current) return;
+    workerRef.current?.postMessage("STOP");
+    endTimeRef.current = null;
+
+    if (!isOnBreak) {
+      setIsRunning(false);
+      setIsOnBreak(true);
+      setIsRunningBreak(false);
+      setNumPomos((prevNumPomos) => prevNumPomos + 1);
+      localStorage.setItem("numPomos", String((Number(localStorage.getItem('numPomos'))) + 1));
+      if (numBreaks > 0 && (numBreaks + 1) % 4 === 0) {
+        setBreakTime(900);
+      }
+      else {
+        setBreakTime(300);
+      }
+    }
+    else {
+      setIsOnBreak(false);
+      setIsRunningBreak(false);
+      setIsRunning(false);
+      setTime(1500);
+    }
+
+  }, [isOnBreak, numBreaks]);
+
+  const presetTime = useCallback ((seconds: number) => {
+    if (!workerRef.current) return;
+
+    workerRef.current.postMessage("STOP");
+    endTimeRef.current = null;
+    setTime(seconds);
+    setIsRunning(false);
+  }, []);
 
   useEffect(() => {
     const blob = new Blob([workerCode], { type: "application/javascript" });
@@ -124,6 +181,7 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
         if (timeRemaining <= 0) {
           workerRef.current?.postMessage("STOP");
           setNumPomos((prevNumPomos) => prevNumPomos + 1);
+          localStorage.setItem("numPomos", String((Number(localStorage.getItem('numPomos'))) + 1));
           setNumBreaks((prevNumBreaks) => prevNumBreaks + 1);
           setIsOnBreak(true);
           setIsRunning(false);
@@ -177,7 +235,6 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
   return {
     time,
     isRunning,
-    numPomos,
     glowColor,
     glowIntensity,
     glowBlur,
@@ -187,18 +244,17 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
     breakTime,
     isRunningBreak,
     numBreaks,
+    numPomos,
     formatTime,
     getOpacityHex,
     handleStartPause,
+    skipSession,
     handleReset,
-    addFiveMinutes,
-    minusFiveMinutes,
     presetTime,
     toggleMood,
     startBreakTimer,
     stopBreakTimer,
     startTimer,
     stopTimer,
-    skipSession,
   };
 }
