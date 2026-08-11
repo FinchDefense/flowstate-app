@@ -232,7 +232,7 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
   }, [handleStartPause, handleReset, skipSession]);
 
   useEffect(() => {
-    document.title = !isOnBreak ? `Lock In - ${formatTime(time)} - FlowState` : `Take a Break - ${formatTime(breakTime)}`;
+    document.title = !isOnBreak ? `FlowState - ${formatTime(time)}` : `Take a Break - ${formatTime(breakTime)}`;
   }, [breakTime, time, formatTime, isOnBreak]);
 
   return {

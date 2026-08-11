@@ -17,7 +17,7 @@ export function TaskList ({ setShowTaskList }: TaskListProps) {
         <div className="task-list-quote-author">- {quote.author}</div>
       </div>
 
-      <h1 className="task-list-header">
+      <h1 className="task-list-title">
         <span>📜</span> 
         QUEST LOG
       </h1>
@@ -27,6 +27,12 @@ export function TaskList ({ setShowTaskList }: TaskListProps) {
         className="task-input"
         />
         <button className="add-task-button">Add Quest</button>
+      </div>
+      <div className="task-list-filters">
+        <button>📋 All</button>
+        <button>⚔️ Active</button>
+        <button>✅ Completed</button>
+        <button>🏆 Priority</button>
       </div>
     </div>
   )
