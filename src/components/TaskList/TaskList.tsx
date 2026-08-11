@@ -34,6 +34,21 @@ export function TaskList ({ setShowTaskList }: TaskListProps) {
         <button>✅ Completed</button>
         <button>🏆 Priority</button>
       </div>
+
+      <div className="quest-list-container">
+        <div className="quest-list-header">
+          <h3 className="quest-list-header-1">Active Objectives</h3>
+          <span className='quest-list-header-2'>3 Quests remaining</span>
+        </div>
+
+        <div className='quest-items'>
+          <div className="quest-item"></div>
+          <div className="quest-item"></div>
+          <div className="quest-item"></div>
+          <div className="quest-item"></div>
+          <div className="quest-item"></div>
+        </div>
+      </div>
     </div>
   )
 }
