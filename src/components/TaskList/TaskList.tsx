@@ -29,6 +29,8 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
     return savedQuests ? JSON.parse(savedQuests) as Quest[] : [];
   });
 
+  const [selectedQuestId, setSelectedQuestId] = useState<string>("");
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuestName(event.target.value);
   };
