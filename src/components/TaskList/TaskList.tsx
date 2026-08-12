@@ -12,7 +12,7 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuestName(event.target.value);
-  }
+  };
 
   return (
     <div className="task-list-container">
@@ -37,29 +37,25 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
         <button className="add-task-button">Add Quest</button>
       </div>
 
+      <div className="quest-info-container">
+        <div className="quest-notebook"></div>
+        <div className="campaign-selector">
+          <span>🛡️</span> <p>Assign Campaign: </p>
+          <div className="dropdown">
+            <button className="dropbtn">[ Scriptorium (Work) ▼ ]</button>
+            <div className="dropdown-content">
+              <a href="#">Link 1</a>
+              <a href="#">Link 2</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="task-list-filters">
         <button>📋 All</button>
         <button>⚔️ Active</button>
         <button>✅ Completed</button>
         <button>🏆 Priority</button>
-      </div>
-
-      <div className="quest-split-view">
-        <div className="quest-list-container">
-          <div className="quest-list-header">
-            <h3 className="quest-list-header-1">Active Objectives</h3>
-          </div>
-
-          <div className="quest-items"></div>
-        </div>
-
-        <div className="quest-details-panel">
-          <div className="details-header">
-            <div className="details-section"></div>
-            <div className="details-section"></div>
-            <div className="details-actions"></div>
-          </div>
-        </div>
       </div>
     </div>
   );
