@@ -6,9 +6,12 @@ interface TaskListProps {
   setShowTaskList: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+type CampaignEvents = '' | 'Guild Contracts (Work)' | 'Physical Prowess (Fitness)' | 'Ancient Runes (School)' | 'Hearth & Home (Chores)' | 'The Royal Ledger (Finances)';
+
 export function TaskList({ setShowTaskList }: TaskListProps) {
   const [quote, setQuote] = useState<Quote>(() => getRandomQuote());
   const [questName, setQuestName] = useState<string>("");
+  const [currentCampaign, setCurrentCampaign] = useState<CampaignEvents>('');
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuestName(event.target.value);
@@ -43,10 +46,13 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
           <div className="campaign-selector">
             <span>🛡️</span> <p>Assign Campaign: </p>
             <div className="dropdown">
-              <button className="dropbtn">[ Scriptorium (Work) ▼ ]</button>
+              <button className="dropbtn">[ {currentCampaign === '' ? 'Choose Your Campaign...' : currentCampaign} ▼ ]</button>
               <div className="dropdown-content">
-                <a href="#">Link 1</a>
-                <a href="#">Link 2</a>
+                <a href="#" onClick={() => setCurrentCampaign('Guild Contracts (Work)')}>[ Guild Contracts (Work)]</a>
+                <a href="#" onClick={() => setCurrentCampaign('Physical Prowess (Fitness)')}>[ Physical Prowess (Fitness)]</a>
+                <a href="#" onClick={() => setCurrentCampaign('Ancient Runes (School)')}>[ Ancient Runes (School)]</a>
+                <a href="#" onClick={() => setCurrentCampaign('Hearth & Home (Chores)')}>[ Hearth & Home (Chores)]</a>
+                <a href="#" onClick={() => setCurrentCampaign('The Royal Ledger (Finances)')}>[ The Royal Ledger (Finances)]</a>
               </div>
             </div>
           </div>
