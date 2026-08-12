@@ -317,7 +317,11 @@ body {
   font-weight: 600;
 }
 
-
+.lore-story-info .lore-story-text-area {
+  overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
 
 
 .task-list-filters {
