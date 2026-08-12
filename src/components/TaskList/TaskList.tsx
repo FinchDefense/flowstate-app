@@ -43,7 +43,7 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
     setCurrentBattleStep(event.target.value);
   }
 
-  const handleInputChangeLoreStory = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChangeLoreStory = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCurrentLoreStory(event.target.value);
   }
   const createNewQuest = () => {
@@ -56,6 +56,8 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
       loreStory: currentLoreStory,
       completed: false,
     }
+
+    setQuests([...quests, newQuest]);
   }
 
   useEffect(() => {
@@ -83,8 +85,18 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
           placeholder="✍️ What is your next quest?..."
           className="task-input"
           onChange={handleInputChangeNextQuest}
+          value={currentQuestName}
         />
-        <button className="add-task-button" onClick={() => setShowQuestSetUp(false)}>Add Quest</button>
+        <button className="add-task-button" onClick={() => {
+          setShowQuestSetUp(false);
+          createNewQuest();
+          setCurrentQuestName("");
+          setCurrentCampaign("");
+          setCurrentThreatTier("");
+          setCurrentBattleStep("")
+          setCurrentBattleSteps([]);
+          setCurrentLoreStory("");
+        }}>Add Quest</button>
       </div>
 
       {showQuestSetUp && (
@@ -106,16 +118,19 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
           <div className="threat-tier-selector">
             <span>🔴</span> <p>Threat Tier: </p>
             <div className="threat-tier-button-container">
-              <button className="threat-tiers" onClick={setCurrentThreatTier("Trivial")} >Trivial</button>
-              <button className="threat-tiers" onClick={setCurrentThreatTier("Guarded")} >Guarded</button>
-              <button className="threat-tiers" onClick={setCurrentThreatTier("Perilous")}>Perilous</button>
+              <button className="threat-tiers" onClick={() => setCurrentThreatTier("Trivial")} >Trivial</button>
+              <button className="threat-tiers" onClick={() => setCurrentThreatTier("Guarded")} >Guarded</button>
+              <button className="threat-tiers" onClick={() => setCurrentThreatTier("Perilous")}>Perilous</button>
             </div>
           </div>
 
           <div className="battle-steps-info">
             <span>⚔️</span> <p>Battle Steps: </p>
-            <input placeholder="Map out your tactical steps..." onChange={handleInputChangeBattleSteps} />
-            <button onClick={() => setCurrentBattleSteps([...currentBattleSteps, currentBattleStep])}>+</button>
+            <input placeholder="Map out your tactical steps..." onChange={handleInputChangeBattleSteps} value={currentBattleStep} />
+            <button onClick={() => {
+              setCurrentBattleSteps([...currentBattleSteps, currentBattleStep]);
+              setCurrentBattleStep("");
+            }}>+</button>
           </div>
 
           <div className="lore-story-info">
@@ -125,6 +140,7 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
               rows={1}
               onChange={handleInputChangeLoreStory}
               placeholder="Record your noble motivations in the chronicler's ledger..."
+              value={currentLoreStory}
             />
           </div>
         </div>
