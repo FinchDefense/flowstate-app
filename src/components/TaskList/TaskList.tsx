@@ -65,6 +65,11 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
     else setShowQuestSetUp(false);
   }, [currentQuestName]);
 
+  useEffect(() => {
+    localStorage.setItem("quests", JSON.stringify(quests));
+  }, [quests]);
+
+
   return (
     <div className="task-list-container">
       <div className="fixed-button-container">
