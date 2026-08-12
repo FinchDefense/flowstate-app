@@ -28,7 +28,7 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
         <span>📜</span>
         QUEST LOG
       </h1>
-      
+
       <div className="task-row">
         <input
           placeholder="✍️ What is your next quest?..."
@@ -38,45 +38,44 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
         <button className="add-task-button">Add Quest</button>
       </div>
 
-      <div className="quest-info-container">
-        <div className="campaign-selector">
-          <span>🛡️</span> <p>Assign Campaign: </p>
-          <div className="dropdown">
-            <button className="dropbtn">[ Scriptorium (Work) ▼ ]</button>
-            <div className="dropdown-content">
-              <a href="#">Link 1</a>
-              <a href="#">Link 2</a>
+      {questName !== "" && (
+        <div className="quest-info-container">
+          <div className="campaign-selector">
+            <span>🛡️</span> <p>Assign Campaign: </p>
+            <div className="dropdown">
+              <button className="dropbtn">[ Scriptorium (Work) ▼ ]</button>
+              <div className="dropdown-content">
+                <a href="#">Link 1</a>
+                <a href="#">Link 2</a>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="threat-tier-selector">
-          <span>🔴</span> <p>Threat Tier: </p>
-          <div className="threat-tier-button-container">
-            <button className="threat-tiers">Trivial</button>
-            <button className="threat-tiers">Guarded</button>
-            <button className="threat-tiers">Perilous</button>
+          <div className="threat-tier-selector">
+            <span>🔴</span> <p>Threat Tier: </p>
+            <div className="threat-tier-button-container">
+              <button className="threat-tiers">Trivial</button>
+              <button className="threat-tiers">Guarded</button>
+              <button className="threat-tiers">Perilous</button>
+            </div>
+          </div>
+
+          <div className="battle-steps-info">
+            <span>⚔️</span> <p>Battle Steps: </p>
+            <input placeholder="Map out your tactical steps..." />
+            <button>+</button>
+          </div>
+
+          <div className="lore-story-info">
+            <span>📜</span> <p>Add Lore Story: </p>
+            <textarea
+              className="lore-story-text-area"
+              rows={1}
+              placeholder="Record your noble motivations in the chronicler's ledger..."
+            />
           </div>
         </div>
-
-        <div className="battle-steps-info">
-          <span>⚔️</span> <p>Battle Steps: </p>
-          <input 
-            placeholder="Map out your tactical steps..."
-          />
-          <button>+</button>
-        </div>
-
-        <div className="lore-story-info">
-          <span>📜</span> <p>Add Lore Story:  </p>
-          <textarea 
-            className="lore-story-text-area"
-            rows={1}
-            placeholder="Record your noble motivations in the chronicler's ledger..."
-          />
-        </div>
-
-      </div>
+      )}
 
       <div className="task-list-filters">
         <button>📋 All</button>
