@@ -145,6 +145,7 @@ body {
 .quest-info-container {
   display: flex;
   flex-direction: column;    
+  gap: 15px;
   width: 100%;
   max-width: 485px;     
   min-height: 30vh;  
@@ -158,7 +159,7 @@ body {
   display: flex;
   gap: 10px;           
   padding: 10px;
-  justify-content: center;   
+  width: 100%;
   align-items: center;  
 }
 
@@ -216,6 +217,108 @@ body {
   display: block;
 }
 
+.threat-tier-selector {
+  display: flex;
+  margin-top: -20px;
+  padding: 10px;
+  width: 100%;
+  gap: 10px;
+}
+
+.threat-tier-selector {
+  font-weight: 600;
+  font-family: var(--rpg-font-display);
+}
+
+.threat-tier-button-container {
+  display: flex;
+  flex: 1;
+  gap: 10px;
+}
+
+.threat-tier-button-container button {
+  padding: 0px 10px;
+  font-family: var(--rpg-font-display);
+  background-color: transparent;
+  border: none;
+  color: var(--rpg-gold);
+  font-size: 0.9rem;
+}
+
+.threat-tier-button-container button:hover {
+  animation: active-hover-flashing 0.4s ease-in-out infinite alternate;
+  transform: translateY(2px);
+  cursor: pointer;
+}
+
+.threat-tier-button-container button:active {
+  color: var(--rpg-hover-amber);
+  transform: scale(1.1);
+}
+
+.battle-steps-info {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-top: -20px;
+  gap: 6px
+}
+
+.battle-steps-info p {
+  font-weight: 600;
+  font-family: var(--rpg-font-display);
+  letter-spacing: 0.05em;
+}
+
+.battle-steps-info input {
+  padding: 7px 10px;
+  min-width: 19vw;
+  background-color: transparent;
+  border: none;
+  color: var(--rpg-gold-light);
+  font-size: 0.7rem;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  box-sizing: border-box;       
+  border: 4px double #362d26;
+}
+
+.battle-steps-info input::placeholder {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-style: italic;
+}
+
+.battle-steps-info button {
+  background-color: transparent;
+  color: var(--rpg-text-main);
+  font-size: 1rem;
+  padding: 5px 10px;
+  border: 1px solid var(--rpg-border-highlight);
+}
+
+.battle-steps-info button:hover {
+  cursor: pointer;
+  transform: translateY(-2px);
+}
+
+.battle-steps-info button:active {
+  transform: scale(1.1);
+  background-color: var(--rpg-deep-burgundy);
+}
+
+.lore-story-info {
+  display: flex;
+  padding: 10px;
+  margin-top: -20px;
+  gap: 10px;
+}
+
+.lore-story-info p {
+  font-family: var(--rpg-font-display);
+  font-weight: 600;
+}
+
+
+
 
 .task-list-filters {
   display: flex;
@@ -257,3 +360,19 @@ body {
   box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.9);
 }
 
+
+
+
+@keyframes active-hover-flashing {
+  0% {
+    opacity: 0.2;
+  }
+
+  60% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

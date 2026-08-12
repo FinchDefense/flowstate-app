@@ -28,6 +28,7 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
         <span>📜</span>
         QUEST LOG
       </h1>
+      
       <div className="task-row">
         <input
           placeholder="✍️ What is your next quest?..."
@@ -38,7 +39,6 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
       </div>
 
       <div className="quest-info-container">
-        <div className="quest-notebook"></div>
         <div className="campaign-selector">
           <span>🛡️</span> <p>Assign Campaign: </p>
           <div className="dropdown">
@@ -49,6 +49,33 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
             </div>
           </div>
         </div>
+
+        <div className="threat-tier-selector">
+          <span>🔴</span> <p>Threat Tier: </p>
+          <div className="threat-tier-button-container">
+            <button className="threat-tiers">Trivial</button>
+            <button className="threat-tiers">Guarded</button>
+            <button className="threat-tiers">Perilous</button>
+          </div>
+        </div>
+
+        <div className="battle-steps-info">
+          <span>⚔️</span> <p>Battle Steps: </p>
+          <input 
+            placeholder="Add an objective..."
+          />
+          <button>+</button>
+        </div>
+
+        <div className="lore-story-info">
+          <span>📜</span> <p>Add Lore Story:  </p>
+          <textarea 
+            className="lore-story-text-area"
+            rows={1}
+            placeholder="Click to expand written description..."
+          />
+        </div>
+
       </div>
 
       <div className="task-list-filters">
