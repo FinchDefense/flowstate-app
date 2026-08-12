@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { getRandomQuote, type Quote } from "../Timer/quotes";
 
 export type CampaignEvents = '' | 'Guild Contracts (Work)' | 'Physical Prowess (Fitness)' | 'Ancient Runes (School)' | 'Hearth & Home (Chores)' | 'The Royal Ledger (Finances)';
-export type ThreatTier = 'Trivial' | 'Guarded' | 'Perilous';
+export type ThreatTier = '' | 'Trivial' | 'Guarded' | 'Perilous';
 
 export interface Quest {
   id: string;
@@ -22,8 +22,12 @@ interface TaskListProps {
 export function TaskList({ setShowTaskList }: TaskListProps) {
   const [quote, setQuote] = useState<Quote>(() => getRandomQuote());
   const [showQuestSetUp, setShowQuestSetUp] = useState<boolean>(false);
-  const [questName, setQuestName] = useState<string>("");
+  const [currentQuestName, setCurrentQuestName] = useState<string>("");
   const [currentCampaign, setCurrentCampaign] = useState<CampaignEvents>('');
+  const [currentThreatTier, setCurrentThreatTier] = useState<ThreatTier>('');
+  const [currentBattleStep, setCurrentBattleStep] = useState<string>("");
+  const [currentBattleSteps, setCurrentBattleSteps] = useState<string[]>([]);
+  const [currentLoreStory, setCurrentLoreStory] = useState<string>("");
   const [quests, setQuests] = useState<Quest[]>(() => {
     const savedQuests = localStorage.getItem('quests');
     return savedQuests ? JSON.parse(savedQuests) as Quest[] : [];
@@ -31,14 +35,33 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
 
   const [selectedQuestId, setSelectedQuestId] = useState<string>("");
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuestName(event.target.value);
+  const handleInputChangeNextQuest = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentQuestName(event.target.value);
   };
 
+  const handleInputChangeBattleSteps = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentBattleStep(event.target.value);
+  }
+
+  const handleInputChangeLoreStory = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentLoreStory(event.target.value);
+  }
+  const createNewQuest = () => {
+    const newQuest: Quest = {
+      id: crypto.randomUUID(),
+      title: currentQuestName,
+      campaign: currentCampaign,
+      threatTier: currentThreatTier,
+      battleSteps: currentBattleSteps,
+      loreStory: currentLoreStory,
+      completed: false,
+    }
+  }
+
   useEffect(() => {
-    if (questName.trim() !== '') setShowQuestSetUp(true);
+    if (currentQuestName.trim() !== '') setShowQuestSetUp(true);
     else setShowQuestSetUp(false);
-  }, [questName]);
+  }, [currentQuestName]);
 
   return (
     <div className="task-list-container">
@@ -59,7 +82,7 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
         <input
           placeholder="✍️ What is your next quest?..."
           className="task-input"
-          onChange={handleInputChange}
+          onChange={handleInputChangeNextQuest}
         />
         <button className="add-task-button" onClick={() => setShowQuestSetUp(false)}>Add Quest</button>
       </div>
@@ -83,16 +106,16 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
           <div className="threat-tier-selector">
             <span>🔴</span> <p>Threat Tier: </p>
             <div className="threat-tier-button-container">
-              <button className="threat-tiers">Trivial</button>
-              <button className="threat-tiers">Guarded</button>
-              <button className="threat-tiers">Perilous</button>
+              <button className="threat-tiers" onClick={setCurrentThreatTier("Trivial")} >Trivial</button>
+              <button className="threat-tiers" onClick={setCurrentThreatTier("Guarded")} >Guarded</button>
+              <button className="threat-tiers" onClick={setCurrentThreatTier("Perilous")}>Perilous</button>
             </div>
           </div>
 
           <div className="battle-steps-info">
             <span>⚔️</span> <p>Battle Steps: </p>
-            <input placeholder="Map out your tactical steps..." />
-            <button>+</button>
+            <input placeholder="Map out your tactical steps..." onChange={handleInputChangeBattleSteps} />
+            <button onClick={() => setCurrentBattleSteps([...currentBattleSteps, currentBattleStep])}>+</button>
           </div>
 
           <div className="lore-story-info">
@@ -100,6 +123,7 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
             <textarea
               className="lore-story-text-area"
               rows={1}
+              onChange={handleInputChangeLoreStory}
               placeholder="Record your noble motivations in the chronicler's ledger..."
             />
           </div>
