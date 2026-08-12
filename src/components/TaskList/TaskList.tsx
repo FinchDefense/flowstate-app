@@ -8,6 +8,11 @@ interface TaskListProps {
 
 export function TaskList({ setShowTaskList }: TaskListProps) {
   const [quote, setQuote] = useState<Quote>(() => getRandomQuote());
+  const [questName, setQuestName] = useState<string>("");
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQuestName(event.target.value);
+  }
 
   return (
     <div className="task-list-container">
@@ -27,6 +32,7 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
         <input
           placeholder="✍️ What is your next quest?..."
           className="task-input"
+          onChange={handleInputChange}
         />
         <button className="add-task-button">Add Quest</button>
       </div>
