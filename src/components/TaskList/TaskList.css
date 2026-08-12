@@ -307,6 +307,7 @@ body {
 
 .lore-story-info {
   display: flex;
+  align-items: center;
   padding: 10px;
   margin-top: -20px;
   gap: 10px;
@@ -321,8 +322,23 @@ body {
   overflow: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+
+  padding: 7px;
+  width: 90%;
+  height: 90%;
+
+  background-color: transparent;
+  border: 2px solid var(--rpg-border-highlight);
+  border-radius: 4px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 0.7rem;
+  color: var(--rpg-gold);
 }
 
+.lore-story-info .lore-story-text-area::placeholder {
+  font-style: italic;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
 
 .task-list-filters {
   display: flex;

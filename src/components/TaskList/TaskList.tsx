@@ -62,7 +62,7 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
         <div className="battle-steps-info">
           <span>⚔️</span> <p>Battle Steps: </p>
           <input 
-            placeholder="Add an objective..."
+            placeholder="Map out your tactical steps..."
           />
           <button>+</button>
         </div>
@@ -72,7 +72,7 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
           <textarea 
             className="lore-story-text-area"
             rows={1}
-            placeholder="Click to expand written description..."
+            placeholder="Record your noble motivations in the chronicler's ledger..."
           />
         </div>
 
