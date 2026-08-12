@@ -1,21 +1,42 @@
 import "./TaskList.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getRandomQuote, type Quote } from "../Timer/quotes";
+
+export type CampaignEvents = '' | 'Guild Contracts (Work)' | 'Physical Prowess (Fitness)' | 'Ancient Runes (School)' | 'Hearth & Home (Chores)' | 'The Royal Ledger (Finances)';
+export type ThreatTier = 'Trivial' | 'Guarded' | 'Perilous';
+
+export interface Quest {
+  id: string;
+  title: string;
+  campaign: string;
+  threatTier: ThreatTier;
+  battleSteps: string[];
+  loreStory: string;
+  completed: boolean;
+}
 
 interface TaskListProps {
   setShowTaskList: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-type CampaignEvents = '' | 'Guild Contracts (Work)' | 'Physical Prowess (Fitness)' | 'Ancient Runes (School)' | 'Hearth & Home (Chores)' | 'The Royal Ledger (Finances)';
-
 export function TaskList({ setShowTaskList }: TaskListProps) {
   const [quote, setQuote] = useState<Quote>(() => getRandomQuote());
+  const [showQuestSetUp, setShowQuestSetUp] = useState<boolean>(false);
   const [questName, setQuestName] = useState<string>("");
   const [currentCampaign, setCurrentCampaign] = useState<CampaignEvents>('');
+  const [quests, setQuests] = useState<Quest[]>(() => {
+    const savedQuests = localStorage.getItem('quests');
+    return savedQuests ? JSON.parse(savedQuests) as Quest[] : [];
+  });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuestName(event.target.value);
   };
+
+  useEffect(() => {
+    if (questName.trim() !== '') setShowQuestSetUp(true);
+    else setShowQuestSetUp(false);
+  }, [questName]);
 
   return (
     <div className="task-list-container">
@@ -38,10 +59,10 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
           className="task-input"
           onChange={handleInputChange}
         />
-        <button className="add-task-button">Add Quest</button>
+        <button className="add-task-button" onClick={() => setShowQuestSetUp(false)}>Add Quest</button>
       </div>
 
-      {questName !== "" && (
+      {showQuestSetUp && (
         <div className="quest-info-container">
           <div className="campaign-selector">
             <span>🛡️</span> <p>Assign Campaign: </p>
