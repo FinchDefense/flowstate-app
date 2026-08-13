@@ -6,7 +6,7 @@ interface QuestItemLeftPanelProps {
 
 export function QuestItemLeftPanel({ quest }: QuestItemLeftPanelProps) {
   return (
-    <div className="quest-item-container">
+    <div className="quest-item-left-container">
       <label className="custom-checkbox-container">
         <input type="checkbox" />
         <span className="checkmark" />
