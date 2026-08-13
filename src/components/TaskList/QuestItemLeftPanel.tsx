@@ -11,7 +11,7 @@ export function QuestItemLeftPanel({ quest }: QuestItemLeftPanelProps) {
       <input type="checkbox"></input>
       <span>{quest.title.toUpperCase()}</span>
       <div className="tag-container">
-        <span>{quest.campaign !== '' ? `[Campaign: ${quest.campaign}]` : "[Campaign: none]" }</span>
+        <span>{quest.campaign !== '' ? `[ Campaign: ${quest.campaign} ]` : "[ Campaign: None ]" }</span>
         <span>{quest.threatTier === 'Trivial' ? '🟢' : quest.threatTier === 'Guarded' ? '🛡️' : quest.threatTier === 'Perilous' ? '💀' : '⚪' }</span>
       </div>
     </div>
