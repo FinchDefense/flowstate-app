@@ -244,6 +244,8 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
             <QuestItemLeftPanel
               key={quest.id}
               quest={quest}
+              quests={quests}
+              setQuests={setQuests}
               onSelect={() => setSelectedQuestId(quest.id)}
             />
           ))}

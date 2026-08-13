@@ -615,6 +615,27 @@ body {
   color: #E2E8F0;
 }
 
+.quest-item-delete-btn {
+  padding: 4px 10px;
+  background-color: transparent;
+  color: var(--rpg-gold);
+  border: 1px solid var(--rpg-hover-amber);
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+  font-size: 0.8rem;
+  margin: 0px auto;
+  cursor: pointer;
+}
+
+.quest-item-delete-btn:hover {
+  transform: translateY(2px) scale(1.1);
+}
+
+.quest-item-delete-btn:active {
+  background-color: #EAB308;
+  transform: scale(0.9);
+}
+
 @keyframes active-hover-flashing {
   0% {
     opacity: 0.2;
