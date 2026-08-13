@@ -414,6 +414,7 @@ body {
   align-items: center;
   gap: 12px;
   margin: 2px;
+  cursor: pointer;
 }
 
 .custom-checkbox-container {
