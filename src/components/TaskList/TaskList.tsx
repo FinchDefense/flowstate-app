@@ -66,10 +66,10 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
     const newQuest: Quest = {
       id: crypto.randomUUID(),
       title: currentQuestName,
-      campaign: currentCampaign,
-      threatTier: currentThreatTier,
+      campaign: currentCampaign || "Side Quest",
+      threatTier: currentThreatTier || "Trivial",
       battleSteps: currentBattleSteps,
-      loreStory: currentLoreStory,
+      loreStory: currentLoreStory || "No chronicler's record yet. Destiny awaits.",
       completed: false,
     };
 
