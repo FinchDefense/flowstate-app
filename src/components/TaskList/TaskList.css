@@ -474,6 +474,21 @@ body {
   gap: 10px;
 }
 
+.quest-name {
+  color: var(--rpg-gold);
+  font-family: var(--rpg-font-display);
+  letter-spacing: 0.05em;
+  margin: auto 0;
+}
+
+.campaign-name {
+  color: var(--rpg-text-main);
+  font-size: .8rem;
+  text-decoration: none;
+  display: block;
+  font-family: var(--rpg-font-display);
+}
+
 @keyframes active-hover-flashing {
   0% {
     opacity: 0.2;

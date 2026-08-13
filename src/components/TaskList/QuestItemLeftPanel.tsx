@@ -11,9 +11,9 @@ export function QuestItemLeftPanel({ quest }: QuestItemLeftPanelProps) {
         <input type="checkbox" />
         <span className="checkmark" />
       </label>
-      <span>{quest.title.toUpperCase()}</span>
+      <span className="quest-name">{quest.title.toUpperCase()}</span>
       <div className="tag-container">
-        <span>
+        <span className="campaign-name">
           {quest.campaign !== ""
             ? `[ Campaign: ${quest.campaign} ]`
             : "[ Campaign: None ]"}
