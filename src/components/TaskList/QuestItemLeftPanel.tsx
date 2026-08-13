@@ -2,11 +2,12 @@ import { type Quest } from "./TaskList";
 
 interface QuestItemLeftPanelProps {
   quest: Quest;
+  onSelect: () => void;
 }
 
-export function QuestItemLeftPanel({ quest }: QuestItemLeftPanelProps) {
+export function QuestItemLeftPanel({ quest, onSelect }: QuestItemLeftPanelProps) {
   return (
-    <div className="quest-item-left-container">
+    <div className="quest-item-left-container" onClick={onSelect}>
       <label className="custom-checkbox-container">
         <input type="checkbox" />
         <span className="checkmark" />

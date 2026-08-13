@@ -2,6 +2,7 @@ import "./TaskList.css";
 import { useState, useEffect } from "react";
 import { getRandomQuote, type Quote } from "../Timer/quotes";
 import { QuestItemLeftPanel } from "./QuestItemLeftPanel";
+import { QuestItemRightPanel } from "./QuestItemRightPanel";
 
 export type CampaignEvents =
   | ""
@@ -41,6 +42,7 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
   });
 
   const [selectedQuestId, setSelectedQuestId] = useState<string>("");
+  const selectedQuest = quests.find(quest => quest.id === selectedQuestId);
 
   const handleInputChangeNextQuest = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -239,11 +241,13 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
             <button>🏆 Priority</button>
           </div>
           {quests.map((quest) => (
-            <QuestItemLeftPanel key={quest.id} quest={quest} />
+            <QuestItemLeftPanel key={quest.id} quest={quest} onSelect={() => setSelectedQuestId(quest.id)} />
           ))}
         </div>
 
-        <div className="right-panel"></div>
+        <div className="right-panel">
+          {selectedQuest && <QuestItemRightPanel quest={selectedQuest} />}
+        </div>
       </div>
     </div>
   );
