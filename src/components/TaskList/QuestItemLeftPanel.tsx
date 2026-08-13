@@ -15,8 +15,8 @@ export function QuestItemLeftPanel({ quest }: QuestItemLeftPanelProps) {
       <div className="tag-container">
         <span className="campaign-name">
           {quest.campaign !== ""
-            ? `[ Campaign: ${quest.campaign} ]`
-            : "[ Campaign: None ]"}
+            ? `[ ${quest.campaign} ]`
+            : "[ None ]"}
         </span>
         <span>
           {quest.threatTier === "Trivial"
