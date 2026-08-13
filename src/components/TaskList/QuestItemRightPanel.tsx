@@ -10,11 +10,19 @@ export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
       <h3 className="right-panel-title">{quest.title.toUpperCase()}</h3>
       <div className="quest-item-all-details">
         <div className="right-panel-badges">
-          {quest.campaign && <span className="badge-campaign">⛺ {quest.campaign}</span>}
-          {quest.threatTier && <span className="badge-threat-tier">{quest.threatTier}</span>}
+          {quest.campaign && (
+            <span className="badge-campaign">
+              ⛺ Campaign: [ {quest.campaign} ]
+            </span>
+          )}
+          {quest.threatTier && (
+            <span className="badge-threat-tier">
+              <span>⚔️</span> Threat Tier: {quest.threatTier}
+            </span>
+          )}
         </div>
 
-        {quest.loreStory !== '' && (
+        {quest.loreStory !== "" && (
           <div className="right-panel-lore-container">
             <h4 className="right-panel-lore-subtitle">Chronicler's Desk</h4>
             <p className="lore-text">{quest.loreStory}</p>
@@ -23,11 +31,13 @@ export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
 
         {quest.battleSteps.length > 0 && (
           <div className="right-panel-battle-steps-container">
-            <div className="right-panel-battle-steps-subtitle">Tactical Battle Steps</div>
+            <div className="right-panel-battle-steps-subtitle">
+              Tactical Battle Steps
+            </div>
             <div className="steps-list">
-              {quest.battleSteps.map((index, battleStep) => (
+              {quest.battleSteps.map((battleStep, index) => (
                 <div key={index} className="battle-step-row">
-                  <span className="battle-step-number">0{index+1}</span>
+                  <span className="battle-step-number">0{index + 1}. </span>
                   <span className="battle-step-text">{battleStep}</span>
                 </div>
               ))}
@@ -36,5 +46,5 @@ export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
         )}
       </div>
     </div>
-  )
+  );
 }
