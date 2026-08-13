@@ -341,13 +341,24 @@ body {
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
-.task-list-filters {
+.left-panel {
   display: flex;
-  justify-content: center;
+  width: 45vw;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.right-panel {
+  display: flex;
+  flex: 1;
+}
+
+
+.task-list-filters {
   gap: 4px;
   margin: 15px auto;
   width: 400px;
-  opacity: 0;
+  opacity: 1;
 }
 
 .task-list-filters button {
