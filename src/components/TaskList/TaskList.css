@@ -448,11 +448,23 @@ body {
   border-color: #a3937c; 
 }
 
-.custom-checkbox-container input:checked ~ .checkmark {
-  background-color: var(--rpg-hover-gold-glow); 
-  border-color: var(--rpg-deep-burgundy);
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 6px;
+
+  width: 5px;
+  height: 13px;
+
+  border: solid #10B981;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
 }
 
+.custom-checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
 
 .tag-container {
   margin-left: auto;
