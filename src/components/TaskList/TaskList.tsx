@@ -230,22 +230,20 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
         </div>
       )}
 
-      <div className="left-panel">
-        <div className="task-list-filters">
-          <button>📋 All</button>
-          <button>⚔️ Active</button>
-          <button>✅ Completed</button>
-          <button>🏆 Priority</button>
-        </div>
-        <div className="quest-item-container">
+      <div className="panels-wrapper">
+        <div className="left-panel">
+          <div className="task-list-filters">
+            <button>📋 All</button>
+            <button>⚔️ Active</button>
+            <button>✅ Completed</button>
+            <button>🏆 Priority</button>
+          </div>
           {quests.map((quest) => (
             <QuestItemLeftPanel key={quest.id} quest={quest} />
           ))}
         </div>
-      </div>
 
-      <div className="right-panel">
-
+        <div className="right-panel"></div>
       </div>
     </div>
   );
