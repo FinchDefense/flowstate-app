@@ -373,6 +373,7 @@ body {
   box-shadow: 0 0 15px rgba(255, 215, 0, 0.05);
   padding: 15px;
   border-radius: 4px;
+  animation: cinematic-dissolve 3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 .task-list-filters {
