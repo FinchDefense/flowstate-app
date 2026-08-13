@@ -412,6 +412,7 @@ body {
   flex-wrap: nowrap;
   align-items: center;
   gap: 7px;
+  margin: 2px;
 }
 
 .custom-checkbox-container {
