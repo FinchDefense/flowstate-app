@@ -214,6 +214,17 @@ export function useTimer(initialTime: number = 1500, initalBreakTime = 300) {
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      const isTypingTarget =
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        target instanceof HTMLSelectElement ||
+        (target instanceof HTMLElement && target.isContentEditable);
+
+      if (isTypingTarget) {
+        return;
+      }
+
       if (e.key === " " && e.target === document.body) {
         e.preventDefault();
         handleStartPause();
