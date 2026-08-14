@@ -103,8 +103,6 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
       setSelectedQuestId('');
       setIsDissolving(false);
     }, 1200);
-
-    clearTimeout(rightPanelAnimationTimeoutRef.current);
   }
 
   useEffect(() => {
