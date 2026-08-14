@@ -598,7 +598,7 @@ body {
 .lore-text {
   margin: 0;
   font-family: 'Lora', serif;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
   font-size: 0.85rem;
   line-height: 1.5;
   color: #E8D8C8;
@@ -609,11 +609,12 @@ body {
   min-height: 30px;
   padding: 10px 12px 12px;
   box-sizing: border-box;
+  padding-bottom: 30px;
 }
 
-.right-panel-battle-step-subtitle {
-  font-family: 'Chakra Petch', cursive;
-  font-weight: 900;
+.right-panel-battle-steps-subtitle {
+  font-family: var(--rpg-font-display);
+  font-weight: 1200;
   letter-spacing: 0.1em;
   color: #EAB308;
   font-size: 1.2rem;

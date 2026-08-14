@@ -32,7 +32,7 @@ export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
         {quest.battleSteps.length > 0 && (
           <div className="right-panel-battle-steps-container">
             <div className="right-panel-battle-steps-subtitle">
-              Tactical Battle Steps
+              Guild Directives
             </div>
             <div className="steps-list">
               {quest.battleSteps.map((battleStep, index) => (
