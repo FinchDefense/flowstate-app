@@ -387,6 +387,12 @@ body {
   animation: cinematic-dissolve 3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
   overflow-y: auto;
   overflow-x: hidden; 
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.right-panel::-webkit-scrollbar {
+  display: none;
 }
 
 .task-list-filters {
