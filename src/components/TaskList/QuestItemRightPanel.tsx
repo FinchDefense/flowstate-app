@@ -44,6 +44,10 @@ export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
             </div>
           </div>
         )}
+
+        <button className="quest-item-edit-btn">
+          EDIT
+        </button>
       </div>
     </div>
   );

@@ -667,6 +667,24 @@ body {
   transform: scale(0.9);
 }
 
+.quest-item-edit-btn {
+  background-color: transparent;
+  font-family: 'Courier New', Courier, monospace;
+  color: var(--rpg-text-main);
+  border: none;
+  padding: 10px 5px;
+  margin-top: 5px;
+  font-size: 1.1rem;
+  letter-spacing: 0.3em;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.quest-item-edit-btn:hover {
+  color: var(--rpg-hover-amber);
+  animation: active-hover-flashing 0.6s infinite alternate;
+}
+
 @keyframes active-hover-flashing {
   0% {
     opacity: 0.2;
