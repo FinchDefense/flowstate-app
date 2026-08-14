@@ -360,6 +360,16 @@ body {
   border: 1px solid var(--rpg-border);
   padding: 15px;
   border-radius: 4px;
+
+  max-height: 500px;         
+  overflow-y: auto;          
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.left-panel::-webkit-scrollbar {
+  display: none;
 }
 
 .right-panel {
@@ -368,12 +378,15 @@ body {
   align-items: flex-start;
   flex: 1; 
   min-height: 400px; 
+  max-height: 500px;
   background-color: rgba(28, 23, 18, 0.8);
   border: 1px solid var(--rpg-gold);
   box-shadow: 0 0 15px rgba(255, 215, 0, 0.05);
   padding: 15px;
   border-radius: 4px;
   animation: cinematic-dissolve 3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  overflow-y: auto;
+  overflow-x: hidden; 
 }
 
 .task-list-filters {
