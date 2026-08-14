@@ -391,6 +391,10 @@ body {
   -ms-overflow-style: none;
 }
 
+.right-panel.ancient-dust {
+  animation: ancient-dust 1.2s ease-in forwards; 
+}
+
 .right-panel::-webkit-scrollbar {
   display: none;
 }
@@ -441,10 +445,6 @@ body {
   gap: 12px;
   margin: 2px;
   cursor: pointer;
-}
-
-.quest-item-left-container .ancient-dust {
-  animation: ancient-dust 1.2s ease-in forwards;
 }
 
 .custom-checkbox-container {
@@ -678,5 +678,19 @@ body {
 
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes ancient-dust {
+  0% {
+    opacity: 1;
+    filter: saturate(1) blur(0);
+    transform: scale(1) translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    filter: saturate(0) blur(15px);
+    transform: scale(1.1) translateY(-15px);
   }
 }

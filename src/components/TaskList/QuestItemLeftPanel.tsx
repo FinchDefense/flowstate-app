@@ -11,7 +11,7 @@ interface QuestItemLeftPanelProps {
 
 export function QuestItemLeftPanel({ quest, quests, setQuests, onSelect, onToggle }: QuestItemLeftPanelProps) {
   return (
-    <div className={`quest-item-left-container ${quest.completed ? 'ancient-dust' : ''}`} onClick={onSelect} >
+    <div className={`quest-item-left-container`} onClick={onSelect} >
       <label className="custom-checkbox-container" onClick={(e) => e.stopPropagation()}>
         <input type="checkbox" checked={quest.completed} onChange={onToggle} />
         <span className="checkmark" />

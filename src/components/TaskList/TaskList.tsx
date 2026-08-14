@@ -1,5 +1,5 @@
 import "./TaskList.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getRandomQuote, type Quote } from "../Timer/quotes";
 import { QuestItemLeftPanel } from "./QuestItemLeftPanel";
 import { QuestItemRightPanel } from "./QuestItemRightPanel";
@@ -55,6 +55,8 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
 
   const [selectedQuestId, setSelectedQuestId] = useState<string>("");
   const selectedQuest = quests.find((quest) => quest.id === selectedQuestId);
+  const rightPanelAnimationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isDissolving, setIsDissolving] = useState<boolean>(false);
 
   const handleInputChangeNextQuest = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -90,6 +92,19 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
 
   const toggleQuestCompletion = (id: string) => {
     setQuests((prevQuests) => prevQuests.map(quest => quest.id === id ? {...quest, completed: !quest.completed} : quest));
+    
+    if (rightPanelAnimationTimeoutRef.current) {
+      clearTimeout(rightPanelAnimationTimeoutRef.current);
+    }
+
+    if (selectedQuestId === id) setIsDissolving(true);
+
+    rightPanelAnimationTimeoutRef.current = setTimeout(() => {
+      setSelectedQuestId('');
+      setIsDissolving(false);
+    }, 1200);
+
+    clearTimeout(rightPanelAnimationTimeoutRef.current);
   }
 
   useEffect(() => {
@@ -282,7 +297,7 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
         </div>
 
         {selectedQuest && (
-          <div className="right-panel" key={selectedQuest.id}>
+          <div className={`right-panel ${isDissolving ? 'ancient-dust' : ''}`} key={selectedQuest.id}>
             <QuestItemRightPanel quest={selectedQuest} />
           </div>
         )}
