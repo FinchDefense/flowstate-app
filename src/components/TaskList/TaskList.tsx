@@ -88,6 +88,10 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
     setQuests([...quests, newQuest]);
   };
 
+  const toggleQuestCompletion = (id: string) => {
+    setQuests((prevQuests) => prevQuests.map(quest => quest.id === id ? {...quest, completed: !quest.completed} : quest));
+  }
+
   useEffect(() => {
     if (currentQuestName.trim() !== "") setShowQuestSetUp(true);
     else setShowQuestSetUp(false);
@@ -103,6 +107,10 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
     if (currentFilter === 'Completed') setFilteredQuests(quests.filter(quest => quest.completed));
     if (currentFilter === 'Priority') setFilteredQuests(quests.filter(quest => quest.threatTier === 'Perilous'));
   }, [currentFilter, quests])
+
+  useEffect(() => {
+
+  })
 
   return (
     <div className="task-list-container">
@@ -265,7 +273,10 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
               quest={quest}
               quests={quests}
               setQuests={setQuests}
-              onSelect={() => setSelectedQuestId(quest.id)}
+              onSelect={() => {
+                setSelectedQuestId(quest.id);
+              }}
+              onToggle={() => toggleQuestCompletion(quest.id)}
             />
           ))}
         </div>

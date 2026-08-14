@@ -443,6 +443,10 @@ body {
   cursor: pointer;
 }
 
+.quest-item-left-container .ancient-dust {
+  animation: ancient-dust 1.2s ease-in forwards;
+}
+
 .custom-checkbox-container {
   display: inline-block;
   position: relative;
