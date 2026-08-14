@@ -616,22 +616,29 @@ body {
   font-weight: 900;
   letter-spacing: 0.1em;
   color: #EAB308;
+  font-size: 1.2rem;
 }
 
 .steps-list {
   margin: 10px;
   padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
 }
 
 .battle-step-number {
   font-family: 'Marcellus', 'Times New Roman', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   color: #D97706;
   font-weight: 700;
+  font-size: 0.7rem;
 }
 
 .battle-step-text {
   font-family: var(--rpg-font-display);
   color: #E2E8F0;
+  font-size: 0.7rem;
+  letter-spacing: 0.03em;
 }
 
 .quest-item-delete-btn {
