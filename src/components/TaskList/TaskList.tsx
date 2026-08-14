@@ -11,7 +11,14 @@ export type CampaignEvents =
   | "Ancient Runes (School)"
   | "Hearth & Home (Chores)"
   | "The Royal Ledger (Finances)";
+
 export type ThreatTier = "" | "Trivial" | "Guarded" | "Perilous";
+
+export type Filters = 
+  | "All"
+  | "Active"
+  | "Completed"
+  | "Priority";
 
 export interface Quest {
   id: string;
@@ -40,6 +47,11 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
     const savedQuests = localStorage.getItem("quests");
     return savedQuests ? (JSON.parse(savedQuests) as Quest[]) : [];
   });
+  const [currentFilter, setCurrentFilter] = useState<Filters>(() => {
+    const savedFilter = localStorage.getItem("current-filter");
+    return savedFilter ? (savedFilter as Filters) : "All";
+  });
+  const [filteredQuests, setFilteredQuests]= useState<Quest[]>([]);
 
   const [selectedQuestId, setSelectedQuestId] = useState<string>("");
   const selectedQuest = quests.find((quest) => quest.id === selectedQuestId);
@@ -84,6 +96,13 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
   useEffect(() => {
     localStorage.setItem("quests", JSON.stringify(quests));
   }, [quests]);
+
+  useEffect(() => {
+    if (currentFilter === 'All') setFilteredQuests(quests);
+    if (currentFilter === 'Active') setFilteredQuests(quests.filter(quest => !quest.completed));
+    if (currentFilter === 'Completed') setFilteredQuests(quests.filter(quest => quest.completed));
+    if (currentFilter === 'Priority') setFilteredQuests(quests.filter(quest => quest.threatTier === 'Perilous'));
+  }, [currentFilter, quests])
 
   return (
     <div className="task-list-container">
@@ -235,12 +254,12 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
       <div className="panels-wrapper">
         <div className="left-panel">
           <div className="task-list-filters">
-            <button>📋 All</button>
-            <button>⚔️ Active</button>
-            <button>✅ Completed</button>
-            <button>🏆 Priority</button>
+            <button onClick={() => setCurrentFilter("All")}>📋 All</button>
+            <button onClick={() => setCurrentFilter("Active")}>⚔️ Active</button>
+            <button onClick={() => setCurrentFilter("Completed")}>✅ Completed</button>
+            <button onClick={() => setCurrentFilter("Priority")}>🏆 Priority</button>
           </div>
-          {quests.map((quest) => (
+          {filteredQuests.map((quest) => (
             <QuestItemLeftPanel
               key={quest.id}
               quest={quest}
