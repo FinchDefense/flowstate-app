@@ -4,7 +4,6 @@ import { FocusMode } from "./components/Timer/FocusMode.tsx";
 import { useTimer } from "./components/Timer/useTimer.ts";
 import { Timer } from "./components/Timer/Timer.tsx";
 import { TaskList } from "./components/TaskList/TaskList.tsx";
-import { Settings } from "./components/Settings";
 import { Statistics } from "./components/Statistics";
 import { Profile } from "./components/Profile";
 
