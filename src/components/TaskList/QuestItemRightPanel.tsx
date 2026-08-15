@@ -3,7 +3,7 @@ import { type CampaignEvents, type Quest, type ThreatTier } from "./TaskList";
 
 interface QuestItemRightPanelProps {
   quest: Quest;
-  onUpdate: () => void;
+  onUpdate: (updatedQuest: Quest) => void
 }
 
 export function QuestItemRightPanel({ quest, onUpdate }: QuestItemRightPanelProps) {
@@ -26,12 +26,6 @@ export function QuestItemRightPanel({ quest, onUpdate }: QuestItemRightPanelProp
     e: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     setPresentLoreStory(e.target.value);
-  };
-
-  const handlePresentBattleStepInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setPresentBattleStep(e.target.value);
   };
 
   if (isUpdating)
@@ -140,11 +134,7 @@ export function QuestItemRightPanel({ quest, onUpdate }: QuestItemRightPanelProp
               className="editing-battle-steps-textarea"
               rows={4}
               placeholder="1. Scout the perimeter...&#10;2. Gather supplies...&#10;3. Strike at dawn..."
-              value={presentBattleSteps
-                .map((presentBattleStep, index) => {
-                  return `${index + 1}. ${presentBattleStep}`;
-                })
-                .join("\n")}
+              value={presentBattleSteps.join("\n")}
               onChange={(e) => {
                 const lines = e.target.value.split("\n");
                 setPresentBattleSteps(lines);

@@ -882,7 +882,7 @@ body {
 }
 
 .quest-item-done-editing-btn {
-  margin-top: 10px;
+  margin-top: 20px;
   padding: 8px 24px;
   background-color: transparent;
   font-family: var(--rpg-font-display);
@@ -894,6 +894,7 @@ body {
   font-weight: 700;
   cursor: pointer;
   align-self: center;
+  margin-bottom: 40px;
 }
 
 .quest-item-done-editing-btn:hover {

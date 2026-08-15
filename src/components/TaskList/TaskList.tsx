@@ -90,7 +90,7 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
     setQuests([...quests, newQuest]);
   };
 
-  const onUpdate = (updatedQuest) => {
+  const onUpdate = (updatedQuest: Quest) => {
     setQuests(quests.map((quest) => (quest.id === updatedQuest.id ? updatedQuest : quest)));
   } 
 
