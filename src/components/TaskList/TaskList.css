@@ -591,11 +591,11 @@ body {
 
 .badge-threat-tier {
   font-family: var(--rpg-font-display);
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #F59E0B;
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 4px;
 }
 
 .right-panel-lore-container {
@@ -704,7 +704,6 @@ body {
   transform: translateY(2px);
 }
 
-/* Container for editing mode */
 .quest-item-all-details.editing-mode {
   display: flex;
   flex-direction: column;
@@ -714,7 +713,6 @@ body {
   padding: 5px 0;
 }
 
-/* Stacks label on top, input control on bottom */
 .editing-field-group {
   display: flex;
   flex-direction: column;
@@ -723,7 +721,6 @@ body {
   gap: 6px;
 }
 
-/* Labels with icon inline */
 .editing-label {
   display: flex;
   align-items: center;
@@ -774,13 +771,14 @@ body {
 }
 
 .editing-campaign-dropdown-content a {
-  font-size: 0.57rem;
+  font-size: 0.7rem;
   color: var(--rpg-text-main);
   text-decoration: none;
   display: block;
   font-family: var(--rpg-font-display);
   padding: 8px 10px;
   text-align: left;
+  letter-spacing: 0.05em;
 }
 
 .editing-campaign-dropdown-content a:hover {
