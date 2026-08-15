@@ -7,9 +7,9 @@ interface QuestItemRightPanelProps {
 
 export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
-  const [presentCampaign, setPresentCampaign] = useState<CampaignEvents>("");
-  const [presentThreatTier, setPresentThreatTier] = useState<ThreatTier>("");
-  const [presentLoreStory, setPresentLoreStory] = useState<string>("");
+  const [presentCampaign, setPresentCampaign] = useState<CampaignEvents>(quest.campaign as CampaignEvents);
+  const [presentThreatTier, setPresentThreatTier] = useState<ThreatTier>(quest.threatTier as ThreatTier);
+  const [presentLoreStory, setPresentLoreStory] = useState<string>(quest.loreStory);
   const [presentBattleStep, setPresentBattleStep] = useState<string>("");
   const [presentBattleSteps, setPresentBattleSteps] = useState<string[]>([]);
 
