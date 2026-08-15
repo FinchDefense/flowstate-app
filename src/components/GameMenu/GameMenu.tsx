@@ -3,6 +3,7 @@ import { ImageUploader } from "./ImageUploader";
 import { useTimer } from "../Timer/useTimer.ts";
 import { Timer } from "../Timer/Timer.tsx";
 import { TaskList } from "../TaskList/TaskList.tsx"
+import { Credits } from "../Credits/Credits.tsx";
 import "./GameMenu.css";
 
 interface GameMenuProps {
@@ -14,6 +15,7 @@ interface GameMenuProps {
 export function GameMenu({ timer, setInFocusMode, setIsGameMenuPage }: GameMenuProps) {
   const [showTimer, setShowTimer] = useState<boolean>(false);
   const [showTaskList, setShowTaskList] = useState<boolean>(false);
+  const [showCredits, setShowCredits] = useState<boolean>(false);
 
   if (showTimer) {
     return (<Timer setShowTimer={setShowTimer} setInFocusMode={setInFocusMode} timer={timer} setIsGameMenuPage={setIsGameMenuPage} />)
@@ -21,6 +23,10 @@ export function GameMenu({ timer, setInFocusMode, setIsGameMenuPage }: GameMenuP
 
   if (showTaskList) {
     return <TaskList setShowTaskList={setShowTaskList} />
+  }
+
+  if (showCredits) {
+    return <Credits setShowCredits={setShowCredits} />
   }
 
   return (
@@ -33,7 +39,7 @@ export function GameMenu({ timer, setInFocusMode, setIsGameMenuPage }: GameMenuP
           <button className="menu-btn" onClick={() => setShowTaskList(true)}>QUEST LOG</button>
           <button className="menu-btn">STATISTICS</button>
           <button className="menu-btn">OPTIONS</button>
-          <button className="menu-btn">CREDITS</button>
+          <button className="menu-btn" onClick={() => setShowCredits(true)}>CREDITS</button>
         </div>        
         <div className="menu-footer-tool">
           <ImageUploader />
