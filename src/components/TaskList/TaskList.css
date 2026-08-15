@@ -686,198 +686,184 @@ body {
   transform: translateY(2px);
 }
 
+/* Container for editing mode */
 .quest-item-all-details.editing-mode {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 14px;
+  padding: 5px 0;
 }
 
-.editing-campaign-selector {
+/* Stacks label on top, input control on bottom */
+.editing-field-group {
   display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  gap: 6px;
 }
 
-.editing-campaign-selector p {
-  font-size: 0.7rem;
-  line-height: 1.3;
-  font-weight: 750;
+/* Labels with icon inline */
+.editing-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
   font-family: var(--rpg-font-display);
-  margin: 0px 5px;
+  color: var(--rpg-text-main);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .editing-campaign-dropdown {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
   position: relative;
-  display: inline-block;
+  width: 100%;
 }
 
 .editing-campaign-dropbtn {
-  background-color: transparent;
-  color: var(--rpg-text-main);
-  padding: 6px 8px;
-  border: none;
-  cursor: pointer;
   width: 100%;
-  height: 100%;
+  box-sizing: border-box;
+  background-color: rgba(20, 18, 15, 0.8);
+  color: var(--rpg-gold);
+  padding: 8px 10px;
+  border: 1px solid var(--rpg-border-highlight);
+  border-radius: 4px;
+  cursor: pointer;
   font-family: var(--rpg-font-display);
   font-size: 0.75rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
   text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .editing-campaign-dropdown-content {
   display: none;
   position: absolute;
-  background-color: rgba(30, 26, 22, 0.95);
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-  z-index: 1; 
+  top: 100%;
+  left: 0;
   width: 100%;
+  box-sizing: border-box;
+  background-color: rgba(25, 21, 17, 0.98);
+  border: 1px solid var(--rpg-gold);
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.6);
+  z-index: 50;
 }
 
 .editing-campaign-dropdown-content a {
-  font-size: 0.55rem;
-  background-color: transparent;
+  font-size: 0.57rem;
   color: var(--rpg-text-main);
   text-decoration: none;
   display: block;
   font-family: var(--rpg-font-display);
-  padding: 4px 6px;
+  padding: 8px 10px;
+  text-align: left;
 }
 
 .editing-campaign-dropdown-content a:hover {
   background-color: var(--rpg-gold);
+  color: #000;
 }
 
 .editing-campaign-dropdown:hover .editing-campaign-dropdown-content {
   display: block;
 }
 
-.editing-threat-tier-selector {
+.editing-threat-tier-buttons-container {
   display: flex;
-  align-items: center;
-}
-
-.editing-threat-tier-selector p {
-  font-size: 0.7rem;
-  font-family: var(--rpg-font-display);
-  font-weight: 750;
-  margin: 0px;
-}
-
-.editing-threat-tier-button-container {
-  display: flex;
-  flex: 1;
-  gap: 4px;
+  width: 100%;
+  gap: 6px;
 }
 
 .editing-threat-tier-buttons-container button {
-  padding: 0px 10px;
+  flex: 1;
+  padding: 6px 4px;
   font-family: var(--rpg-font-display);
-  background-color: transparent;
-  border: none;
+  background-color: rgba(20, 18, 15, 0.6);
+  border: 1px solid var(--rpg-border);
+  border-radius: 3px;
   color: var(--rpg-gold);
-  font-size: 0.9rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .editing-threat-tier-buttons-container button:hover {
-  animation: active-hover-flashing 0.4s ease-in-out infinite alternate;
-  transform: translateY(2px);
-  cursor: pointer;
-}
-
-.editing-threat-tier-buttons-container button:active {
-  color: var(--rpg-hover-amber);
-  transform: scale(1.1);
-}
-
-.editing-lore-story-info {
-  display: flex;
-  width: 100%;
-  align-items: center;
-}
-
-.editing-lore-story-info p {
-  font-weight: 750;
-  font-family: var(--rpg-font-display);
-  font-size: 0.7rem;
-  margin-left: -20px;
+  border-color: var(--rpg-gold);
+  background-color: rgba(255, 215, 0, 0.15);
 }
 
 .editing-lore-story-text-area {
-  overflow: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-
-  padding: 7px;
-  width: 50%;
-  height: 90%;
-
-  background-color: transparent;
-  border: 2px solid var(--rpg-border-highlight);
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  min-height: 60px;
+  background-color: rgba(20, 18, 15, 0.8);
+  border: 1px solid var(--rpg-border-highlight);
   border-radius: 4px;
   font-family: Georgia, 'Times New Roman', Times, serif;
-  font-size: 0.7rem;
-  color: var(--rpg-gold);
-}
-
-.lore-story-info .lore-story-text-area::placeholder {
-  font-style: italic;
-  font-family: Georgia, 'Times New Roman', Times, serif;
-}
-
-.editing-battle-steps-info {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  margin-top: -20px;
-  gap: 6px
-}
-
-
-.editing-battle-steps-info p {
-  font-weight: 750;
-  font-family: var(--rpg-font-display);
-  letter-spacing: 0.05em;
   font-size: 0.75rem;
+  color: var(--rpg-gold);
+  resize: vertical;
 }
 
-.editing-battle-steps-info input {
-  padding: 7px 10px;
-  min-width: 19vw;
-  background-color: transparent;
-  border: none;
+.editing-battle-steps-row {
+  display: flex;
+  width: 100%;
+  gap: 6px;
+}
+
+.editing-battle-steps-row input {
+  flex: 1;
+  padding: 6px 10px;
+  background-color: rgba(20, 18, 15, 0.8);
   color: var(--rpg-gold-light);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-family: Georgia, 'Times New Roman', Times, serif;
-  box-sizing: border-box;       
-  border: 4px double #362d26;
-}
-
-.editing-battle-steps-info input::placeholder {
-  font-family: Georgia, 'Times New Roman', Times, serif;
-  font-style: italic;
-}
-
-.editing-battle-steps-info button {
-  background-color: transparent;
-  color: var(--rpg-text-main);
-  font-size: 1rem;
-  padding: 5px 10px;
+  box-sizing: border-box;
   border: 1px solid var(--rpg-border-highlight);
+  border-radius: 3px;
 }
 
-.editing-battle-steps-info button:hover {
+.editing-battle-steps-row button {
+  background-color: transparent;
+  color: var(--rpg-gold);
+  font-size: 0.9rem;
+  padding: 4px 12px;
+  border: 1px solid var(--rpg-border-highlight);
+  border-radius: 3px;
   cursor: pointer;
-  transform: translateY(-2px);
 }
 
-.editing-battle-steps-info button:active {
-  transform: scale(1.1);
-  background-color: var(--rpg-deep-burgundy);
+.editing-battle-steps-row button:hover {
+  background-color: var(--rpg-gold);
+  color: #000;
+}
+
+.quest-item-done-editing-btn {
+  margin-top: 10px;
+  padding: 8px 24px;
+  background-color: transparent;
+  font-family: var(--rpg-font-display);
+  color: var(--rpg-gold);
+  border: 1px solid var(--rpg-gold);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  cursor: pointer;
+  align-self: center;
+}
+
+.quest-item-done-editing-btn:hover {
+  background-color: var(--rpg-gold);
+  color: #000;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
 @keyframes active-hover-flashing {

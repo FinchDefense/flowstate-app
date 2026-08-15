@@ -23,7 +23,7 @@ export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setPresentBattleStep(e.target.value);
-  }
+  };
 
   if (isUpdating)
     return (
@@ -32,8 +32,10 @@ export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
           {quest.title.toUpperCase()}
         </h3>
         <div className="quest-item-all-details editing-mode">
-          <div className="editing-campaign-selector">
-            <span>🛡️</span> <p>Assign Campaign: </p>
+          <div className="editing-field-group">
+            <label className="editing-label">
+              <span>🛡️</span> Assign Campaign:
+            </label>
             <div className="editing-campaign-dropdown">
               <button className="editing-campaign-dropbtn">
                 [{" "}
@@ -45,58 +47,74 @@ export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
               <div className="editing-campaign-dropdown-content">
                 <a
                   href="#"
-                  onClick={() => setPresentCampaign("Guild Contracts (Work)")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPresentCampaign("Guild Contracts (Work)");
+                  }}
                 >
-                  [ Guild Contracts (Work)]
+                  [ Guild Contracts (Work) ]
                 </a>
                 <a
                   href="#"
-                  onClick={() =>
-                    setPresentCampaign("Physical Prowess (Fitness)")
-                  }
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPresentCampaign("Physical Prowess (Fitness)");
+                  }}
                 >
-                  [ Physical Prowess (Fitness)]
+                  [ Physical Prowess (Fitness) ]
                 </a>
                 <a
                   href="#"
-                  onClick={() => setPresentCampaign("Ancient Runes (School)")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPresentCampaign("Ancient Runes (School)");
+                  }}
                 >
-                  [ Ancient Runes (School)]
+                  [ Ancient Runes (School) ]
                 </a>
                 <a
                   href="#"
-                  onClick={() => setPresentCampaign("Hearth & Home (Chores)")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPresentCampaign("Hearth & Home (Chores)");
+                  }}
                 >
-                  [ Hearth & Home (Chores)]
+                  [ Hearth & Home (Chores) ]
                 </a>
                 <a
                   href="#"
-                  onClick={() =>
-                    setPresentCampaign("The Royal Ledger (Finances)")
-                  }
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPresentCampaign("The Royal Ledger (Finances)");
+                  }}
                 >
-                  [ The Royal Ledger (Finances)]
+                  [ The Royal Ledger (Finances) ]
                 </a>
               </div>
             </div>
           </div>
 
-          <div className="editing-threat-tier-selector">
-            <span>🔴</span> <p>Threat Tier: </p>
+          <div className="editing-field-group">
+            <label className="editing-label">
+              <span>🔴</span> Threat Tier:
+            </label>
             <div className="editing-threat-tier-buttons-container">
               <button
+                type="button"
                 className="editing-threat-tiers"
                 onClick={() => setPresentThreatTier("Trivial")}
               >
                 Trivial
               </button>
               <button
+                type="button"
                 className="editing-threat-tiers"
                 onClick={() => setPresentThreatTier("Guarded")}
               >
                 Guarded
               </button>
               <button
+                type="button"
                 className="editing-threat-tiers"
                 onClick={() => setPresentThreatTier("Perilous")}
               >
@@ -105,8 +123,10 @@ export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
             </div>
           </div>
 
-          <div className="editing-lore-story-info">
-            <span>📜</span> <p>Add Lore Story: </p>
+          <div className="editing-field-group">
+            <label className="editing-label">
+              <span>📜</span> Add Lore Story:
+            </label>
             <textarea
               className="editing-lore-story-text-area"
               rows={3}
@@ -116,27 +136,39 @@ export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
             />
           </div>
 
-          <div className="editing-battle-steps-info">
-            <span>⚔️</span> <p>Battle Steps: </p>
-            <input
-              placeholder="Map out your tactical steps..."
-              onChange={handlePresentBattleStepInputChange}
-              value={presentBattleStep}
-            />
-            <button
-              onClick={() => {
-                setPresentBattleSteps([
-                  ...presentBattleSteps,
-                  presentBattleStep,
-                ]);
-                setPresentBattleStep("");
-              }}
-            >
-              +
-            </button>
+          <div className="editing-field-group">
+            <label className="editing-label">
+              <span>⚔️</span> Battle Steps:
+            </label>
+            <div className="editing-battle-steps-row">
+              <input
+                placeholder="Map out your tactical steps..."
+                onChange={handlePresentBattleStepInputChange}
+                value={presentBattleStep}
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  if (presentBattleStep.trim()) {
+                    setPresentBattleSteps([
+                      ...presentBattleSteps,
+                      presentBattleStep,
+                    ]);
+                    setPresentBattleStep("");
+                  }
+                }}
+              >
+                +
+              </button>
+            </div>
           </div>
 
-          <button className="quest-item-done-editing-btn">DONE</button>
+          <button
+            className="quest-item-done-editing-btn"
+            onClick={() => setIsUpdating(false)}
+          >
+            DONE
+          </button>
         </div>
       </div>
     );
