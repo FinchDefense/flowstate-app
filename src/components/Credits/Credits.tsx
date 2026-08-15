@@ -4,7 +4,7 @@ interface CreditsProps {
 
 export function Credits({ setShowCredits }: CreditsProps) {
   return (
-    <button className="back-button" onClick={() => setShowCredits(false)}>
+    <button className="back-button credits" onClick={() => setShowCredits(false)}>
       ← Back to Menu
     </button>
   );

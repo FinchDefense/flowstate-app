@@ -903,6 +903,11 @@ body {
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
+.back-button.credits {
+  width: 300px;
+  margin: 20px 40px;
+}
+
 @keyframes active-hover-flashing {
   0% {
     opacity: 0.2;
