@@ -259,6 +259,24 @@ body {
   transform: scale(1.1);
 }
 
+.threat-tier-button-container button.active.trivial {
+  color: var(--rpg-hover-mana-green);
+  border-color: #10B981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+}
+
+.threat-tier-button-container button.active.guarded {
+  color: var(--rpg-hover-amber);
+  border-color: #F59E0B;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.3);
+}
+
+.threat-tier-button-container button.active.perilous {
+  color: var(--rpg-hover-danger-red);
+  border-color: #EF4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.3);
+}
+
 .battle-steps-info {
   display: flex;
   align-items: center;
@@ -796,6 +814,24 @@ body {
 .editing-threat-tier-buttons-container button:hover {
   border-color: var(--rpg-gold);
   background-color: rgba(255, 215, 0, 0.15);
+}
+
+.editing-threat-tier-buttons-container button.active.trivial {
+  color: var(--rpg-hover-mana-green);
+  border-color: #10B981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+}
+
+.editing-threat-tier-buttons-container button.active.guarded {
+  color: var(--rpg-hover-amber);
+  border-color: #F59E0B;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.3);
+}
+
+.editing-threat-tier-buttons-container button.active.perilous {
+  color: var(--rpg-hover-danger-red);
+  border-color: #EF4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.3);
 }
 
 .editing-lore-story-text-area {

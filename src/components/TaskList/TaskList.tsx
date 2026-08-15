@@ -219,19 +219,19 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
             <span>🔴</span> <p>Threat Tier: </p>
             <div className="threat-tier-button-container">
               <button
-                className="threat-tiers"
+                className={`threat-tiers ${currentThreatTier === 'Trivial' ? "active trivial" : ""}`}
                 onClick={() => setCurrentThreatTier("Trivial")}
               >
                 Trivial
               </button>
               <button
-                className="threat-tiers"
+                className={`threat-tiers ${currentThreatTier === 'Guarded' ? "active guarded" : ""}`}
                 onClick={() => setCurrentThreatTier("Guarded")}
               >
                 Guarded
               </button>
               <button
-                className="threat-tiers"
+                className={`threat-tiers ${currentThreatTier === 'Perilous' ? "active perilous" : ""}`}
                 onClick={() => setCurrentThreatTier("Perilous")}
               >
                 Perilous

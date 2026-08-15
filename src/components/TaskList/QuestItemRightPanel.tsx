@@ -101,21 +101,21 @@ export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
             <div className="editing-threat-tier-buttons-container">
               <button
                 type="button"
-                className="editing-threat-tiers"
+                className={`editing-threat-tiers ${presentThreatTier === 'Trivial' ? "active trivial" : ""}`}
                 onClick={() => setPresentThreatTier("Trivial")}
               >
                 Trivial
               </button>
               <button
                 type="button"
-                className="editing-threat-tiers"
+                className={`editing-threat-tiers ${presentThreatTier === 'Guarded' ? "active guarded" : ""}`}
                 onClick={() => setPresentThreatTier("Guarded")}
               >
                 Guarded
               </button>
               <button
                 type="button"
-                className="editing-threat-tiers"
+                className={`editing-threat-tiers ${presentThreatTier === 'Perilous' ? "active perilous" : ""}`}
                 onClick={() => setPresentThreatTier("Perilous")}
               >
                 Perilous
