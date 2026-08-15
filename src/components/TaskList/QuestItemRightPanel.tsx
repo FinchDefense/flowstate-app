@@ -7,11 +7,19 @@ interface QuestItemRightPanelProps {
 
 export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
-  const [presentCampaign, setPresentCampaign] = useState<CampaignEvents>(quest.campaign as CampaignEvents);
-  const [presentThreatTier, setPresentThreatTier] = useState<ThreatTier>(quest.threatTier as ThreatTier);
-  const [presentLoreStory, setPresentLoreStory] = useState<string>(quest.loreStory);
+  const [presentCampaign, setPresentCampaign] = useState<CampaignEvents>(
+    quest.campaign as CampaignEvents,
+  );
+  const [presentThreatTier, setPresentThreatTier] = useState<ThreatTier>(
+    quest.threatTier as ThreatTier,
+  );
+  const [presentLoreStory, setPresentLoreStory] = useState<string>(
+    quest.loreStory,
+  );
   const [presentBattleStep, setPresentBattleStep] = useState<string>("");
-  const [presentBattleSteps, setPresentBattleSteps] = useState<string[]>(quest.battleSteps);
+  const [presentBattleSteps, setPresentBattleSteps] = useState<string[]>(
+    quest.battleSteps,
+  );
 
   const handlePresentLoreStoryInputChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>,
@@ -131,9 +139,10 @@ export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
               className="editing-battle-steps-textarea"
               rows={4}
               placeholder="1. Scout the perimeter...&#10;2. Gather supplies...&#10;3. Strike at dawn..."
-              value={presentBattleSteps.map((presentBattleStep, index) => {
-                return `${index+1}. ${presentBattleStep}`;
-              }) 
+              value={presentBattleSteps
+                .map((presentBattleStep, index) => {
+                  return `${index + 1}. ${presentBattleStep}`;
+                })
                 .join("\n")}
               onChange={(e) => {
                 const lines = e.target.value.split("\n");
@@ -144,29 +153,15 @@ export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
 
           <div className="editing-field-group">
             <label className="editing-label">
-              <span>⚔️</span> Battle Steps:
+              <span>📜</span> Add Lore Story:
             </label>
-            <div className="editing-battle-steps-row">
-              <input
-                placeholder="Map out your tactical steps..."
-                onChange={handlePresentBattleStepInputChange}
-                value={presentBattleStep}
-              />
-              <button
-                type="button"
-                onClick={() => {
-                  if (presentBattleStep.trim()) {
-                    setPresentBattleSteps([
-                      ...presentBattleSteps,
-                      presentBattleStep,
-                    ]);
-                    setPresentBattleStep("");
-                  }
-                }}
-              >
-                +
-              </button>
-            </div>
+            <textarea
+              className="editing-lore-story-text-area"
+              rows={3}
+              onChange={handlePresentLoreStoryInputChange}
+              placeholder="Record your noble motivations in the chronicler's ledger..."
+              value={presentLoreStory}
+            />
           </div>
 
           <button
