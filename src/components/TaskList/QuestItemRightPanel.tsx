@@ -3,9 +3,10 @@ import { type CampaignEvents, type Quest, type ThreatTier } from "./TaskList";
 
 interface QuestItemRightPanelProps {
   quest: Quest;
+  onUpdate: () => void;
 }
 
-export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
+export function QuestItemRightPanel({ quest, onUpdate }: QuestItemRightPanelProps) {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [presentCampaign, setPresentCampaign] = useState<CampaignEvents>(
     quest.campaign as CampaignEvents,
@@ -166,7 +167,19 @@ export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
 
           <button
             className="quest-item-done-editing-btn"
-            onClick={() => setIsUpdating(false)}
+            onClick={() => {
+              setIsUpdating(false);
+              const updatedQuest: Quest = {
+                id: quest.id,
+                title: quest.title,
+                campaign: presentCampaign,
+                threatTier: presentThreatTier,
+                battleSteps: presentBattleSteps,
+                loreStory: presentLoreStory,
+                completed: quest.completed,
+              }
+              onUpdate(updatedQuest);
+            }}
           >
             DONE
           </button>

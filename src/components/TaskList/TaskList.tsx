@@ -90,6 +90,10 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
     setQuests([...quests, newQuest]);
   };
 
+  const onUpdate = (updatedQuest) => {
+    setQuests(quests.map((quest) => (quest.id === updatedQuest.id ? updatedQuest : quest)));
+  } 
+
   const toggleQuestCompletion = (id: string) => {
     setQuests((prevQuests) => prevQuests.map(quest => quest.id === id ? {...quest, completed: !quest.completed} : quest));
     
@@ -296,7 +300,7 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
 
         {selectedQuest && (
           <div className={`right-panel ${isDissolving ? 'ancient-dust' : ''}`} key={selectedQuest.id}>
-            <QuestItemRightPanel quest={selectedQuest} />
+            <QuestItemRightPanel quest={selectedQuest} onUpdate={onUpdate} />
           </div>
         )}
       </div>
