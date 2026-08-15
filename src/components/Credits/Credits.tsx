@@ -1,3 +1,5 @@
+import "./Credits.css";
+
 interface CreditsProps {
   setShowCredits: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -18,12 +20,21 @@ export function Credits({ setShowCredits }: CreditsProps) {
         </div>
 
         <div className="visual-themes-credits">
-          <p>Menu Architecture inspired by: The Witcher 3: Wild Hunt (CD Projekt Red).</p>
-          <p>Atmosphere & Intro inspired by: The Dark Souls Series (FromSoftware).</p>
-        </div>
-
-        <div className="special-thanks-credits">
-          <p>To the Dev Community: "Grateful to the open-source creators and documentation writers whose guides illuminated the path."</p>
+          <div className="row-wrapper">
+            <p>UI ARCHITECTURE INSPIRATION </p>{" "}
+            <h3>The Witcher 3: Wild Hunt (CD Projekt Red)</h3>
+          </div>
+          <div className="row-wrapper">
+            <p>ATMOSPHERE & AESTHETIC</p>{" "}
+            <h3>The Dark Souls Series (FromSoftware)</h3>
+          </div>
+          <div className="row-wrapper">
+            <p>CORE WEB FOUNDATIONS</p> <h3>The Odin Project</h3>
+          </div>
+          <div className="row-wrapper">
+            <p>REACT ARCHITECTURE</p>
+            <h3>SuperSimpleDev</h3>
+          </div>
         </div>
       </div>
     </div>
