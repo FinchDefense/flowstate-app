@@ -52,6 +52,7 @@ export function QuestItemRightPanel({ quest, onUpdate }: QuestItemRightPanelProp
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
+                    e.stopPropagation();
                     setPresentCampaign("Guild Contracts (Work)");
                   }}
                 >
@@ -61,6 +62,7 @@ export function QuestItemRightPanel({ quest, onUpdate }: QuestItemRightPanelProp
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
+                    e.stopPropagation();
                     setPresentCampaign("Physical Prowess (Fitness)");
                   }}
                 >
@@ -70,6 +72,7 @@ export function QuestItemRightPanel({ quest, onUpdate }: QuestItemRightPanelProp
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
+                    e.stopPropagation();
                     setPresentCampaign("Ancient Runes (School)");
                   }}
                 >
@@ -79,6 +82,7 @@ export function QuestItemRightPanel({ quest, onUpdate }: QuestItemRightPanelProp
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
+                    e.stopPropagation();
                     setPresentCampaign("Hearth & Home (Chores)");
                   }}
                 >
@@ -88,6 +92,7 @@ export function QuestItemRightPanel({ quest, onUpdate }: QuestItemRightPanelProp
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
+                    e.stopPropagation();
                     setPresentCampaign("The Royal Ledger (Finances)");
                   }}
                 >

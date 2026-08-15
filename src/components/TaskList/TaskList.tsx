@@ -183,35 +183,51 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
               <div className="dropdown-content">
                 <a
                   href="#"
-                  onClick={() => setCurrentCampaign("Guild Contracts (Work)")}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    setCurrentCampaign("Guild Contracts (Work)");
+                  }}
                 >
                   [ Guild Contracts (Work)]
                 </a>
                 <a
                   href="#"
-                  onClick={() =>
-                    setCurrentCampaign("Physical Prowess (Fitness)")
-                  }
+                  onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    setCurrentCampaign("Physical Prowess (Fitness)");
+                  }}
                 >
                   [ Physical Prowess (Fitness)]
                 </a>
                 <a
                   href="#"
-                  onClick={() => setCurrentCampaign("Ancient Runes (School)")}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    setCurrentCampaign("Ancient Runes (School)");
+                  }}
                 >
                   [ Ancient Runes (School)]
                 </a>
                 <a
                   href="#"
-                  onClick={() => setCurrentCampaign("Hearth & Home (Chores)")}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    setCurrentCampaign("Hearth & Home (Chores)");
+                  }}
                 >
                   [ Hearth & Home (Chores)]
                 </a>
                 <a
                   href="#"
-                  onClick={() =>
-                    setCurrentCampaign("The Royal Ledger (Finances)")
-                  }
+                  onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    setCurrentCampaign("The Royal Ledger (Finances)");
+                  }}
                 >
                   [ The Royal Ledger (Finances)]
                 </a>
