@@ -11,7 +11,7 @@ export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
   const [presentThreatTier, setPresentThreatTier] = useState<ThreatTier>(quest.threatTier as ThreatTier);
   const [presentLoreStory, setPresentLoreStory] = useState<string>(quest.loreStory);
   const [presentBattleStep, setPresentBattleStep] = useState<string>("");
-  const [presentBattleSteps, setPresentBattleSteps] = useState<string[]>([]);
+  const [presentBattleSteps, setPresentBattleSteps] = useState<string[]>(quest.battleSteps);
 
   const handlePresentLoreStoryInputChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>,
@@ -101,21 +101,21 @@ export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
             <div className="editing-threat-tier-buttons-container">
               <button
                 type="button"
-                className={`editing-threat-tiers ${presentThreatTier === 'Trivial' ? "active trivial" : ""}`}
+                className={`editing-threat-tiers ${presentThreatTier === "Trivial" ? "active trivial" : ""}`}
                 onClick={() => setPresentThreatTier("Trivial")}
               >
                 Trivial
               </button>
               <button
                 type="button"
-                className={`editing-threat-tiers ${presentThreatTier === 'Guarded' ? "active guarded" : ""}`}
+                className={`editing-threat-tiers ${presentThreatTier === "Guarded" ? "active guarded" : ""}`}
                 onClick={() => setPresentThreatTier("Guarded")}
               >
                 Guarded
               </button>
               <button
                 type="button"
-                className={`editing-threat-tiers ${presentThreatTier === 'Perilous' ? "active perilous" : ""}`}
+                className={`editing-threat-tiers ${presentThreatTier === "Perilous" ? "active perilous" : ""}`}
                 onClick={() => setPresentThreatTier("Perilous")}
               >
                 Perilous
@@ -125,14 +125,20 @@ export function QuestItemRightPanel({ quest }: QuestItemRightPanelProps) {
 
           <div className="editing-field-group">
             <label className="editing-label">
-              <span>📜</span> Add Lore Story:
+              <span>⚔️</span> Battle Steps:
             </label>
             <textarea
-              className="editing-lore-story-text-area"
-              rows={3}
-              onChange={handlePresentLoreStoryInputChange}
-              placeholder="Record your noble motivations in the chronicler's ledger..."
-              value={presentLoreStory}
+              className="editing-battle-steps-textarea"
+              rows={4}
+              placeholder="1. Scout the perimeter...&#10;2. Gather supplies...&#10;3. Strike at dawn..."
+              value={presentBattleSteps.map((presentBattleStep, index) => {
+                return `${index+1}. ${presentBattleStep}`;
+              }) 
+                .join("\n")}
+              onChange={(e) => {
+                const lines = e.target.value.split("\n");
+                setPresentBattleSteps(lines);
+              }}
             />
           </div>
 

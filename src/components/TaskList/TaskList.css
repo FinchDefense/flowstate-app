@@ -854,16 +854,18 @@ body {
   gap: 6px;
 }
 
-.editing-battle-steps-row input {
-  flex: 1;
-  padding: 6px 10px;
-  background-color: rgba(20, 18, 15, 0.8);
-  color: var(--rpg-gold-light);
-  font-size: 0.75rem;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+.editing-battle-steps-textarea {
+  width: 100%;
   box-sizing: border-box;
+  padding: 8px;
+  background-color: rgba(20, 18, 15, 0.8);
   border: 1px solid var(--rpg-border-highlight);
-  border-radius: 3px;
+  border-radius: 4px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 0.75rem;
+  color: var(--rpg-gold-light);
+  line-height: 1.5;
+  resize: vertical;
 }
 
 .editing-battle-steps-row button {
