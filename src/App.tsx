@@ -12,6 +12,10 @@ export function App() {
   const [isGameMenuPage, setIsGameMenuPage] = useState<boolean>(false);
   const [isExiting, setIsExiting] = useState<boolean>(false);
   const timer = useTimer(1500);
+  const [displayName, setDisplayName] = useState<string>(() => {
+    const currentName = localStorage.getItem("flowstate_userName");
+    return currentName ? currentName : "";
+  });
 
   useEffect(() => {
     if (!isStartingPage) return;

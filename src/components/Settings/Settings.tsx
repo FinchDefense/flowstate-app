@@ -1,6 +1,11 @@
 import { useState } from "react";
+import './Settings.css';
 
-export function Settings() {
+interface SettingsProps {
+  setShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export function Settings({ setShowSettings }: SettingsProps) {
   const [inputName, setInputName] = useState<string>(() => {
     const currentName = localStorage.getItem("flowstate_userName");
     return currentName ? currentName : "";
