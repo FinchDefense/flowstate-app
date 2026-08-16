@@ -12,9 +12,9 @@ export function FlowMusicButton() {
   const revokeCurrentUrl = () => {
     if (currentUrlRef.current) {
       URL.revokeObjectURL(currentUrlRef.current);
-      currentUrlRef.current = '';
+      currentUrlRef.current = "";
     }
-  }
+  };
 
   useEffect(() => {
     audioRef.current = new Audio();
@@ -34,15 +34,23 @@ export function FlowMusicButton() {
 
   const handleChooseDir = async () => {
     try {
+      if (!window.showDirectoryPicker) {
+        alert(
+          "Folder picker is not supported in this browser. Please use Chrome or Edge on localhost.",
+        );
+        return;
+      }
       const dirChosen = await window.showDirectoryPicker();
       const foundFiles: FileSystemFileHandle[] = [];
 
       for await (const entry of dirChosen.values()) {
         if (
           entry.kind === "file" &&
-          (entry.name.endsWith(".mp3") || entry.name.endsWith(".mp4"))
-        )
+          (entry.name.toLowerCase().endsWith(".mp3") ||
+            entry.name.toLowerCase().endsWith(".mp4"))
+        ) {
           foundFiles.push(entry);
+        }
       }
 
       if (foundFiles.length === 0) {
@@ -53,8 +61,11 @@ export function FlowMusicButton() {
       filesRef.current = foundFiles;
       setHasFolder(true);
     } catch (error) {
-      console.log("Playback failed, skipping to next track", error);
-      playRandomTrack();
+      if (error instanceof Error && error.name === "AbortError") {
+        console.log("User cancelled folder selection.");
+        return;
+      }
+      console.error("Folder selection failed:", error);
     }
   };
 

@@ -76,7 +76,12 @@ export const ImageUploader: React.FC = () => {
 
         {imageUrl && (
           <div className="action-buttons">
-            <button className="remove-image-button" onClick={removeImage}>
+            <button 
+              className="remove-image-button" 
+              onClick={(e) => {
+                e.stopPropagation();
+                removeImage();
+              }}>
               Delete Image
             </button>
           </div>
