@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { GameMenu } from "./components/GameMenu/GameMenu.tsx";
 import { FocusMode } from "./components/Timer/FocusMode.tsx";
 import { useTimer } from "./components/Timer/useTimer.ts";
+import { set, get } from 'idb-keyval';
 
 import "./App.css";
 import "./index.css";
@@ -32,8 +33,25 @@ export function App() {
   const [currentTrack, setCurrentTrack] = useState<string>("");
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  
   const filesRef = useRef<File[]>([]);
   const currentUrlRef = useRef<string>("");
+
+  useEffect(() => {
+    async function loadStoredFolder() {
+      try {
+        const retrievedFolder = await get<File[]>('current-folder');
+        if (retrievedFolder && retrievedFolder.length > 0) {
+          filesRef.current = retrievedFolder;
+          setHasFolder(true);
+        }
+      } 
+      catch (error) {
+        console.error("Failed to load folder from IndexedDB:", error);
+      }
+    }
+    loadStoredFolder();
+  }, []);
 
   const revokeCurrentUrl = useCallback(() => {
     if (currentUrlRef.current) {
@@ -67,7 +85,7 @@ export function App() {
     }
   }, [revokeCurrentUrl]);
 
-  const handleMusicFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMusicFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = event.target.files;
     if (!selectedFiles) return;
 
@@ -87,7 +105,14 @@ export function App() {
     }
 
     filesRef.current = foundFiles;
-    setHasFolder(true);
+    try {
+      await set('current-folder', foundFiles);
+      setHasFolder(true);
+    } 
+    catch (error) {
+      console.error("Failed to save folder to IndexedDB:", error);
+      alert("Failed to securely store folder index in browser cache storage.");
+    }
   };
 
   const toggleMusic = useCallback(() => {
@@ -155,23 +180,17 @@ export function App() {
     return (
       <div className={`welcome-message ${isExiting ? "exiting" : ""}`}>
         <div className="cinder-container left-edge">
-          <div className="cinder c1" style={EMBER_STYLES[0]}></div>
-          <div className="cinder c2" style={EMBER_STYLES[1]}></div>
-          <div className="cinder c3" style={EMBER_STYLES[2]}></div>
-          <div className="cinder c4" style={EMBER_STYLES[3]}></div>
-          <div className="cinder c5" style={EMBER_STYLES[4]}></div>
-          <div className="cinder c6" style={EMBER_STYLES[5]}></div>
+          {EMBER_STYLES.slice(0, 6).map((style, idx) => (
+            <div key={idx} className={`cinder c${idx + 1}`} style={style}></div>
+          ))}
         </div>
 
         <div className="main-intro">Welcome Back {displayName || "Guest"}</div>
 
         <div className="cinder-container right-edge">
-          <div className="cinder c7" style={EMBER_STYLES[6]}></div>
-          <div className="cinder c8" style={EMBER_STYLES[7]}></div>
-          <div className="cinder c9" style={EMBER_STYLES[8]}></div>
-          <div className="cinder c10" style={EMBER_STYLES[9]}></div>
-          <div className="cinder c11" style={EMBER_STYLES[10]}></div>
-          <div className="cinder c12" style={EMBER_STYLES[11]}></div>
+          {EMBER_STYLES.slice(6, 12).map((style, idx) => (
+            <div key={idx} className={`cinder c${idx + 7}`} style={style}></div>
+          ))}
         </div>
 
         <div className="sub-intro">Ready to Focus?</div>
@@ -213,8 +232,7 @@ export function App() {
 
   return (
     <div className="app-container">
-      <div className="header">
-      </div>
+      <div className="header"></div>
     </div>  
   )
 }

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "dayjs": "^1.11.21",
+    "idb-keyval": "^6.3.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   },
