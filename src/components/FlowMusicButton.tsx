@@ -6,8 +6,9 @@ export function FlowMusicButton() {
   const [currentTrack, setCurrentTrack] = useState<string>("");
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const filesRef = useRef<FileSystemFileHandle[]>([]);
+  const filesRef = useRef<File[]>([]); 
   const currentUrlRef = useRef<string>("");
+  const isComponentMounted = useRef<boolean>(true);
 
   const revokeCurrentUrl = () => {
     if (currentUrlRef.current) {
@@ -17,6 +18,7 @@ export function FlowMusicButton() {
   };
 
   useEffect(() => {
+    isComponentMounted.current = true;
     audioRef.current = new Audio();
 
     const handleTrackEnd = () => {
@@ -26,64 +28,61 @@ export function FlowMusicButton() {
     audioRef.current.addEventListener("ended", handleTrackEnd);
 
     return () => {
+      isComponentMounted.current = false;
       audioRef.current?.pause();
       audioRef.current?.removeEventListener("ended", handleTrackEnd);
       revokeCurrentUrl();
     };
   }, []);
 
-  const handleChooseDir = async () => {
-    try {
-      if (!window.showDirectoryPicker) {
-        alert(
-          "Folder picker is not supported in this browser. Please use Chrome or Edge on localhost.",
-        );
-        return;
-      }
-      const dirChosen = await window.showDirectoryPicker();
-      const foundFiles: FileSystemFileHandle[] = [];
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = event.target.files;
+    if (!selectedFiles) return;
 
-      for await (const entry of dirChosen.values()) {
-        if (
-          entry.kind === "file" &&
-          (entry.name.toLowerCase().endsWith(".mp3") ||
-            entry.name.toLowerCase().endsWith(".mp4"))
-        ) {
-          foundFiles.push(entry);
-        }
-      }
+    const foundFiles: File[] = [];
 
-      if (foundFiles.length === 0) {
-        alert("No mp3 or mp4 files found in this folder!");
-        return;
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const file = selectedFiles[i];
+      const nameLower = file.name.toLowerCase();
+      if (nameLower.endsWith(".mp3") || nameLower.endsWith(".mp4")) {
+        foundFiles.push(file);
       }
-
-      filesRef.current = foundFiles;
-      setHasFolder(true);
-    } catch (error) {
-      if (error instanceof Error && error.name === "AbortError") {
-        console.log("User cancelled folder selection.");
-        return;
-      }
-      console.error("Folder selection failed:", error);
     }
+
+    if (foundFiles.length === 0) {
+      alert("No mp3 or mp4 files found in this folder!");
+      return;
+    }
+
+    filesRef.current = foundFiles;
+    setHasFolder(true);
   };
 
-  const playRandomTrack = async () => {
+  const playRandomTrack = () => {
     const audio = audioRef.current;
     const files = filesRef.current;
 
-    if (files.length === 0 || !audio || !files) return;
+    if (files.length === 0 || !audio) return;
 
-    const randomFile = files[Math.floor(Math.random() * files.length)];
-    const randomFileData = await randomFile.getFile();
-    revokeCurrentUrl();
-    currentUrlRef.current = URL.createObjectURL(randomFileData);
-    audio.src = currentUrlRef.current;
-    setCurrentTrack(randomFile.name);
+    try {
+      const randomFile = files[Math.floor(Math.random() * files.length)];
+      
+      if (!isComponentMounted.current) return;
 
-    audio.play();
-    setIsPlaying(true);
+      revokeCurrentUrl();
+
+      currentUrlRef.current = URL.createObjectURL(randomFile);
+      audio.src = currentUrlRef.current;
+      setCurrentTrack(randomFile.name);
+
+      audio.play().catch((err) => {
+        console.error("Playback interrupted or blocked by browser:", err);
+      });
+      setIsPlaying(true);
+    } catch (error) {
+      console.error("Playback setup failed, skipping track:", error);
+      playRandomTrack();
+    }
   };
 
   const toggleIsPlaying = () => {
@@ -95,7 +94,7 @@ export function FlowMusicButton() {
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
-      audioRef.current.play();
+      audioRef.current.play().catch(console.error);
       setIsPlaying(true);
     }
   };
@@ -111,8 +110,7 @@ export function FlowMusicButton() {
       }}
     >
       {!hasFolder ? (
-        <button
-          onClick={handleChooseDir}
+        <label
           style={{
             padding: "12px 24px",
             fontSize: "1rem",
@@ -121,10 +119,20 @@ export function FlowMusicButton() {
             color: "#fff",
             border: "none",
             borderRadius: "8px",
+            display: "inline-block",
           }}
         >
           📁 Step 1: Select Music Folder
-        </button>
+          <input
+            type="file"
+            onChange={handleFileChange}
+            webkitdirectory="" 
+            directory="" 
+            multiple
+            style={{ display: "none" }}
+            {...({ webkitdirectory: "", directory: "" } as React.InputHTMLAttributes<HTMLInputElement>)}
+          />
+        </label>
       ) : (
         <div style={{ textAlign: "center" }}>
           <button
