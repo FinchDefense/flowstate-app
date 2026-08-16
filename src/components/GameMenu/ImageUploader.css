@@ -1,0 +1,39 @@
+.dropzone-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 40px;
+  margin-bottom: -20px;
+  cursor: pointer;
+}
+
+.image-placeholder-text {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.3rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.Image-placeholder-text {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.3rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.remove-image-button {
+  align-items: center;
+  border: none;
+  background-color: transparent;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  color: #8c9aa2;
+}
+
+.remove-image-button:hover {
+  transform: scale(1.1) translateY(-2px);
+  color: #C84B1E;
+}

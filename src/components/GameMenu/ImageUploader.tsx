@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import "./ImageUploader.css";
 
 export const ImageUploader: React.FC = () => {
   const [imageUrl, setimageUrl] = useState<string | null>(null);
