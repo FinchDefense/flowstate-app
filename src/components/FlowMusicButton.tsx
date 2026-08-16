@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import "./FlowMusicButton.css";
 
 export function FlowMusicButton() {
   const [hasFolder, setHasFolder] = useState<boolean>(false);
@@ -6,7 +7,7 @@ export function FlowMusicButton() {
   const [currentTrack, setCurrentTrack] = useState<string>("");
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const filesRef = useRef<File[]>([]); 
+  const filesRef = useRef<File[]>([]);
   const currentUrlRef = useRef<string>("");
   const isComponentMounted = useRef<boolean>(true);
 
@@ -66,7 +67,7 @@ export function FlowMusicButton() {
 
     try {
       const randomFile = files[Math.floor(Math.random() * files.length)];
-      
+
       if (!isComponentMounted.current) return;
 
       revokeCurrentUrl();
@@ -99,59 +100,53 @@ export function FlowMusicButton() {
     }
   };
 
+  const handleSkip = () => {
+    if (!audioRef.current || !currentUrlRef.current) return;
+
+    audioRef.current.pause();
+    revokeCurrentUrl();
+    playRandomTrack();
+  };
+
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "15px",
-        marginTop: "50px",
-      }}
-    >
+    <div className="flowmusicbutton-container">
       {!hasFolder ? (
-        <label
-          style={{
-            padding: "12px 24px",
-            fontSize: "1rem",
-            cursor: "pointer",
-            background: "#333",
-            color: "#fff",
-            border: "none",
-            borderRadius: "8px",
-            display: "inline-block",
-          }}
-        >
+        <label className="flowmusicbutton-pick-label">
           📁 Step 1: Select Music Folder
           <input
             type="file"
             onChange={handleFileChange}
-            webkitdirectory="" 
-            directory="" 
+            webkitdirectory=""
+            directory=""
             multiple
-            style={{ display: "none" }}
-            {...({ webkitdirectory: "", directory: "" } as React.InputHTMLAttributes<HTMLInputElement>)}
+            className="flowmusicbutton-hidden-input"
+            {...({
+              webkitdirectory: "",
+              directory: "",
+            } as React.InputHTMLAttributes<HTMLInputElement>)}
           />
         </label>
-      ) : (
-        <div style={{ textAlign: "center" }}>
-          <button
-            onClick={toggleIsPlaying}
-            style={{
-              padding: "20px 40px",
-              fontSize: "1.5rem",
-              cursor: "pointer",
-              background: isPlaying ? "#ff4757" : "#2ed573",
-              color: "#fff",
-              border: "none",
-              borderRadius: "50px",
-              fontWeight: "bold",
-            }}
-          >
-            {isPlaying ? "⏸ Pause Flow" : "▶ Start Flow"}
-          </button>
+      ) : ( 
+        <div className="flowmusicbutton-player">
+          <div className="flowmusicbutton-player-row">
+            <button
+              className={`flowmusicbutton-toggle ${isPlaying ? "is-playing" : ""}`}
+              onClick={toggleIsPlaying}
+            >
+              {isPlaying ? "⏸ Pause Flow" : "▶ Start Flow"}
+            </button>
+
+            <button
+              className="flowmusicbutton-skip"
+              onClick={handleSkip}
+              aria-label="Skip to next track"
+            >
+              ➜
+            </button>
+          </div>
+
           {currentTrack && (
-            <p style={{ fontSize: "0.9rem", color: "#888", marginTop: "15px" }}>
+            <p className="flowmusicbutton-track">
               Currently Playing: <strong>{currentTrack}</strong>
             </p>
           )}

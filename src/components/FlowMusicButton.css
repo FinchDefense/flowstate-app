@@ -1,0 +1,89 @@
+.flowmusicbutton-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 50px;
+}
+
+.flowmusicbutton-pick-label {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 1rem;
+  cursor: pointer;
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.flowmusicbutton-pick-label:hover {
+  background: #444;
+  transform: translateY(-1px);
+}
+
+.flowmusicbutton-hidden-input {
+  display: none;
+}
+
+.flowmusicbutton-player {
+  text-align: center;
+  width: 100%;
+}
+
+.flowmusicbutton-player-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.flowmusicbutton-toggle {
+  padding: 25px 40px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-weight: bold;
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: #2ed573;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.flowmusicbutton-toggle.is-playing {
+  background: #ff4757;
+}
+
+.flowmusicbutton-toggle:hover {
+  transform: translateY(-1px);
+}
+
+.flowmusicbutton-skip {
+  font-size: 2.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: white;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.flowmusicbutton-skip:hover {
+  transform: scale(1.1) translateY(-2px);
+  color: #d4af37;
+}
+
+.flowmusicbutton-track {
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: 15px;
+}
+
