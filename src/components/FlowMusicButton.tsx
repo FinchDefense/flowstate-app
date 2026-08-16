@@ -9,6 +9,13 @@ export function FlowMusicButton() {
   const filesRef = useRef<FileSystemFileHandle[]>([]);
   const currentUrlRef = useRef<string>("");
 
+  const revokeCurrentUrl = () => {
+    if (currentUrlRef.current) {
+      URL.revokeObjectURL(currentUrlRef.current);
+      currentUrlRef.current = '';
+    }
+  }
+
   useEffect(() => {
     audioRef.current = new Audio();
 
@@ -19,13 +26,9 @@ export function FlowMusicButton() {
     audioRef.current.addEventListener("ended", handleTrackEnd);
 
     return () => {
-      const currentUrl = currentUrlRef.current;
       audioRef.current?.pause();
       audioRef.current?.removeEventListener("ended", handleTrackEnd);
-      if (currentUrl) {
-        URL.revokeObjectURL(currentUrl);
-        currentUrlRef.current = "";
-      }
+      revokeCurrentUrl();
     };
   }, []);
 
@@ -50,7 +53,8 @@ export function FlowMusicButton() {
       filesRef.current = foundFiles;
       setHasFolder(true);
     } catch (error) {
-      console.log("No file selected", error);
+      console.log("Playback failed, skipping to next track", error);
+      playRandomTrack();
     }
   };
 
@@ -62,6 +66,7 @@ export function FlowMusicButton() {
 
     const randomFile = files[Math.floor(Math.random() * files.length)];
     const randomFileData = await randomFile.getFile();
+    revokeCurrentUrl();
     currentUrlRef.current = URL.createObjectURL(randomFileData);
     audio.src = currentUrlRef.current;
     setCurrentTrack(randomFile.name);
