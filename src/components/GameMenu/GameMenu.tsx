@@ -12,9 +12,25 @@ interface GameMenuProps {
   timer: ReturnType<typeof useTimer>;
   setIsGameMenuPage: React.Dispatch<React.SetStateAction<boolean>>;
   setInFocusMode: React.Dispatch<React.SetStateAction<boolean>>;
+  hasFolder: boolean;
+  isPlaying: boolean;
+  currentTrack: string;
+  onMusicFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onToggleMusic: () => void;
+  onSkipMusic: () => void;
 }
 
-export function GameMenu({ timer, setInFocusMode, setIsGameMenuPage }: GameMenuProps) {
+export function GameMenu({
+  timer,
+  setInFocusMode,
+  setIsGameMenuPage,
+  hasFolder,
+  isPlaying,
+  currentTrack,
+  onMusicFileChange,
+  onToggleMusic,
+  onSkipMusic,
+}: GameMenuProps) {
   const [showTimer, setShowTimer] = useState<boolean>(false);
   const [showTaskList, setShowTaskList] = useState<boolean>(false);
   const [showCredits, setShowCredits] = useState<boolean>(false);
@@ -52,7 +68,14 @@ export function GameMenu({ timer, setInFocusMode, setIsGameMenuPage }: GameMenuP
           <ImageUploader />
         </div>
         <div className="FlowMusicButton">
-          <FlowMusicButton />
+          <FlowMusicButton
+            hasFolder={hasFolder}
+            isPlaying={isPlaying}
+            currentTrack={currentTrack}
+            onMusicFileChange={onMusicFileChange}
+            onToggleMusic={onToggleMusic}
+            onSkipMusic={onSkipMusic}
+          />
         </div>
       </div>
     </div>

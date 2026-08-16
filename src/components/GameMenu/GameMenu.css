@@ -15,7 +15,7 @@
   font-weight: 700;             
   text-transform: uppercase;   
   padding: 10px;
-  line-height: 1.5;
+  line-height: 1.5; 
   animation: game-menu-title-entrance 1.3s ease-in-out;
 }
 

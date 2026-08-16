@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { GameMenu } from "./components/GameMenu/GameMenu.tsx";
 import { FocusMode } from "./components/Timer/FocusMode.tsx";
 import { useTimer } from "./components/Timer/useTimer.ts";
@@ -6,16 +6,133 @@ import { useTimer } from "./components/Timer/useTimer.ts";
 import "./App.css";
 import "./index.css";
 
+const FLAME_COLORS = [
+  "#FFE808",
+  "#FFCE00",
+  "#FC6400",
+  "#FF5A00",
+  "#FF0000",
+  "#801100",
+  "#1A0F0A",
+];
+
+const EMBER_STYLES = FLAME_COLORS.map((color, index) => ({
+  "--ember-color": color,
+  "--ember-opacity": (0.4 + (index % 5) * 0.1).toFixed(2),
+  "--ember-glow": 6 + (index % 10),
+})) as React.CSSProperties[];
+
 export function App() {
   const [inFocusMode, setInFocusMode] = useState<boolean>(false);
   const [isStartingPage, setIsStartingPage] = useState<boolean>(true);
   const [isGameMenuPage, setIsGameMenuPage] = useState<boolean>(false);
   const [isExiting, setIsExiting] = useState<boolean>(false);
+  const [hasFolder, setHasFolder] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [currentTrack, setCurrentTrack] = useState<string>("");
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const filesRef = useRef<File[]>([]);
+  const currentUrlRef = useRef<string>("");
+
+  const revokeCurrentUrl = useCallback(() => {
+    if (currentUrlRef.current) {
+      URL.revokeObjectURL(currentUrlRef.current);
+      currentUrlRef.current = "";
+    }
+  }, []);
+
+  const playRandomTrack = useCallback(function playRandomTrack() {
+    const audio = audioRef.current;
+    const files = filesRef.current;
+
+    if (files.length === 0 || !audio) return;
+
+    try {
+      const randomIndex = Math.floor(Math.random() * files.length);
+      const randomFile = files[randomIndex];
+      revokeCurrentUrl();
+
+      currentUrlRef.current = URL.createObjectURL(randomFile);
+      audio.src = currentUrlRef.current;
+      setCurrentTrack(randomFile.name);
+
+      audio.play().catch((err) => {
+        console.error("Playback interrupted or blocked by browser:", err);
+      });
+      setIsPlaying(true);
+    } catch (error) {
+      console.error("Playback setup failed, skipping track:", error);
+      playRandomTrack();
+    }
+  }, [revokeCurrentUrl]);
+
+  const handleMusicFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = event.target.files;
+    if (!selectedFiles) return;
+
+    const foundFiles: File[] = [];
+
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const file = selectedFiles[i];
+      const nameLower = file.name.toLowerCase();
+      if (nameLower.endsWith(".mp3") || nameLower.endsWith(".mp4")) {
+        foundFiles.push(file);
+      }
+    }
+
+    if (foundFiles.length === 0) {
+      alert("No mp3 or mp4 files found in this folder!");
+      return;
+    }
+
+    filesRef.current = foundFiles;
+    setHasFolder(true);
+  };
+
+  const toggleMusic = useCallback(() => {
+    if (!audioRef.current) return;
+
+    if (!currentUrlRef.current) {
+      playRandomTrack();
+    } else if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play().catch(console.error);
+      setIsPlaying(true);
+    }
+  }, [isPlaying, playRandomTrack]);
+
+  const skipMusic = useCallback(() => {
+    if (!audioRef.current || !currentUrlRef.current) return;
+
+    audioRef.current.pause();
+    revokeCurrentUrl();
+    playRandomTrack();
+  }, [playRandomTrack, revokeCurrentUrl]);
+
   const timer = useTimer(1500);
-  const [displayName, setDisplayName] = useState<string>(() => {
+  const displayName = useMemo(() => {
     const currentName = localStorage.getItem("flowstate_userName");
     return currentName ? currentName : "";
-  });
+  }, []);
+
+  useEffect(() => {
+    audioRef.current = new Audio();
+
+    const handleTrackEnd = () => {
+      playRandomTrack();
+    };
+
+    audioRef.current.addEventListener("ended", handleTrackEnd);
+
+    return () => {
+      audioRef.current?.pause();
+      audioRef.current?.removeEventListener("ended", handleTrackEnd);
+      revokeCurrentUrl();
+    };
+  }, [playRandomTrack, revokeCurrentUrl]);
 
   useEffect(() => {
     if (!isStartingPage) return;
@@ -35,49 +152,26 @@ export function App() {
   }, [isStartingPage]);
 
   if (isStartingPage) {
-    const flameColors = [
-      "#FFE808", // White Hot Center
-      "#FFCE00", // Molten Gold
-      "#FC6400", // Cadmium Orange
-      "#FF5A00", // Fire Orange
-      "#FF0000", // Deep Red
-      "#801100", // Dark Cherry
-      "#1A0F0A", // Cinematic Charcoal
-    ];
-
-    const getRandomEmberFormatting = () => {
-      const randomEmberColor =
-        flameColors[Math.floor(Math.random() * flameColors.length)];
-      const randomOpacity = (Math.random() * 0.5 + 0.4).toFixed(2);
-      const randomGlow = Math.floor(Math.random() * 10) + 6;
-
-      return {
-        "--ember-color": randomEmberColor,
-        "--ember-opacity": randomOpacity,
-        "--ember-glow": randomGlow,
-      } as React.CSSProperties;
-    };
-
     return (
       <div className={`welcome-message ${isExiting ? "exiting" : ""}`}>
         <div className="cinder-container left-edge">
-          <div className="cinder c1" style={getRandomEmberFormatting()}></div>
-          <div className="cinder c2" style={getRandomEmberFormatting()}></div>
-          <div className="cinder c3" style={getRandomEmberFormatting()}></div>
-          <div className="cinder c4" style={getRandomEmberFormatting()}></div>
-          <div className="cinder c5" style={getRandomEmberFormatting()}></div>
-          <div className="cinder c6" style={getRandomEmberFormatting()}></div>
+          <div className="cinder c1" style={EMBER_STYLES[0]}></div>
+          <div className="cinder c2" style={EMBER_STYLES[1]}></div>
+          <div className="cinder c3" style={EMBER_STYLES[2]}></div>
+          <div className="cinder c4" style={EMBER_STYLES[3]}></div>
+          <div className="cinder c5" style={EMBER_STYLES[4]}></div>
+          <div className="cinder c6" style={EMBER_STYLES[5]}></div>
         </div>
 
         <div className="main-intro">Welcome Back {displayName || "Guest"}</div>
 
         <div className="cinder-container right-edge">
-          <div className="cinder c7" style={getRandomEmberFormatting()}></div>
-          <div className="cinder c8" style={getRandomEmberFormatting()}></div>
-          <div className="cinder c9" style={getRandomEmberFormatting()}></div>
-          <div className="cinder c10" style={getRandomEmberFormatting()}></div>
-          <div className="cinder c11" style={getRandomEmberFormatting()}></div>
-          <div className="cinder c12" style={getRandomEmberFormatting()}></div>
+          <div className="cinder c7" style={EMBER_STYLES[6]}></div>
+          <div className="cinder c8" style={EMBER_STYLES[7]}></div>
+          <div className="cinder c9" style={EMBER_STYLES[8]}></div>
+          <div className="cinder c10" style={EMBER_STYLES[9]}></div>
+          <div className="cinder c11" style={EMBER_STYLES[10]}></div>
+          <div className="cinder c12" style={EMBER_STYLES[11]}></div>
         </div>
 
         <div className="sub-intro">Ready to Focus?</div>
@@ -102,7 +196,19 @@ export function App() {
   }
 
   if (isGameMenuPage) {
-    return <GameMenu timer={timer} setInFocusMode={setInFocusMode} setIsGameMenuPage={setIsGameMenuPage} />;
+    return (
+      <GameMenu
+        timer={timer}
+        setInFocusMode={setInFocusMode}
+        setIsGameMenuPage={setIsGameMenuPage}
+        hasFolder={hasFolder}
+        isPlaying={isPlaying}
+        currentTrack={currentTrack}
+        onMusicFileChange={handleMusicFileChange}
+        onToggleMusic={toggleMusic}
+        onSkipMusic={skipMusic}
+      />
+    );
   }
 
   return (
