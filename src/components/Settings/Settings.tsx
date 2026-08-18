@@ -47,6 +47,10 @@ export function Settings({ setShowSettings }: SettingsProps) {
           <span>Long Break: </span>
           <input className="long-break-length-input" />
         </div>
+        <div className="row-wrapper">
+          <span>Long Break interval: </span>
+          <input className="long-break-interval-input" />
+        </div>
       </div>
       <div className="audio-and-alerts"></div>
       <div className="visuals"></div>

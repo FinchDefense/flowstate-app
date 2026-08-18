@@ -1,6 +1,64 @@
+@import url('https://googleapis.com');
+
+.settings-container {
+  width: 100%;
+  height: 100%;
+}
+
 .row-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 4px;
+}
+
+.settings-title {
+  font-family: 'Almendra', 'Palatino', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin: 20px auto;
+  color: #D4AF37;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.timer-config span {
+  font-family: "Lora", "Georgia", serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  letter-spacing: 0.05em;
+  color: #BFA37A;
+}
+
+.timer-config input {
+  font-family: "Lora", serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #E6D7C3;
+  text-align: center;
+
+  background-color: #120F0D;
+  border: 2px solid #3e353e;
+  border-radius: 4px;
+  padding: 8px 12px;
+  box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.8);
+  transition: all 0.2s ease-in-out;
+}
+
+input:focus, input:hover {
+  border-color: #D4AF37; 
+  box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.8), 
+              0px 0px 8px rgba(212, 175, 55, 0.4); 
+}
+
+.timer-config input::placeholder {
+  font-family: "Lora", serif;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.timer-config .row-wrapper {
+  margin: 10px auto;
 }
