@@ -1,36 +1,46 @@
+.upload-container {
+  margin: auto 0px;
+}
+
 .dropzone-box {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  margin-top: 40px;
-  margin-bottom: -20px;
   cursor: pointer;
 }
 
 .image-placeholder-text {
   font-family: 'Courier New', Courier, monospace;
-  font-size: 1.3rem;
-  letter-spacing: 0.06em;
+  font-size: 3.3rem;
+  letter-spacing: 0.2em;
   cursor: pointer;
+  font-weight: 900;
+  margin-bottom: 4vh;
+}
+
+.image-placeholder-text:hover {
+  transform: scale(1.07) translateY(-3px);
 }
 
 .Image-placeholder-text {
   font-family: 'Courier New', Courier, monospace;
-  font-size: 1.3rem;
+  font-size: 3.3rem;
   letter-spacing: 0.06em;
   cursor: pointer;
+  font-weight: 900;
 }
 
 .remove-image-button {
   align-items: center;
   border: none;
   background-color: transparent;
-  color: white;
-  font-size: 1.1rem;
+  color: #FFFFFF;
+  font-size: 2.2rem;
   cursor: pointer;
   letter-spacing: 0.03em;
-  color: #8c9aa2;
+  opacity: 0.7;
+  font-weight: 700;
 }
 
 .remove-image-button:hover {

@@ -1,34 +1,14 @@
-import { useEffect, useState, useRef } from "react";
 import "./ImageUploader.css";
 
-export const ImageUploader: React.FC = () => {
-  const [imageUrl, setimageUrl] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+interface ImageUploaderProps {
+  setShowImageUploader: (value: React.SetStateAction<boolean>) => void;
+  imageUrl: string | null;
+  setImageUrl: React.Dispatch<React.SetStateAction<string | null>>;
+  fileInputRef: React.RefObject<HTMLInputElement | null>;
+}
 
-  useEffect(() => {
-    const savedImage = localStorage.getItem("savedImage");
-    if (savedImage) {
-      setimageUrl(savedImage);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (imageUrl) {
-      document.body.style.backgroundImage = `url('${imageUrl}')`;
-      document.body.style.backgroundSize = 'cover'; 
-      document.body.style.backgroundPosition = 'center';
-      document.body.style.backgroundRepeat = 'no-repeat';
-      document.body.style.backgroundAttachment = 'fixed';
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.background = '';
-      document.body.style.overflow = '';
-    }
-
-    return () => {
-      document.body.style.background = '';
-    };
-  }, [imageUrl]);
+export const ImageUploader: React.FC = ({ setShowImageUploader, imageUrl, setImageUrl, fileInputRef }: ImageUploaderProps) => {
+  
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -39,14 +19,14 @@ export const ImageUploader: React.FC = () => {
       reader.readAsDataURL(file);
       reader.onloadend = () => {
         const base64String = reader.result as string;
-        setimageUrl(base64String);
+        setImageUrl(base64String);
         localStorage.setItem("savedImage", base64String);
       };
     }
   };
 
   const removeImage = () => {
-    setimageUrl(null);
+    setImageUrl(null);
     localStorage.removeItem("savedImage");
   };
 
@@ -56,6 +36,11 @@ export const ImageUploader: React.FC = () => {
 
   return (
     <div className="upload-container">
+      <div className="fixed-button-container">
+        <button className="back-button" onClick={() => setShowImageUploader(false)}>
+          ← Back to Menu
+        </button>
+      </div>
       <input
         type="file"
         ref={fileInputRef}
@@ -67,7 +52,7 @@ export const ImageUploader: React.FC = () => {
       <div className="dropzone-box" onClick={triggerFileInput}>
         {imageUrl ? (
           <div className="image-placeholder-text">
-            <span>Wallpaper Active</span>
+            <span>Change Wallpaper</span>
           </div>
         ) : (
           <div className="Image-placeholder-text">
@@ -77,12 +62,13 @@ export const ImageUploader: React.FC = () => {
 
         {imageUrl && (
           <div className="action-buttons">
-            <button 
-              className="remove-image-button" 
+            <button
+              className="remove-image-button"
               onClick={(e) => {
                 e.stopPropagation();
                 removeImage();
-              }}>
+              }}
+            >
               Delete Image
             </button>
           </div>

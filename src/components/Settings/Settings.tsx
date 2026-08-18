@@ -1,5 +1,6 @@
 import { useState } from "react";
 import './Settings.css';
+import '../../App';
 
 interface SettingsProps {
   setShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
@@ -52,7 +53,11 @@ export function Settings({ setShowSettings }: SettingsProps) {
           <input className="long-break-interval-input" />
         </div>
       </div>
-      <div className="audio-and-alerts"></div>
+      <div className="audio-and-alerts">
+        <div className="alarm-sound">
+          <span>Alarm Sound</span> 
+        </div>
+      </div>
       <div className="visuals"></div>
     </div>
   );
