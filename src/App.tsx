@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { GameMenu } from "./components/GameMenu/GameMenu.tsx";
 import { FocusMode } from "./components/Timer/FocusMode.tsx";
 import { useTimer } from "./components/Timer/useTimer.ts";
-import { set, get } from 'idb-keyval';
+import { set, get } from "idb-keyval";
 
 import "./App.css";
 import "./index.css";
@@ -33,20 +33,19 @@ export function App() {
   const [currentTrack, setCurrentTrack] = useState<string>("");
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  
+
   const filesRef = useRef<File[]>([]);
   const currentUrlRef = useRef<string>("");
 
   useEffect(() => {
     async function loadStoredFolder() {
       try {
-        const retrievedFolder = await get<File[]>('current-folder');
+        const retrievedFolder = await get<File[]>("current-folder");
         if (retrievedFolder && retrievedFolder.length > 0) {
           filesRef.current = retrievedFolder;
           setHasFolder(true);
         }
-      } 
-      catch (error) {
+      } catch (error) {
         console.error("Failed to load folder from IndexedDB:", error);
       }
     }
@@ -60,32 +59,37 @@ export function App() {
     }
   }, []);
 
-  const playRandomTrack = useCallback(function playRandomTrack() {
-    const audio = audioRef.current;
-    const files = filesRef.current;
+  const playRandomTrack = useCallback(
+    function playRandomTrack() {
+      const audio = audioRef.current;
+      const files = filesRef.current;
 
-    if (files.length === 0 || !audio) return;
+      if (files.length === 0 || !audio) return;
 
-    try {
-      const randomIndex = Math.floor(Math.random() * files.length);
-      const randomFile = files[randomIndex];
-      revokeCurrentUrl();
+      try {
+        const randomIndex = Math.floor(Math.random() * files.length);
+        const randomFile = files[randomIndex];
+        revokeCurrentUrl();
 
-      currentUrlRef.current = URL.createObjectURL(randomFile);
-      audio.src = currentUrlRef.current;
-      setCurrentTrack(randomFile.name);
+        currentUrlRef.current = URL.createObjectURL(randomFile);
+        audio.src = currentUrlRef.current;
+        setCurrentTrack(randomFile.name);
 
-      audio.play().catch((err) => {
-        console.error("Playback interrupted or blocked by browser:", err);
-      });
-      setIsPlaying(true);
-    } catch (error) {
-      console.error("Playback setup failed, skipping track:", error);
-      playRandomTrack();
-    }
-  }, [revokeCurrentUrl]);
+        audio.play().catch((err) => {
+          console.error("Playback interrupted or blocked by browser:", err);
+        });
+        setIsPlaying(true);
+      } catch (error) {
+        console.error("Playback setup failed, skipping track:", error);
+        playRandomTrack();
+      }
+    },
+    [revokeCurrentUrl],
+  );
 
-  const handleMusicFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMusicFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const selectedFiles = event.target.files;
     if (!selectedFiles) return;
 
@@ -106,10 +110,9 @@ export function App() {
 
     filesRef.current = foundFiles;
     try {
-      await set('current-folder', foundFiles);
+      await set("current-folder", foundFiles);
       setHasFolder(true);
-    } 
-    catch (error) {
+    } catch (error) {
       console.error("Failed to save folder to IndexedDB:", error);
       alert("Failed to securely store folder index in browser cache storage.");
     }
@@ -144,18 +147,20 @@ export function App() {
   }, []);
 
   useEffect(() => {
-    audioRef.current = new Audio();
+    const audio = new Audio();
+    audioRef.current = audio;
 
     const handleTrackEnd = () => {
       playRandomTrack();
     };
 
-    audioRef.current.addEventListener("ended", handleTrackEnd);
+    audio.addEventListener("ended", handleTrackEnd);
 
     return () => {
-      audioRef.current?.pause();
-      audioRef.current?.removeEventListener("ended", handleTrackEnd);
+      audio.pause();
+      audio.removeEventListener("ended", handleTrackEnd);
       revokeCurrentUrl();
+      audioRef.current = null;
     };
   }, [playRandomTrack, revokeCurrentUrl]);
 
@@ -226,6 +231,7 @@ export function App() {
         onMusicFileChange={handleMusicFileChange}
         onToggleMusic={toggleMusic}
         onSkipMusic={skipMusic}
+        audioRef={audioRef}
       />
     );
   }
@@ -233,8 +239,8 @@ export function App() {
   return (
     <div className="app-container">
       <div className="header"></div>
-    </div>  
-  )
+    </div>
+  );
 }
-  
+
 export default App;

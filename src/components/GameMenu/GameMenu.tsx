@@ -18,6 +18,7 @@ interface GameMenuProps {
   onMusicFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onToggleMusic: () => void;
   onSkipMusic: () => void;
+  audioRef: React.RefObject<HTMLAudioElement | null>;
 }
 
 export function GameMenu({
@@ -30,6 +31,7 @@ export function GameMenu({
   onMusicFileChange,
   onToggleMusic,
   onSkipMusic,
+  audioRef,
 }: GameMenuProps) {
   const [showTimer, setShowTimer] = useState<boolean>(false);
   const [showTaskList, setShowTaskList] = useState<boolean>(false);
@@ -107,6 +109,7 @@ export function GameMenu({
             onMusicFileChange={onMusicFileChange}
             onToggleMusic={onToggleMusic}
             onSkipMusic={onSkipMusic}
+            audioRef={audioRef}
           />
         </div>
       </div>
