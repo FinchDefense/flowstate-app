@@ -68,7 +68,7 @@ export function useBreakSound(): UseBreakSoundResult {
     }
   };
 
-  const playBreakSound = (): void => {
+  const playBreakSound = (): void => { 
     if (audioInstanceRef.current) {
       audioInstanceRef.current.pause();
     }
