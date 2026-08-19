@@ -28,7 +28,7 @@ export function FlowMusicButton({
     directory?: string;
   };
 
-  const [volumeValue, setVolumeValue] = useState<number>(5);
+  const [volumeValue, setVolumeValue] = useState<number>(7);
   useEffect(() => {
     if (!audioRef.current) return;
     else {
@@ -69,7 +69,7 @@ export function FlowMusicButton({
           </div>
 
           <div className="volume-slider-container">
-            <div className="rpg-slider-header">
+            <div className="volume-slider-header">
               <label className="setting-label">Control the Volume</label>
             </div>
             <input

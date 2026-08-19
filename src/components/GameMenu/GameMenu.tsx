@@ -49,25 +49,6 @@ export function GameMenu({
     }
   }, []);
 
-  useEffect(() => {
-    if (imageUrl) {
-      document.body.style.backgroundImage = `url('${imageUrl}')`;
-      document.body.style.backgroundSize = "cover";
-      document.body.style.backgroundPosition = "center";
-      document.body.style.backgroundRepeat = "no-repeat";
-      document.body.style.backgroundAttachment = "fixed";
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.background = "";
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.background = "";
-    };
-  }, [imageUrl]);
-
-
   if (showTimer) {
     return (<Timer setShowTimer={setShowTimer} setInFocusMode={setInFocusMode} timer={timer} setIsGameMenuPage={setIsGameMenuPage} />)
   }
@@ -88,8 +69,16 @@ export function GameMenu({
     return <ImageUploader setShowImageUploader={setShowImageUploader} imageUrl={imageUrl} setImageUrl={setImageUrl} fileInputRef={fileInputRef} />
   }
 
+  const localBackgroundStyle = imageUrl ? {
+    backgroundImage: `url('${imageUrl}')`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    backgroundAttachment: "fixed"
+  } : {};
+
   return (
-    <div className="game-menu-container">
+    <div className="game-menu-container" style={localBackgroundStyle}>
       <div className="game-menu-sidebar">
         <div className="game-title">AGE QUOD <br /> AGIS</div>
         <div className="game-title-motivation">Own the hour, or the hour owns you.</div>
