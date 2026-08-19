@@ -4,6 +4,7 @@ import type { ChangeEvent } from 'react';
 interface UseBreakSoundResult {
   breakAudioUrl: string;
   fileInputRef: React.RefObject<HTMLInputElement | null>;
+  openFilePicker: () => void;
   handleSelectChange: (e: ChangeEvent<HTMLSelectElement>) => void;
   handleFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
   playBreakSound: () => void;
@@ -14,7 +15,7 @@ export function useBreakSound(): UseBreakSoundResult {
   const audioInstanceRef = useRef<HTMLAudioElement | null>(null);
 
   const [breakAudioUrl, setBreakAudioUrl] = useState<string>(() => {
-    return localStorage.getItem('break-audio') || 'https://soundhelix.com';
+    return localStorage.getItem('break-audio') || '/audio/lofi-audio.mp3';
   });
 
   useEffect(() => {
@@ -36,12 +37,23 @@ export function useBreakSound(): UseBreakSoundResult {
     };
   }, [breakAudioUrl]);
 
+  const openFilePicker = (): void => {
+    const fileInput = fileInputRef.current;
+    if (!fileInput) return;
+
+    try {
+      fileInput.showPicker();
+    } catch {
+      fileInput.click();
+    }
+  };
+
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>): void => {
     const val = e.target.value;
     if (!val) return;
 
     if (val === 'custom') {
-      fileInputRef.current?.click(); 
+      openFilePicker();
     } else {
       setBreakAudioUrl(val);
     }
@@ -70,6 +82,7 @@ export function useBreakSound(): UseBreakSoundResult {
   return {
     breakAudioUrl,
     fileInputRef,
+    openFilePicker,
     handleSelectChange,
     handleFileChange,
     playBreakSound
