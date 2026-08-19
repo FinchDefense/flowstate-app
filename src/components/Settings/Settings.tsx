@@ -79,6 +79,23 @@ export function Settings({
             />
           </label>
         </div>
+
+        <div className="alarm-sound">
+          <span>Focus Sound</span>
+          <label htmlFor="music-upload" className="upload-btn">
+            ⚔️ CHOOSE MUSIC FOLDER
+            <input
+              id="music-upload" 
+              type="file"
+              multiple
+              accept="audio/*"
+              webkitdirectory=""
+              directory=""
+              onChange={onMusicFileChange}
+              className="hidden-upload-input"
+            />
+          </label>
+        </div>
       </div>
       <div className="visuals"></div>
     </div>
