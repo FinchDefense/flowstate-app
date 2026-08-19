@@ -62,3 +62,36 @@ input:focus, input:hover {
 .timer-config .row-wrapper {
   margin: 10px auto;
 }
+
+.back-button {
+  width: auto;
+  margin: 30px 50px;
+  position: absolute;
+  left: 0;
+}
+
+.alarm-sound {
+  margin: 30px auto;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+}
+
+.alarm-sound span {
+  font-family: "Lora", "Georgia", serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  letter-spacing: 0.05em;
+  color: #BFA37A;
+}
+
+.upload-btn {
+  background-color: #0B4624;
+  font-size: 0.875rem;
+  padding: 10px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}

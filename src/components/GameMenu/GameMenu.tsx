@@ -62,7 +62,7 @@ export function GameMenu({
   }
 
   if (showSettings) {
-    return <Settings setShowSettings={setShowSettings} />
+    return <Settings setShowSettings={setShowSettings} onMusicFileChange={onMusicFileChange} />
   }
 
   if (showImageUploader) {

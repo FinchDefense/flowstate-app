@@ -1,12 +1,18 @@
 import { useState } from "react";
-import './Settings.css';
-import '../../App';
+import "./Settings.css";
+import "../../App";
 
 interface SettingsProps {
   setShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
+  onMusicFileChange: (
+    event: React.ChangeEvent<HTMLInputElement, Element>,
+  ) => void;
 }
 
-export function Settings({ setShowSettings }: SettingsProps) {
+export function Settings({
+  setShowSettings,
+  onMusicFileChange,
+}: SettingsProps) {
   const [inputName, setInputName] = useState<string>(() => {
     const currentName = localStorage.getItem("flowstate_userName");
     return currentName ? currentName : "";
@@ -34,6 +40,9 @@ export function Settings({ setShowSettings }: SettingsProps) {
 
   return (
     <div className="settings-container">
+      <button className="back-button" onClick={() => setShowSettings(false)}>
+        ← Back to Menu
+      </button>
       <div className="settings-title">SETTINGS</div>
       <div className="timer-config">
         <div className="row-wrapper">
@@ -55,7 +64,19 @@ export function Settings({ setShowSettings }: SettingsProps) {
       </div>
       <div className="audio-and-alerts">
         <div className="alarm-sound">
-          <span>Alarm Sound</span> 
+          <span>Alarm Sound</span>
+          <label htmlFor="music-upload" className="upload-btn">
+            ⚔️ CHOOSE MUSIC FOLDER
+            <input
+              type="file"
+              id="music-upload"
+              accept="audio/*" 
+              onChange={onMusicFileChange}
+              style={{
+                display: "none",
+              }} 
+            />
+          </label>
         </div>
       </div>
       <div className="visuals"></div>
