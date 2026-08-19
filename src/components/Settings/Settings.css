@@ -95,3 +95,7 @@ input:focus, input:hover {
   letter-spacing: 0.06em;
   cursor: pointer;
 }
+
+.hidden-upload-input {
+  display: none;
+}

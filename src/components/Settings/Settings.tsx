@@ -68,13 +68,14 @@ export function Settings({
           <label htmlFor="music-upload" className="upload-btn">
             ⚔️ CHOOSE MUSIC FOLDER
             <input
+              id="music-upload" 
               type="file"
-              id="music-upload"
-              accept="audio/*" 
+              multiple
+              accept="audio/*"
+              webkitdirectory=""
+              directory=""
               onChange={onMusicFileChange}
-              style={{
-                display: "none",
-              }} 
+              className="hidden-upload-input"
             />
           </label>
         </div>
