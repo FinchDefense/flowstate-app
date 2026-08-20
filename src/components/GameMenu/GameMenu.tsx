@@ -7,6 +7,7 @@ import { Credits } from "../Credits/Credits.tsx";
 import { Settings } from "../Settings/Settings.tsx";
 import "./GameMenu.css";
 import { FlowMusicButton } from "../FlowMusicButton.tsx";
+import type { UseBreakSoundResult } from "../Settings/useBreakSound";
 
 interface GameMenuProps {
   timer: ReturnType<typeof useTimer>;
@@ -19,6 +20,9 @@ interface GameMenuProps {
   onToggleMusic: () => void;
   onSkipMusic: () => void;
   audioRef: React.RefObject<HTMLAudioElement | null>;
+  alarmVolume: number;
+  setAlarmVolume: React.Dispatch<React.SetStateAction<number>>;
+  breakSound: UseBreakSoundResult;
 }
 
 export function GameMenu({
@@ -32,6 +36,9 @@ export function GameMenu({
   onToggleMusic,
   onSkipMusic,
   audioRef,
+  alarmVolume,
+  setAlarmVolume,
+  breakSound,
 }: GameMenuProps) {
   const [showTimer, setShowTimer] = useState<boolean>(false);
   const [showTaskList, setShowTaskList] = useState<boolean>(false);
@@ -62,7 +69,14 @@ export function GameMenu({
   }
 
   if (showSettings) {
-    return <Settings setShowSettings={setShowSettings} onMusicFileChange={onMusicFileChange} />
+    return (
+      <Settings
+        setShowSettings={setShowSettings}
+        alarmVolume={alarmVolume}
+        setAlarmVolume={setAlarmVolume}
+        breakSound={breakSound}
+      />
+    )
   }
 
   if (showImageUploader) {

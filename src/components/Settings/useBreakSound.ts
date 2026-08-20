@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import type { ChangeEvent } from "react";
 
-interface UseBreakSoundResult {
+export interface UseBreakSoundResult {
   breakAudioUrl: string;
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   openFilePicker: () => void;
@@ -82,7 +82,9 @@ export function useBreakSound(alarmVolume: number): UseBreakSoundResult {
     const audio = new Audio(breakAudioUrl);
     audio.volume = alarmVolume / 10;
     audioInstanceRef.current = audio;
-    audio.play();
+    audio.play().catch((error: Error) => {
+      console.error("Break sound playback was blocked:", error);
+    });
   };
 
   return {

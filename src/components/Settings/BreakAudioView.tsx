@@ -1,25 +1,23 @@
-import React, {useEffect} from "react";
-import { useBreakSound } from "./useBreakSound";
+import React from "react";
 import "./BreakAudioView.css";
 
 interface BreakAudioViewProps {
-  alarmVolume: number,
-  setAlarmVolume: React.Dispatch<React.SetStateAction<number>>,
+  breakAudioUrl: string,
+  fileInputRef: React.RefObject<HTMLInputElement | null>,
+  openFilePicker: () => void,
+  handleSelectChange: (e: React.ChangeEvent<HTMLSelectElement>) => void,
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  playBreakSound: () => void,
 }
 
-export default function BreakAudioView({ alarmVolume, setAlarmVolume }): React.JSX.Element {
-  const {
-    breakAudioUrl,
-    fileInputRef,
-    openFilePicker,
-    handleSelectChange,
-    handleFileChange,
-    playBreakSound,
-  } = useBreakSound(alarmVolume);
-
-  const displayActiveText = (value: string, originalText: string): string => {
-    return originalText;
-  };
+export default function BreakAudioView({
+  breakAudioUrl,
+  fileInputRef,
+  openFilePicker,
+  handleSelectChange,
+  handleFileChange,
+  playBreakSound,
+}: BreakAudioViewProps): React.JSX.Element {
 
   return (
     <div className="sound-selector-container">

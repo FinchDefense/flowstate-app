@@ -1,18 +1,21 @@
 import { useState } from "react";
 import BreakAudioView from "./BreakAudioView";
+import type { UseBreakSoundResult } from "./useBreakSound";
 import "./Settings.css";
 import "../../App";
 
 interface SettingsProps {
   setShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
-  onMusicFileChange: (
-    event: React.ChangeEvent<HTMLInputElement, Element>,
-  ) => void;
+  alarmVolume: number;
+  setAlarmVolume: React.Dispatch<React.SetStateAction<number>>;
+  breakSound: UseBreakSoundResult;
 }
 
 export function Settings({
   setShowSettings,
-  onMusicFileChange,
+  alarmVolume,
+  setAlarmVolume,
+  breakSound,
 }: SettingsProps) {
   const [inputName, setInputName] = useState<string>(() => {
     const currentName = localStorage.getItem("flowstate_userName");
@@ -23,8 +26,6 @@ export function Settings({
     const currentName = localStorage.getItem("flowstate_userName");
     return currentName ? currentName : "";
   });
-  const [alarmVolume, setAlarmVolume] = useState<number>(7);
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputName(event.target.value);
   };
@@ -65,7 +66,9 @@ export function Settings({
         </div>
       </div>
       <div className="audio-and-alerts">
-        <BreakAudioView alarmVolume={alarmVolume} setAlarmVolume={setAlarmVolume} />
+        <BreakAudioView
+          {...breakSound}
+        />
         <div className="alarm-volume">
           <span>Alarm Volume</span>
           <input

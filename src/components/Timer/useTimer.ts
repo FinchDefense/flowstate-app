@@ -15,7 +15,11 @@ const workerCode = `
   };
 `;
 
-export function useTimer(initialTime: number = 1500, initialBreakTime = 300) {
+export function useTimer(
+  initialTime: number = 1500,
+  initialBreakTime = 300,
+  onFocusComplete?: () => void,
+) {
   const [time, setTime] = useState<number>(() => {
     const savedTime = localStorage.getItem("timer-time");
     return savedTime ? Number(savedTime) : 1500;
@@ -45,9 +49,13 @@ export function useTimer(initialTime: number = 1500, initialBreakTime = 300) {
   const workerRef = useRef<Worker | null>(null);
   const endTimeRef = useRef<number | null>(null);
   const stateRef = useRef({ isOnBreak, initialTime, initialBreakTime });
+  const onFocusCompleteRef = useRef(onFocusComplete);
   useEffect(() => {
     stateRef.current = { isOnBreak, initialTime, initialBreakTime };
   }, [isOnBreak, initialTime, initialBreakTime]);
+  useEffect(() => {
+    onFocusCompleteRef.current = onFocusComplete;
+  }, [onFocusComplete]);
 
   const moodColors = {
     "⚡ ENERGETIC": ["#ff6b6b", "#ff9f43", "#f0932b", "#ff7979"],
@@ -213,6 +221,7 @@ export function useTimer(initialTime: number = 1500, initialBreakTime = 300) {
       if (!activeBreak) {
         if (timeRemaining <= 0) {
           workerRef.current?.postMessage("STOP");
+          onFocusCompleteRef.current?.();
           setNumPomos((prevNumPomos) => prevNumPomos + 1);
           setNumBreaks((prevNumBreaks) => prevNumBreaks + 1);
           setIsOnBreak(true);

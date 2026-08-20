@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { GameMenu } from "./components/GameMenu/GameMenu.tsx";
 import { FocusMode } from "./components/Timer/FocusMode.tsx";
 import { useTimer } from "./components/Timer/useTimer.ts";
+import { useBreakSound } from "./components/Settings/useBreakSound";
 import { set, get } from "idb-keyval";
 
 import "./App.css";
@@ -31,6 +32,10 @@ export function App() {
   const [hasFolder, setHasFolder] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [currentTrack, setCurrentTrack] = useState<string>("");
+  const [alarmVolume, setAlarmVolume] = useState<number>(() => {
+    const savedVolume = localStorage.getItem("alarm-volume");
+    return savedVolume ? Number(savedVolume) : 7;
+  });
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -140,11 +145,16 @@ export function App() {
     playRandomTrack();
   }, [playRandomTrack, revokeCurrentUrl]);
 
-  const timer = useTimer(1500);
+  const breakSound = useBreakSound(alarmVolume);
+  const timer = useTimer(1500, 300, breakSound.playBreakSound);
   const displayName = useMemo(() => {
     const currentName = localStorage.getItem("flowstate_userName");
     return currentName ? currentName : "";
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("alarm-volume", String(alarmVolume));
+  }, [alarmVolume]);
 
   useEffect(() => {
     const audio = new Audio();
@@ -232,6 +242,9 @@ export function App() {
         onToggleMusic={toggleMusic}
         onSkipMusic={skipMusic}
         audioRef={audioRef}
+        alarmVolume={alarmVolume}
+        setAlarmVolume={setAlarmVolume}
+        breakSound={breakSound}
       />
     );
   }
