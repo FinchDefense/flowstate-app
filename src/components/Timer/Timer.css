@@ -37,7 +37,7 @@
   font-weight: 600;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--phase-accent);
   margin-bottom: 4px;
   transition: color 0.5s ease;
 }
@@ -47,9 +47,9 @@
   min-width: 50vw;
   padding: 24px 16px;
   margin: 20px auto;
-  background: var(--bg-dark);
-  border: 2px solid var(--accent-cyan);
-  box-shadow: 0 0 25px 5px rgba(0, 255, 255, 0.6);
+  background: var(--phase-background);
+  border: 2px solid var(--phase-accent);
+  box-shadow: 0 0 25px 5px var(--phase-shadow);
   border-radius: 12px;
   transition:
     border-color 0.5s ease,
@@ -159,7 +159,7 @@
 
 .number-of-pomodoros {
   margin: 12px auto;
-  color: var(--accent-cyan);
+  color: var(--phase-accent);
   font-family: 'Inter', -apple-system, sans-serif;
   font-size: 1rem;
   font-weight: 600;

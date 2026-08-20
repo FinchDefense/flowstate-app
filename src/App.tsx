@@ -192,6 +192,17 @@ export function App() {
     autoStartBreak,
     autoStartFocus,
   );
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.remove("phase-focus", "phase-break");
+    root.classList.add(timer.isOnBreak ? "phase-break" : "phase-focus");
+
+    return () => {
+      root.classList.remove("phase-focus", "phase-break");
+    };
+  }, [timer.isOnBreak]);
+
   const displayName = useMemo(() => {
     const currentName = localStorage.getItem("flowstate_userName");
     return currentName ? currentName : "";
