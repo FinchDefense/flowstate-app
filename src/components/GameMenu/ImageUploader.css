@@ -35,7 +35,7 @@
   align-items: center;
   border: none;
   background-color: transparent;
-  color: #FFFFFF;
+  color: var(--text-primary);
   font-size: 2.2rem;
   cursor: pointer;
   letter-spacing: 0.03em;
@@ -45,5 +45,5 @@
 
 .remove-image-button:hover {
   transform: scale(1.1) translateY(-2px);
-  color: #C84B1E;
+  color: var(--accent-orange-strong);
 }

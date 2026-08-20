@@ -20,6 +20,33 @@
   --phase-background: #1a120a;
   --phase-shadow: rgba(255, 140, 0, 0.35);
 
+  --surface-page: #0a0a0c;
+  --surface-panel: rgba(18, 17, 21, 0.9);
+  --surface-panel-solid: #18181b;
+  --surface-input: #120f0d;
+  --surface-input-hover: #1f1a16;
+  --surface-control: #231c18;
+  --surface-control-hover: #312722;
+  --text-primary: #f4f4f5;
+  --text-secondary: #e2d7c5;
+  --text-muted-strong: #a1a1aa;
+  --text-subtle: #8c857b;
+  --text-on-accent: #ffffff;
+  --border-subtle: #27272a;
+  --border-strong: #5a5040;
+  --border-accent: #d4af37;
+  --accent-gold: #c5a059;
+  --accent-gold-light: #e6ca85;
+  --accent-blue: #3b82f6;
+  --accent-green: #10b981;
+  --accent-red-strong: #b22222;
+  --accent-orange-strong: #ff8c00;
+  --accent-purple: #bf00ff;
+  --shadow-soft: rgba(0, 0, 0, 0.2);
+  --shadow-medium: rgba(0, 0, 0, 0.6);
+  --focus-ring: rgba(212, 175, 55, 0.4);
+  --focus-mode-background: radial-gradient(circle at center, #0f0f1a 0%, #020617 100%);
+
   --rpg-gilded-gold: #8B6508;
   --rpg-bg: #0c0c0e;
   --rpg-panel-bg: rgba(18, 17, 21, 0.9);
@@ -80,6 +107,59 @@ body {
   --text-muted: #6f665d;
   --border-color: #c9c0b5;
   --border-hover: #9d9184;
+  --surface-page: #f1ede6;
+  --surface-panel: #fffaf2;
+  --surface-panel-solid: #ffffff;
+  --surface-input: #fffdf8;
+  --surface-input-hover: #f5eee4;
+  --surface-control: #eee6da;
+  --surface-control-hover: #e2d5c5;
+  --text-primary: #2f2923;
+  --text-secondary: #4b4035;
+  --text-muted-strong: #62584f;
+  --text-subtle: #776b60;
+  --text-on-accent: #241b12;
+  --border-subtle: #d8cec1;
+  --border-strong: #9d9184;
+  --border-accent: #9a6b13;
+  --accent-gold: #8a5e0b;
+  --accent-gold-light: #9a6b13;
+  --accent-blue: #1769aa;
+  --accent-cyan: #1769aa;
+  --accent-red: #c92a2a;
+  --accent-orange: #b85c00;
+  --accent-violet: #7b28a8;
+  --electric-blue: #1769aa;
+  --accent-green: #087f5b;
+  --accent-red-strong: #a61e1e;
+  --accent-orange-strong: #b85c00;
+  --accent-purple: #7b28a8;
+  --shadow-soft: rgba(79, 61, 42, 0.16);
+  --shadow-medium: rgba(79, 61, 42, 0.28);
+  --focus-ring: rgba(154, 107, 19, 0.3);
+  --focus-mode-background: linear-gradient(135deg, #fffaf2 0%, #e7f3ff 100%);
+  --rpg-bg: #f1ede6;
+  --rpg-panel-bg: rgba(255, 250, 242, 0.94);
+  --rpg-gold: #8a5e0b;
+  --rpg-aged-parchment: #3f3428;
+  --rpg-muted-gold: #8a5e0b;
+  --rpg-deep-charcoal: #e0d7cc;
+  --rpg-deep-burgundy: #f5dddd;
+  --rpg-forest-green: #dcefe5;
+  --rpg-gold-light: #9a6b13;
+  --rpg-border: #c9b9a7;
+  --rpg-border-highlight: #9d9184;
+  --rpg-text-main: #3f3428;
+  --rpg-text-dim: #776b60;
+  --rpg-hover-gold-glow: #8a5e0b;
+  --rpg-hover-amber: #b85c00;
+  --rpg-hover-fire-orange: #c95d1a;
+  --rpg-hover-danger-red: #a61e1e;
+  --rpg-hover-mana-green: #087f5b;
+  --rpg-glow-gold: 0 0 12px rgba(154, 107, 19, 0.25);
+  --rpg-glow-gold-intense: 0 0 20px rgba(154, 107, 19, 0.35);
+  --rpg-glow-fire: 0 0 15px rgba(201, 93, 26, 0.25);
+  --rpg-inner-shadow: inset 0 0 8px rgba(79, 61, 42, 0.18);
 }
 
 :root.theme-light.phase-focus {
@@ -123,7 +203,7 @@ body {
 }
 
 .main-intro {
-  color: #e2d7c5;
+  color: var(--text-secondary);
   font-size: 3rem;
   letter-spacing: 0.3rem;
   font-weight: 500;
@@ -131,7 +211,7 @@ body {
 }
 
 .sub-intro {
-  color: #8a8d91;
+  color: var(--text-muted-strong);
   font-size:1.5rem;
   font-weight: 300;
   margin-bottom: 2rem;
@@ -166,19 +246,19 @@ body {
 }
 
 .tabs :hover {
-  background-color: #27272a;
-  color: var(--text-main);
+  background-color: var(--surface-control-hover);
+  color: var(--text-primary);
 }
 
 .tabs .active {
-  color: var(--text-main);
-  background-color: var(--electric-blue);
+  color: var(--text-on-accent);
+  background-color: var(--accent-blue);
   border-radius: 6px;
 }
 
 .tabs .active :hover {
-  background-color: #2563eb;
-  color: #ffffff;
+  background-color: var(--accent-blue);
+  color: var(--text-on-accent);
 }
 
 .cinder-container {
@@ -196,18 +276,18 @@ body {
 .cinder {
   position: absolute;
   border-radius: 50%;
-  background: var(--ember-color, #ff6a00);
+  background: var(--ember-color, var(--accent-orange-strong));
   opacity: var(--ember-opacity, 0.8);
   box-shadow: 
-    0 0 calc(var(--ember-glow, 8) * 1px) #ff2a00, 
-    0 0 calc(var(--ember-glow, 15) * 1.8px) #ffaa00;
+    0 0 calc(var(--ember-glow, 8) * 1px) var(--accent-red),
+    0 0 calc(var(--ember-glow, 15) * 1.8px) var(--accent-orange-strong);
 }
 
 .c1 {
   width: 5px;
   height: 7px;
   left: 5%;
-  background: #ff4500;
+  background: var(--ember-color);
   border-radius: 50%;
   animation: 
     cascade-down 5.5s ease-in infinite,
@@ -218,7 +298,7 @@ body {
   width: 12px;
   height: 8px;
   left: 18%;
-  background: #ff8c00;
+  background: var(--ember-color);
   border-radius: 60% 40% 50% 30%;
   animation: 
     cascade-down 8.2s ease-in infinite 0.7s,
@@ -229,9 +309,9 @@ body {
   width: 4px;
   height: 4px;
   left: 30%;
-  background: #ffaa33;
+  background: var(--ember-color);
   border-radius: 50%;
-  box-shadow: 0 0 12px #ffaa33;
+  box-shadow: 0 0 12px var(--ember-color);
   animation: 
     cascade-down 4.3s ease-in infinite 1.5s,
     flicker 0.3s ease-in-out infinite alternate 0.5s;
@@ -241,7 +321,7 @@ body {
   width: 14px;
   height: 10px;
   left: 45%;
-  background: #ff6348;
+  background: var(--ember-color);
   border-radius: 30% 70% 40% 60%;
   animation: 
     cascade-down 9.7s ease-in infinite 0.3s,
@@ -252,9 +332,9 @@ body {
   width: 5px;
   height: 7px;
   left: 58%;
-  background: #ff4500;
+  background: var(--ember-color);
   border-radius: 50%;
-  box-shadow: 0 0 20px #ff4500;
+  box-shadow: 0 0 20px var(--ember-color);
   animation: 
     cascade-down 6.8s ease-in infinite 2.1s,
     flicker 0.5s ease-in-out infinite alternate 0.3s;
@@ -264,7 +344,7 @@ body {
   width: 3px;
   height: 15px;
   left: 72%;
-  background: #ff7722;
+  background: var(--ember-color);
   border-radius: 50% 50% 30% 30%;
   transform: rotate(45deg);
   animation: 
@@ -276,7 +356,7 @@ body {
   width: 8px;
   height: 6px;
   right: 5%;
-  background: #ff3366;
+  background: var(--ember-color);
   border-radius: 40% 60% 50% 50%;
   animation: 
     cascade-down 6.2s ease-in infinite 0.5s,
@@ -287,9 +367,9 @@ body {
   width: 16px;
   height: 16px;
   right: 18%;
-  background: #ff6b35;
+  background: var(--ember-color);
   border-radius: 20% 80% 30% 70%;
-  box-shadow: 0 0 30px #ff6b35;
+  box-shadow: 0 0 30px var(--ember-color);
   animation: 
     cascade-down 10.5s ease-in infinite 1.2s,
     flicker 0.8s ease-in-out infinite alternate 0.6s;
@@ -299,7 +379,7 @@ body {
   width: 4px;
   height: 9px;
   right: 32%;
-  background: #ffaa00;
+  background: var(--ember-color);
   border-radius: 50%;
   animation: 
     cascade-down 5.8s ease-in infinite 2.8s,
@@ -310,7 +390,7 @@ body {
   width: 7px;
   height: 5px;
   right: 48%;
-  background: #ff2d55;
+  background: var(--ember-color);
   border-radius: 50% 30% 50% 30%;
   animation: 
     cascade-down 8.9s ease-in infinite 0.9s,
@@ -321,9 +401,9 @@ body {
   width: 12px;
   height: 8px;
   right: 62%;
-  background: #ff7f50;
+  background: var(--ember-color);
   border-radius: 70% 30% 40% 60%;
-  box-shadow: 0 0 18px #ff7f50;
+  box-shadow: 0 0 18px var(--ember-color);
   animation: 
     cascade-down 7.1s ease-in infinite 4.1s,
     flicker 0.6s ease-in-out infinite alternate 0.7s;
@@ -333,7 +413,7 @@ body {
   width: 5px;
   height: 12px;
   right: 78%;
-  background: #ff5500;
+  background: var(--ember-color);
   border-radius: 30% 30% 50% 50%;
   transform: rotate(-30deg);
   animation: 
@@ -345,7 +425,7 @@ body {
   width: 3px;
   height: 3px;
   left: 12%;
-  background: #ff8833;
+  background: var(--ember-color);
   border-radius: 50%;
   animation: 
     cascade-down 6.1s ease-in infinite 0.2s,
@@ -356,7 +436,7 @@ body {
   width: 8px;
   height: 14px;
   left: 50%;
-  background: #ff4422;
+  background: var(--ember-color);
   border-radius: 40% 60% 30% 70%;
   animation: 
     cascade-down 8.8s ease-in infinite 1.9s,
@@ -367,9 +447,9 @@ body {
   width: 4px;
   height: 6px;
   right: 25%;
-  background: #ffcc44;
+  background: var(--ember-color);
   border-radius: 50%;
-  box-shadow: 0 0 10px #ffcc44;
+  box-shadow: 0 0 10px var(--ember-color);
   animation: 
     cascade-down 5.2s ease-in infinite 3.5s,
     flicker 0.35s ease-in-out infinite alternate 0.2s;
@@ -379,7 +459,7 @@ body {
   width: 10px;
   height: 7px;
   right: 55%;
-  background: #ff5533;
+  background: var(--ember-color);
   border-radius: 30% 70% 50% 50%;
   animation: 
     cascade-down 9.4s ease-in infinite 2.3s,
@@ -390,7 +470,7 @@ body {
   width: 3px;
   height: 11px;
   left: 82%;
-  background: #ff9933;
+  background: var(--ember-color);
   border-radius: 50% 50% 20% 20%;
   transform: rotate(-45deg);
   animation: 
@@ -402,9 +482,9 @@ body {
   width: 6px;
   height: 6px;
   right: 70%;
-  background: #ff2244;
+  background: var(--ember-color);
   border-radius: 50%;
-  box-shadow: 0 0 15px #ff2244;
+  box-shadow: 0 0 15px var(--ember-color);
   animation: 
     cascade-down 6.7s ease-in infinite 4.2s,
     flicker 0.65s ease-in-out infinite alternate 1.2s;

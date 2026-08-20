@@ -1,19 +1,8 @@
-:root {
-  --bg-color: #020617;
-  --bg-card: #18181b;
-  --border-color: #27272a;
-
-  --text-main: #f4f4f5;
-  --text-muted: #a1a1aa;
-  --electric-blue: #3b82f6;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-}
-
 .Focus-Mode-container {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: radial-gradient(circle at center, #0f0f1a 0%, #020617 100%);
+  background: var(--focus-mode-background);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -48,7 +37,7 @@
 
 .Focus-Mode-Quote-Author {
   font-size: 1.2rem;
-  color: #a1a1aa;
+  color: var(--text-muted-strong);
   text-align: center;
   animation: fadeInUp 0.8s ease 0.5s both;
 }
@@ -70,12 +59,12 @@
 }
 
 .Focus-Mode-timer-status.focus {
-  color: #00ffff;
+  color: var(--phase-accent);
   opacity: 0.5;
 }
 
 .Focus-Mode-timer-status.break {
-  color: #4ade80;
+  color: var(--accent-green);
   opacity: 0.5;
 }
 
@@ -83,10 +72,10 @@
   font-size: 5rem;
   font-weight: 700;
   justify-content: center;
-  color: #00ffff;
+  color: var(--phase-accent);
   letter-spacing: 6px;
   font-family: var(--font-mono);
-  text-shadow: 0 0 80px rgba(0, 255, 255, 0.08);
+  text-shadow: 0 0 80px var(--phase-shadow);
 }
 
 .Focus-Mode-footer {
@@ -99,7 +88,7 @@
 }
 
 .Focus-Mode-footer .number-of-pomodoros {
-  color: var(--electric-blue);
+  color: var(--accent-blue);
   font-weight: 900;
   font-size: 1.2rem;
   letter-spacing: 2px;
@@ -109,17 +98,17 @@
 .Focus-Mode-exit-button {
   padding: 12px 20px;
   font-size: 1.2rem;
-  color: #FF5722;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--accent-orange-strong);
+  background: var(--surface-control);
+  border: 1px solid var(--border-subtle);
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .Focus-Mode-exit-button:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: var(--surface-control-hover);
+  border-color: var(--border-strong);
   transform: translateY(-2px);
   color: var(--text-main);
 }

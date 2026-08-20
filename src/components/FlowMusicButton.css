@@ -12,15 +12,15 @@
   padding: 12px 24px;
   font-size: 1rem;
   cursor: pointer;
-  background: #333;
-  color: #fff;
+  background: var(--surface-control);
+  color: var(--text-primary);
   border: none;
   border-radius: 8px;
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .flowmusicbutton-pick-label:hover {
-  background: #444;
+  background: var(--surface-control-hover);
   transform: translateY(-1px);
 }
 
@@ -47,18 +47,18 @@
   padding: 25px 40px;
   font-size: 1.3rem;
   cursor: pointer;
-  color: #fff;
+  color: var(--text-on-accent);
   border: none;
   border-radius: 50px;
   font-weight: bold;
   white-space: nowrap;
   flex-shrink: 0;
-  background: #2ed573;
+  background: var(--accent-green);
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .flowmusicbutton-toggle.is-playing {
-  background: #ff4757;
+  background: var(--accent-red);
 }
 
 .flowmusicbutton-toggle:hover {
@@ -73,18 +73,18 @@
   flex-shrink: 0;
   background: none;
   border: none;
-  color: white;
+  color: var(--text-primary);
   transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .flowmusicbutton-skip:hover {
   transform: scale(1.1) translateY(-2px);
-  color: #d4af37;
+  color: var(--accent-gold);
 }
 
 .flowmusicbutton-track {
   font-size: 0.9rem;
-  color: #888;
+  color: var(--text-subtle);
   margin-top: 15px;
 }
 

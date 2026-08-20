@@ -16,10 +16,10 @@
   left: 40px;
   z-index: 100;
   
-  border: 1px solid var(--rpg-border);
+  border: 1px solid var(--border-strong);
   backdrop-filter: blur(8px);
   font-family: var(--rpg-font-display);
-  color: var(--rpg-text-main);
+  color: var(--text-secondary);
   font-size: 0.85rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
@@ -32,8 +32,8 @@
 
 .back-to-menu-btn:hover {
   border: 2px solid var(--rpg-border-highlight);
-  background: var(--rpg-panel-bg);
-  color: var(--rpg-gold);
+  background: var(--surface-panel);
+  color: var(--accent-gold);
 }
 
 .timer-status {
@@ -114,15 +114,15 @@
   min-width: 200px;
   border-radius: 6px;
   cursor: pointer;
-  color: var(--accent-violet);
-  border: 2px solid #bf00ff;
-  box-shadow: 0 0 10px rgba(191, 0, 255, 0.5);
+  color: var(--accent-purple);
+  border: 2px solid var(--accent-purple);
+  box-shadow: 0 0 10px var(--focus-ring);
 }
 
 .focus-button {
-  color: var(--accent-orange);
-  border: 2px solid #FF8C00;
-  box-shadow: 0 4px 12px rgba(255, 140, 0, 0.25);
+  color: var(--accent-orange-strong);
+  border: 2px solid var(--accent-orange-strong);
+  box-shadow: 0 4px 12px var(--focus-ring);
 }
 
 
@@ -143,7 +143,7 @@
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   color: var(--text-muted);
   background: transparent;
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border: 1.5px solid var(--border-subtle);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.25s ease;
@@ -153,7 +153,7 @@
   color: var(--text-main);
   border-color: var(--border-hover);
   transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--surface-control);
   cursor: pointer;
 }
 
@@ -236,27 +236,27 @@
 .timer-buttons-secondary-controls .skip-button:hover {
   color: var(--text-main);
   border-color: var(--border-hover);
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface-control);
 }
 
 .timer-buttons-secondary-controls .add-button {
-  color: #4ade80;
+  color: var(--accent-green);
 }
 
 .timer-buttons-secondary-controls .add-button:hover {
-  border-color: #4ade80;
-  background: rgba(74, 222, 128, 0.05);
-  box-shadow: 0 0 20px rgba(74, 222, 128, 0.15);
+  border-color: var(--accent-green);
+  background: var(--surface-control);
+  box-shadow: 0 0 20px var(--focus-ring);
 }
 
 .timer-buttons-secondary-controls .subtract-button {
-  color: #f87171;
+  color: var(--accent-red);
 }
 
 .timer-buttons-secondary-controls .subtract-button:hover {
-  border-color: #f87171;
-  background: rgba(248, 113, 113, 0.05);
-  box-shadow: 0 0 20px rgba(248, 113, 113, 0.15);
+  border-color: var(--accent-red);
+  background: var(--surface-control);
+  box-shadow: 0 0 20px var(--focus-ring);
 }
 
 .timer-buttons-secondary-controls .subtract-button:disabled {

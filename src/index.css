@@ -1,8 +1,8 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
+  --text: var(--text-muted-strong);
+  --text-h: var(--text-primary);
+  --bg: var(--surface-page);
+  --border: var(--border-subtle);
   --code-bg: #f4f3ec;
   --accent: #aa3bff;
   --accent-bg: rgba(170, 59, 255, 0.1);
@@ -17,7 +17,7 @@
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
-  color-scheme: light dark;
+  color-scheme: dark;
   color: var(--text);
   background: var(--bg);
   font-synthesis: none;
@@ -28,6 +28,16 @@
   @media (max-width: 1024px) {
     font-size: 16px;
   }
+}
+
+:root.theme-light {
+  color-scheme: light;
+  --code-bg: var(--surface-input-hover);
+  --accent: var(--accent-purple);
+  --accent-bg: rgba(123, 40, 168, 0.1);
+  --accent-border: rgba(123, 40, 168, 0.35);
+  --social-bg: rgba(255, 250, 242, 0.8);
+  --shadow: var(--shadow-soft);
 }
 
 @media (prefers-color-scheme: dark) {

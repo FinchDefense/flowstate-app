@@ -19,8 +19,8 @@
   text-transform: uppercase;
   letter-spacing: 0.12em;
   margin: 20px auto;
-  color: #D4AF37;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.3);
+  color: var(--border-accent);
+  text-shadow: 2px 2px 4px var(--shadow-medium), 0 0 10px var(--focus-ring);
 }
 
 .timer-config span {
@@ -29,28 +29,28 @@
   font-weight: 500;
   text-transform: capitalize;
   letter-spacing: 0.05em;
-  color: #BFA37A;
+  color: var(--text-secondary);
 }
 
 .timer-config input {
   font-family: "Lora", serif;
   font-size: 16px;
   font-weight: 600;
-  color: #E6D7C3;
+  color: var(--text-secondary);
   text-align: center;
 
-  background-color: #120F0D;
-  border: 2px solid #3e353e;
+  background-color: var(--surface-input);
+  border: 2px solid var(--border-subtle);
   border-radius: 4px;
   padding: 8px 12px;
-  box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.8);
+  box-shadow: inset 0px 2px 5px var(--shadow-medium);
   transition: all 0.2s ease-in-out;
 }
 
 input:focus, input:hover {
-  border-color: #D4AF37; 
-  box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.8), 
-              0px 0px 8px rgba(212, 175, 55, 0.4); 
+  border-color: var(--border-accent);
+  box-shadow: inset 0px 2px 5px var(--shadow-medium),
+              0px 0px 8px var(--focus-ring);
 }
 
 .timer-config input::placeholder {
@@ -84,11 +84,11 @@ input:focus, input:hover {
   font-weight: 500;
   text-transform: capitalize;
   letter-spacing: 0.05em;
-  color: #BFA37A;
+  color: var(--text-secondary);
 }
 
 .upload-btn {
-  background-color: #0B4624;
+  background-color: var(--accent-green);
   font-size: 0.875rem;
   padding: 10px;
   font-weight: 900;
@@ -108,7 +108,7 @@ input:focus, input:hover {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #BFA37A;
+  color: var(--text-secondary);
 }
 
 .alarm-repeat input {
@@ -121,12 +121,12 @@ input:focus, input:hover {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #BFA37A;
+  color: var(--text-secondary);
   cursor: pointer;
 }
 
 .settings-toggle input {
   width: 16px;
   height: 16px;
-  accent-color: #D4AF37;
+  accent-color: var(--border-accent);
 }
