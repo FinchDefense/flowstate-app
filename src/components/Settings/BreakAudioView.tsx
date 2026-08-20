@@ -1,5 +1,6 @@
 import React from "react";
 import { useBreakSound } from "./useBreakSound";
+import "./BreakAudioView.css";
 
 export default function BreakAudioView(): React.JSX.Element {
   const {
@@ -11,31 +12,41 @@ export default function BreakAudioView(): React.JSX.Element {
     playBreakSound,
   } = useBreakSound();
 
+  const displayActiveText = (value: string, originalText: string): string => {
+    return originalText;
+  };
+
   return (
-    <div>
-      <label htmlFor="sound-select">Choose Break Sound: </label>
-      <select
-        id="sound-select"
-        className="name-input-box"
-        value={breakAudioUrl.startsWith("blob:") ? "custom" : breakAudioUrl}
-        onChange={handleSelectChange}
-      >
-        <option value="/audio/lofi-audio.mp3">☕ Lo-Fi Beat</option>
-        <option value="/audio/raining-audio.mp3">🌧️ Rain Sounds</option>
-        <option value="/audio/water-splash-audio.mp3">💦 Water Splash</option>
-        <option value="/audio/whoosh-audio.mp3">💨 Soft Whoosh</option>
-        <option value="/audio/wind-chimes.mp3">🎐 Wind Chimes</option>
-        <option value="audio/bubbles-audio.mp3">🫧 Rising Bubbles</option>
-        <option value="/audio/dragon-audio.mp3">🐉 Dragon Roar</option>
-        <option value="/audio/bird-chirping-audio.mp3">🐦 Bird Chirping</option>
-      </select>
+    <div className="sound-selector-container">
+      <label htmlFor="sound-select" className="sound-label">Choose Break Sound: </label>
+      
+      <div className="break-sound-select-wrapper">
+        <select
+          id="sound-select"
+          className="break-sound-select"
+          value={breakAudioUrl.startsWith("blob:") ? "custom" : breakAudioUrl}
+          onChange={handleSelectChange}
+        >
+          {breakAudioUrl.startsWith('blob:') && (
+            <option value="custom">🎵 Custom Uploaded Sound</option>
+          )}
+          <option value="/audio/lofi-audio.mp3">☕ Lo-Fi Beat</option>
+          <option value="/audio/raining-audio.mp3">🌧️ Rain Sounds</option>
+          <option value="/audio/water-splash-audio.mp3">💦 Water Splash</option>
+          <option value="/audio/whoosh-audio.mp3">💨 Soft Whoosh</option>
+          <option value="/audio/wind-chimes.mp3">🎐 Wind Chimes</option>
+          <option value="audio/bubbles-audio.mp3">🫧 Rising Bubbles</option>
+          <option value="/audio/dragon-audio.mp3">🐉 Dragon Roar</option>
+          <option value="/audio/bird-chirping-audio.mp3">🐦 Bird Chirping</option>
+        </select>
+      </div>
 
       <button
         type="button"
         onClick={openFilePicker}
-        style={{ marginLeft: "10px" }}
+        className="upload-custom-btn"
       >
-        🎵 Upload Custom File...
+        📁 Upload Custom...
       </button>
 
       <input
@@ -54,8 +65,8 @@ export default function BreakAudioView(): React.JSX.Element {
 
       <button
         type="button"
+        className="play-btn"
         onClick={playBreakSound}
-        style={{ marginLeft: "10px" }}
       >
         ▶️ Test Sound
       </button>
