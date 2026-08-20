@@ -103,3 +103,16 @@ input:focus, input:hover {
 .alarm-volume input {
   width: 15vw;
 }
+
+.alarm-repeat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #BFA37A;
+}
+
+.alarm-repeat input {
+  width: 4rem;
+  padding: 8px;
+  text-align: center;
+}

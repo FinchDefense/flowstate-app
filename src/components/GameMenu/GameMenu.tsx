@@ -22,6 +22,8 @@ interface GameMenuProps {
   audioRef: React.RefObject<HTMLAudioElement | null>;
   alarmVolume: number;
   setAlarmVolume: React.Dispatch<React.SetStateAction<number>>;
+  alarmPlayCount: number;
+  setAlarmPlayCount: React.Dispatch<React.SetStateAction<number>>;
   breakSound: UseBreakSoundResult;
 }
 
@@ -38,6 +40,8 @@ export function GameMenu({
   audioRef,
   alarmVolume,
   setAlarmVolume,
+  alarmPlayCount,
+  setAlarmPlayCount,
   breakSound,
 }: GameMenuProps) {
   const [showTimer, setShowTimer] = useState<boolean>(false);
@@ -74,6 +78,8 @@ export function GameMenu({
         setShowSettings={setShowSettings}
         alarmVolume={alarmVolume}
         setAlarmVolume={setAlarmVolume}
+        alarmPlayCount={alarmPlayCount}
+        setAlarmPlayCount={setAlarmPlayCount}
         breakSound={breakSound}
       />
     )

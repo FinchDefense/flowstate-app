@@ -8,6 +8,8 @@ interface SettingsProps {
   setShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
   alarmVolume: number;
   setAlarmVolume: React.Dispatch<React.SetStateAction<number>>;
+  alarmPlayCount: number;
+  setAlarmPlayCount: React.Dispatch<React.SetStateAction<number>>;
   breakSound: UseBreakSoundResult;
 }
 
@@ -15,6 +17,8 @@ export function Settings({
   setShowSettings,
   alarmVolume,
   setAlarmVolume,
+  alarmPlayCount,
+  setAlarmPlayCount,
   breakSound,
 }: SettingsProps) {
   const [inputName, setInputName] = useState<string>(() => {
@@ -78,6 +82,23 @@ export function Settings({
             max={10}
             value={alarmVolume}
             onChange={(e) => setAlarmVolume(Number(e.target.value))}
+          />
+        </div>
+        <div className="alarm-repeat">
+          <label htmlFor="alarm-play-count">Alarm Plays</label>
+          <input
+            id="alarm-play-count"
+            type="number"
+            min={1}
+            max={10}
+            step={1}
+            value={alarmPlayCount}
+            onChange={(e) => {
+              const nextCount = Number(e.target.value);
+              if (Number.isFinite(nextCount)) {
+                setAlarmPlayCount(Math.min(10, Math.max(1, nextCount)));
+              }
+            }}
           />
         </div>
       </div>

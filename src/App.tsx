@@ -36,11 +36,16 @@ export function App() {
     const savedVolume = localStorage.getItem("alarm-volume");
     return savedVolume ? Number(savedVolume) : 7;
   });
+  const [alarmPlayCount, setAlarmPlayCount] = useState<number>(() => {
+    const savedPlayCount = localStorage.getItem("alarm-play-count");
+    return savedPlayCount ? Number(savedPlayCount) : 1;
+  });
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const filesRef = useRef<File[]>([]);
   const currentUrlRef = useRef<string>("");
+  const musicWasPlayingForAlarmRef = useRef(false);
 
   useEffect(() => {
     async function loadStoredFolder() {
@@ -145,7 +150,35 @@ export function App() {
     playRandomTrack();
   }, [playRandomTrack, revokeCurrentUrl]);
 
-  const breakSound = useBreakSound(alarmVolume);
+  const pauseMusicForAlarm = useCallback(() => {
+    const audio = audioRef.current;
+    musicWasPlayingForAlarmRef.current = Boolean(
+      audio && !audio.paused && currentUrlRef.current,
+    );
+
+    if (musicWasPlayingForAlarmRef.current && audio) {
+      audio.pause();
+      setIsPlaying(false);
+    }
+  }, []);
+
+  const resumeMusicAfterAlarm = useCallback(() => {
+    const audio = audioRef.current;
+    if (!musicWasPlayingForAlarmRef.current || !audio) return;
+
+    musicWasPlayingForAlarmRef.current = false;
+    audio.play().catch((error: Error) => {
+      console.error("Music playback was blocked after the alarm:", error);
+    });
+    setIsPlaying(true);
+  }, []);
+
+  const breakSound = useBreakSound(
+    alarmVolume,
+    alarmPlayCount,
+    pauseMusicForAlarm,
+    resumeMusicAfterAlarm,
+  );
   const timer = useTimer(1500, 300, breakSound.playBreakSound);
   const displayName = useMemo(() => {
     const currentName = localStorage.getItem("flowstate_userName");
@@ -155,6 +188,10 @@ export function App() {
   useEffect(() => {
     localStorage.setItem("alarm-volume", String(alarmVolume));
   }, [alarmVolume]);
+
+  useEffect(() => {
+    localStorage.setItem("alarm-play-count", String(alarmPlayCount));
+  }, [alarmPlayCount]);
 
   useEffect(() => {
     const audio = new Audio();
@@ -244,6 +281,8 @@ export function App() {
         audioRef={audioRef}
         alarmVolume={alarmVolume}
         setAlarmVolume={setAlarmVolume}
+        alarmPlayCount={alarmPlayCount}
+        setAlarmPlayCount={setAlarmPlayCount}
         breakSound={breakSound}
       />
     );
