@@ -14,6 +14,10 @@ interface SettingsProps {
   setAutoStartBreak: React.Dispatch<React.SetStateAction<boolean>>;
   autoStartFocus: boolean;
   setAutoStartFocus: React.Dispatch<React.SetStateAction<boolean>>;
+  darkMode: boolean;
+  setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+  compactMode: boolean;
+  setCompactMode: React.Dispatch<React.SetStateAction<boolean>>;
   breakSound: UseBreakSoundResult;
 }
 
@@ -27,6 +31,10 @@ export function Settings({
   setAutoStartBreak,
   autoStartFocus,
   setAutoStartFocus,
+  darkMode,
+  setDarkMode,
+  compactMode,
+  setCompactMode,
   breakSound,
 }: SettingsProps) {
   const [inputName, setInputName] = useState<string>(() => {
@@ -124,6 +132,22 @@ export function Settings({
             onChange={(e) => setAutoStartFocus(e.target.checked)}
           />
           <span>Auto-start focus</span>
+        </label>
+        <label className="settings-toggle">
+          <input
+            type="checkbox"
+            checked={darkMode}
+            onChange={(e) => setDarkMode(e.target.checked)}
+          />
+          <span>Dark mode</span>
+        </label>
+        <label className="settings-toggle">
+          <input
+            type="checkbox"
+            checked={compactMode}
+            onChange={(e) => setCompactMode(e.target.checked)}
+          />
+          <span>Compact / Zen mode</span>
         </label>
       </div>
       <div className="visuals"></div>

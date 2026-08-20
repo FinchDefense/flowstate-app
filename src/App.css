@@ -73,6 +73,27 @@ body {
   --phase-shadow: rgba(77, 171, 247, 0.35);
 }
 
+:root.theme-light {
+  --bg-color: #f1ede6;
+  --bg-dark: #fffaf2;
+  --text-main: #2f2923;
+  --text-muted: #6f665d;
+  --border-color: #c9c0b5;
+  --border-hover: #9d9184;
+}
+
+:root.theme-light.phase-focus {
+  --phase-accent: #b85c00;
+  --phase-background: #fff3df;
+  --phase-shadow: rgba(184, 92, 0, 0.22);
+}
+
+:root.theme-light.phase-break {
+  --phase-accent: #1769aa;
+  --phase-background: #e7f3ff;
+  --phase-shadow: rgba(23, 105, 170, 0.22);
+}
+
 .app-container {
   width: 100%;
   min-height: 100vh;

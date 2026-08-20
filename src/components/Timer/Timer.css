@@ -6,6 +6,10 @@
   height: 100vh;
 }
 
+.timer-container.compact-mode {
+  justify-content: center;
+}
+
 .back-to-menu-btn {
   position: fixed;
   top: 24px;

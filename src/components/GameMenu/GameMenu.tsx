@@ -28,6 +28,10 @@ interface GameMenuProps {
   setAutoStartBreak: React.Dispatch<React.SetStateAction<boolean>>;
   autoStartFocus: boolean;
   setAutoStartFocus: React.Dispatch<React.SetStateAction<boolean>>;
+  darkMode: boolean;
+  setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+  compactMode: boolean;
+  setCompactMode: React.Dispatch<React.SetStateAction<boolean>>;
   breakSound: UseBreakSoundResult;
 }
 
@@ -50,6 +54,10 @@ export function GameMenu({
   setAutoStartBreak,
   autoStartFocus,
   setAutoStartFocus,
+  darkMode,
+  setDarkMode,
+  compactMode,
+  setCompactMode,
   breakSound,
 }: GameMenuProps) {
   const [showTimer, setShowTimer] = useState<boolean>(false);
@@ -69,7 +77,15 @@ export function GameMenu({
   }, []);
 
   if (showTimer) {
-    return (<Timer setShowTimer={setShowTimer} setInFocusMode={setInFocusMode} timer={timer} setIsGameMenuPage={setIsGameMenuPage} />)
+    return (
+      <Timer
+        setShowTimer={setShowTimer}
+        setInFocusMode={setInFocusMode}
+        timer={timer}
+        setIsGameMenuPage={setIsGameMenuPage}
+        compactMode={compactMode}
+      />
+    )
   }
 
   if (showTaskList) {
@@ -92,6 +108,10 @@ export function GameMenu({
         setAutoStartBreak={setAutoStartBreak}
         autoStartFocus={autoStartFocus}
         setAutoStartFocus={setAutoStartFocus}
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+        compactMode={compactMode}
+        setCompactMode={setCompactMode}
         breakSound={breakSound}
       />
     )

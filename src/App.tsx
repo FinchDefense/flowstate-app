@@ -46,6 +46,13 @@ export function App() {
   const [autoStartFocus, setAutoStartFocus] = useState<boolean>(() => {
     return localStorage.getItem("auto-start-focus") === "true";
   });
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    const savedTheme = localStorage.getItem("dark-mode");
+    return savedTheme === null ? true : savedTheme === "true";
+  });
+  const [compactMode, setCompactMode] = useState<boolean>(() => {
+    return localStorage.getItem("compact-mode") === "true";
+  });
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -203,6 +210,13 @@ export function App() {
     };
   }, [timer.isOnBreak]);
 
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle("theme-dark", darkMode);
+    root.classList.toggle("theme-light", !darkMode);
+    root.classList.toggle("compact-mode", compactMode);
+  }, [darkMode, compactMode]);
+
   const displayName = useMemo(() => {
     const currentName = localStorage.getItem("flowstate_userName");
     return currentName ? currentName : "";
@@ -223,6 +237,14 @@ export function App() {
   useEffect(() => {
     localStorage.setItem("auto-start-focus", String(autoStartFocus));
   }, [autoStartFocus]);
+
+  useEffect(() => {
+    localStorage.setItem("dark-mode", String(darkMode));
+  }, [darkMode]);
+
+  useEffect(() => {
+    localStorage.setItem("compact-mode", String(compactMode));
+  }, [compactMode]);
 
   useEffect(() => {
     const audio = new Audio();
@@ -318,6 +340,10 @@ export function App() {
         setAutoStartBreak={setAutoStartBreak}
         autoStartFocus={autoStartFocus}
         setAutoStartFocus={setAutoStartFocus}
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+        compactMode={compactMode}
+        setCompactMode={setCompactMode}
         breakSound={breakSound}
       />
     );

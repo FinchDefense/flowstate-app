@@ -11,20 +11,29 @@ interface TimerProps {
   timer: ReturnType<typeof useTimer>;
   setIsGameMenuPage: React.Dispatch<React.SetStateAction<boolean>>;
   setShowTimer: React.Dispatch<React.SetStateAction<boolean>>;
+  compactMode: boolean;
 }
 
-export function Timer({ setInFocusMode, timer, setIsGameMenuPage, setShowTimer }: TimerProps) {
+export function Timer({
+  setInFocusMode,
+  timer,
+  setIsGameMenuPage,
+  setShowTimer,
+  compactMode,
+}: TimerProps) {
   return (
-    <div className="timer-container">
-      <button
-        className="back-to-menu-btn"
-        onClick={() => {
-          setIsGameMenuPage(true);
-          setShowTimer(false);
-        }
-      }>
-        ← Main Menu
-      </button>
+    <div className={`timer-container${compactMode ? " compact-mode" : ""}`}>
+      {!compactMode && (
+        <button
+          className="back-to-menu-btn"
+          onClick={() => {
+            setIsGameMenuPage(true);
+            setShowTimer(false);
+          }}
+        >
+          ← Main Menu
+        </button>
+      )}
 
       <TimerDisplay
         time={timer.time}
@@ -46,16 +55,20 @@ export function Timer({ setInFocusMode, timer, setIsGameMenuPage, setShowTimer }
           time={timer.time}
           setInFocusMode={setInFocusMode}
         />
-        <MoodToggle
-          toggleMood={timer.toggleMood}
-          glowColor={timer.glowColor}
-          currentMood={timer.currentMood}
-        />
+        {!compactMode && (
+          <MoodToggle
+            toggleMood={timer.toggleMood}
+            glowColor={timer.glowColor}
+            currentMood={timer.currentMood}
+          />
+        )}
       </div>
 
-      <TimerPresets presetTime={timer.presetTime} />
+      {!compactMode && <TimerPresets presetTime={timer.presetTime} />}
 
-      <PomodoroCounter numPomos={timer.numPomos} glowColor={timer.glowColor} />
+      {!compactMode && (
+        <PomodoroCounter numPomos={timer.numPomos} glowColor={timer.glowColor} />
+      )}
     </div>
   );
 }
