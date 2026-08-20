@@ -23,6 +23,7 @@ export function Settings({
     const currentName = localStorage.getItem("flowstate_userName");
     return currentName ? currentName : "";
   });
+  const [alarmVolume, setAlarmVolume] = useState<number>(7);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputName(event.target.value);
@@ -64,24 +65,18 @@ export function Settings({
         </div>
       </div>
       <div className="audio-and-alerts">
-        <div className="alarm-sound">
-          <span>Alarm Sound</span>
-          <label htmlFor="music-upload" className="upload-btn">
-            ⚔️ CHOOSE MUSIC FOLDER
-            <input
-              id="music-upload" 
-              type="file"
-              multiple
-              accept="audio/*"
-              webkitdirectory=""
-              directory=""
-              onChange={onMusicFileChange}
-              className="hidden-upload-input"
-            />
-          </label>
+        <BreakAudioView alarmVolume={alarmVolume} setAlarmVolume={setAlarmVolume} />
+        <div className="alarm-volume">
+          <span>Alarm Volume</span>
+          <input
+            type="range"
+            className="volume-slider"
+            min={1}
+            max={10}
+            value={alarmVolume}
+            onChange={(e) => setAlarmVolume(Number(e.target.value))}
+          />
         </div>
-
-        <BreakAudioView />
       </div>
       <div className="visuals"></div>
     </div>

@@ -99,3 +99,7 @@ input:focus, input:hover {
 .hidden-upload-input {
   display: none;
 }
+
+.alarm-volume input {
+  width: 15vw;
+}

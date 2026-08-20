@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import type { ChangeEvent } from 'react';
+import { useState, useEffect, useRef } from "react";
+import type { ChangeEvent } from "react";
 
 interface UseBreakSoundResult {
   breakAudioUrl: string;
@@ -10,17 +10,17 @@ interface UseBreakSoundResult {
   playBreakSound: () => void;
 }
 
-export function useBreakSound(): UseBreakSoundResult {
+export function useBreakSound(alarmVolume: number): UseBreakSoundResult {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const audioInstanceRef = useRef<HTMLAudioElement | null>(null);
 
   const [breakAudioUrl, setBreakAudioUrl] = useState<string>(() => {
-    return localStorage.getItem('break-audio') || '/audio/lofi-audio.mp3';
+    return localStorage.getItem("break-audio") || "/audio/lofi-audio.mp3";
   });
 
   useEffect(() => {
-    if (!breakAudioUrl.startsWith('blob:')) {
-      localStorage.setItem('break-audio', breakAudioUrl);
+    if (!breakAudioUrl.startsWith("blob:")) {
+      localStorage.setItem("break-audio", breakAudioUrl);
     }
   }, [breakAudioUrl]);
 
@@ -37,6 +37,12 @@ export function useBreakSound(): UseBreakSoundResult {
     };
   }, [breakAudioUrl]);
 
+  useEffect(() => {
+    if (audioInstanceRef.current) {
+      audioInstanceRef.current.volume = alarmVolume / 10;
+    }
+  }, [alarmVolume]);
+
   const openFilePicker = (): void => {
     const fileInput = fileInputRef.current;
     if (!fileInput) return;
@@ -52,7 +58,7 @@ export function useBreakSound(): UseBreakSoundResult {
     const val = e.target.value;
     if (!val) return;
 
-    if (val === 'custom') {
+    if (val === "custom") {
       openFilePicker();
     } else {
       setBreakAudioUrl(val);
@@ -61,22 +67,22 @@ export function useBreakSound(): UseBreakSoundResult {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const files = e.target.files;
-    
+
     if (files && files.length > 0) {
       const file = files[0];
       setBreakAudioUrl(URL.createObjectURL(file));
     }
   };
 
-  const playBreakSound = (): void => { 
+  const playBreakSound = (): void => {
     if (audioInstanceRef.current) {
       audioInstanceRef.current.pause();
     }
-    
-    audioInstanceRef.current = new Audio(breakAudioUrl);
-    audioInstanceRef.current.play().catch((err: Error) => {
-      console.log("Safari auto-play framework safeguard: ", err);
-    });
+
+    const audio = new Audio(breakAudioUrl);
+    audio.volume = alarmVolume / 10;
+    audioInstanceRef.current = audio;
+    audio.play();
   };
 
   return {
@@ -85,6 +91,6 @@ export function useBreakSound(): UseBreakSoundResult {
     openFilePicker,
     handleSelectChange,
     handleFileChange,
-    playBreakSound
+    playBreakSound,
   };
 }
