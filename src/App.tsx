@@ -40,6 +40,12 @@ export function App() {
     const savedPlayCount = localStorage.getItem("alarm-play-count");
     return savedPlayCount ? Number(savedPlayCount) : 1;
   });
+  const [autoStartBreak, setAutoStartBreak] = useState<boolean>(() => {
+    return localStorage.getItem("auto-start-break") === "true";
+  });
+  const [autoStartFocus, setAutoStartFocus] = useState<boolean>(() => {
+    return localStorage.getItem("auto-start-focus") === "true";
+  });
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -179,7 +185,13 @@ export function App() {
     pauseMusicForAlarm,
     resumeMusicAfterAlarm,
   );
-  const timer = useTimer(1500, 300, breakSound.playBreakSound);
+  const timer = useTimer(
+    1500,
+    300,
+    breakSound.playBreakSound,
+    autoStartBreak,
+    autoStartFocus,
+  );
   const displayName = useMemo(() => {
     const currentName = localStorage.getItem("flowstate_userName");
     return currentName ? currentName : "";
@@ -192,6 +204,14 @@ export function App() {
   useEffect(() => {
     localStorage.setItem("alarm-play-count", String(alarmPlayCount));
   }, [alarmPlayCount]);
+
+  useEffect(() => {
+    localStorage.setItem("auto-start-break", String(autoStartBreak));
+  }, [autoStartBreak]);
+
+  useEffect(() => {
+    localStorage.setItem("auto-start-focus", String(autoStartFocus));
+  }, [autoStartFocus]);
 
   useEffect(() => {
     const audio = new Audio();
@@ -283,6 +303,10 @@ export function App() {
         setAlarmVolume={setAlarmVolume}
         alarmPlayCount={alarmPlayCount}
         setAlarmPlayCount={setAlarmPlayCount}
+        autoStartBreak={autoStartBreak}
+        setAutoStartBreak={setAutoStartBreak}
+        autoStartFocus={autoStartFocus}
+        setAutoStartFocus={setAutoStartFocus}
         breakSound={breakSound}
       />
     );

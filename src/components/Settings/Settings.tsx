@@ -10,6 +10,10 @@ interface SettingsProps {
   setAlarmVolume: React.Dispatch<React.SetStateAction<number>>;
   alarmPlayCount: number;
   setAlarmPlayCount: React.Dispatch<React.SetStateAction<number>>;
+  autoStartBreak: boolean;
+  setAutoStartBreak: React.Dispatch<React.SetStateAction<boolean>>;
+  autoStartFocus: boolean;
+  setAutoStartFocus: React.Dispatch<React.SetStateAction<boolean>>;
   breakSound: UseBreakSoundResult;
 }
 
@@ -19,6 +23,10 @@ export function Settings({
   setAlarmVolume,
   alarmPlayCount,
   setAlarmPlayCount,
+  autoStartBreak,
+  setAutoStartBreak,
+  autoStartFocus,
+  setAutoStartFocus,
   breakSound,
 }: SettingsProps) {
   const [inputName, setInputName] = useState<string>(() => {
@@ -101,6 +109,22 @@ export function Settings({
             }}
           />
         </div>
+        <label className="settings-toggle">
+          <input
+            type="checkbox"
+            checked={autoStartBreak}
+            onChange={(e) => setAutoStartBreak(e.target.checked)}
+          />
+          <span>Auto-start breaks</span>
+        </label>
+        <label className="settings-toggle">
+          <input
+            type="checkbox"
+            checked={autoStartFocus}
+            onChange={(e) => setAutoStartFocus(e.target.checked)}
+          />
+          <span>Auto-start focus</span>
+        </label>
       </div>
       <div className="visuals"></div>
     </div>

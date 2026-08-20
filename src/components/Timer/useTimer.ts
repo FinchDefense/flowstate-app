@@ -19,6 +19,8 @@ export function useTimer(
   initialTime: number = 1500,
   initialBreakTime = 300,
   onFocusComplete?: () => void,
+  autoStartBreak = false,
+  autoStartFocus = false,
 ) {
   const [time, setTime] = useState<number>(() => {
     const savedTime = localStorage.getItem("timer-time");
@@ -48,11 +50,29 @@ export function useTimer(
 
   const workerRef = useRef<Worker | null>(null);
   const endTimeRef = useRef<number | null>(null);
-  const stateRef = useRef({ isOnBreak, initialTime, initialBreakTime });
+  const stateRef = useRef({
+    isOnBreak,
+    initialTime,
+    initialBreakTime,
+    autoStartBreak,
+    autoStartFocus,
+  });
   const onFocusCompleteRef = useRef(onFocusComplete);
   useEffect(() => {
-    stateRef.current = { isOnBreak, initialTime, initialBreakTime };
-  }, [isOnBreak, initialTime, initialBreakTime]);
+    stateRef.current = {
+      isOnBreak,
+      initialTime,
+      initialBreakTime,
+      autoStartBreak,
+      autoStartFocus,
+    };
+  }, [
+    isOnBreak,
+    initialTime,
+    initialBreakTime,
+    autoStartBreak,
+    autoStartFocus,
+  ]);
   useEffect(() => {
     onFocusCompleteRef.current = onFocusComplete;
   }, [onFocusComplete]);
@@ -213,6 +233,8 @@ export function useTimer(
         isOnBreak: activeBreak,
         initialTime: initT,
         initialBreakTime: initB,
+        autoStartBreak: shouldAutoStartBreak,
+        autoStartFocus: shouldAutoStartFocus,
       } = stateRef.current;
       const timeRemaining = Math.max(
         0,
@@ -228,6 +250,14 @@ export function useTimer(
           setIsRunning(false);
           setTime(initB);
           setBreakTime(initB);
+          if (shouldAutoStartBreak) {
+            endTimeRef.current = Date.now() + initB * 1000;
+            setIsRunningBreak(true);
+            workerRef.current?.postMessage("START");
+          } else {
+            endTimeRef.current = null;
+            setIsRunningBreak(false);
+          }
         } else {
           localStorage.setItem("timeRemaining", timeRemaining.toString());
           setTime(timeRemaining);
@@ -238,6 +268,14 @@ export function useTimer(
           setIsOnBreak(false);
           setIsRunningBreak(false);
           setTime(initT);
+          if (shouldAutoStartFocus) {
+            endTimeRef.current = Date.now() + initT * 1000;
+            setIsRunning(true);
+            workerRef.current?.postMessage("START");
+          } else {
+            endTimeRef.current = null;
+            setIsRunning(false);
+          }
         } else {
           localStorage.setItem("timeRemaining", timeRemaining.toString());
           setTime(timeRemaining);
@@ -290,10 +328,12 @@ export function useTimer(
   }, [handleStartPause, handleReset, skipSession]);
 
   useEffect(() => {
-    document.title = !isOnBreak
-      ? `FlowState - ${formatTime(time)}`
-      : `Take a Break - ${formatTime(breakTime)}`;
-  }, [breakTime, time, formatTime, isOnBreak]);
+    const mode = isOnBreak ? "Break" : "Focus";
+    const remaining = isOnBreak ? breakTime : time;
+    const isRunningCurrentTimer = isOnBreak ? isRunningBreak : isRunning;
+    const status = isRunningCurrentTimer ? "Running" : "Paused";
+    document.title = `FlowState | ${mode} ${formatTime(remaining)} | ${status}`;
+  }, [breakTime, time, formatTime, isOnBreak, isRunning, isRunningBreak]);
 
   return {
     time,

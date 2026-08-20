@@ -24,6 +24,10 @@ interface GameMenuProps {
   setAlarmVolume: React.Dispatch<React.SetStateAction<number>>;
   alarmPlayCount: number;
   setAlarmPlayCount: React.Dispatch<React.SetStateAction<number>>;
+  autoStartBreak: boolean;
+  setAutoStartBreak: React.Dispatch<React.SetStateAction<boolean>>;
+  autoStartFocus: boolean;
+  setAutoStartFocus: React.Dispatch<React.SetStateAction<boolean>>;
   breakSound: UseBreakSoundResult;
 }
 
@@ -42,6 +46,10 @@ export function GameMenu({
   setAlarmVolume,
   alarmPlayCount,
   setAlarmPlayCount,
+  autoStartBreak,
+  setAutoStartBreak,
+  autoStartFocus,
+  setAutoStartFocus,
   breakSound,
 }: GameMenuProps) {
   const [showTimer, setShowTimer] = useState<boolean>(false);
@@ -80,6 +88,10 @@ export function GameMenu({
         setAlarmVolume={setAlarmVolume}
         alarmPlayCount={alarmPlayCount}
         setAlarmPlayCount={setAlarmPlayCount}
+        autoStartBreak={autoStartBreak}
+        setAutoStartBreak={setAutoStartBreak}
+        autoStartFocus={autoStartFocus}
+        setAutoStartFocus={setAutoStartFocus}
         breakSound={breakSound}
       />
     )
