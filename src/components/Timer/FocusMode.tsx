@@ -1,7 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 import { useState, useEffect, useRef } from "react";
-import { getRandomQuote } from "./quotes";
-import type { Quote } from "./quotes";
+import { getRandomQuote } from "../../hooks/quotes";
+import type { Quote } from "../../hooks/quotes";
 import "./FocusMode.css";
 import "./Timer.css";
 

@@ -1,13 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import { ImageUploader } from "./ImageUploader";
-import { useTimer } from "../Timer/useTimer.ts";
+import { useTimer } from "../../hooks/useTimer";
 import { Timer } from "../Timer/Timer.tsx";
 import { TaskList } from "../TaskList/TaskList.tsx"
 import { Credits } from "../Credits/Credits.tsx";
 import { Settings } from "../Settings/Settings.tsx";
 import "./GameMenu.css";
 import { FlowMusicButton } from "../FlowMusicButton.tsx";
-import type { UseBreakSoundResult } from "../Settings/useBreakSound";
+import type { UseBreakSoundResult } from "../../hooks/useBreakSound";
 
 interface GameMenuProps {
   timer: ReturnType<typeof useTimer>;

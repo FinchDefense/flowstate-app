@@ -1,4 +1,4 @@
-import { useTimer } from "./useTimer";
+import { useTimer } from "../../hooks/useTimer";
 import "./Timer.css";
 import { TimerDisplay } from "./TimerDisplay";
 import { TimerPresets } from "./TimerPresets";

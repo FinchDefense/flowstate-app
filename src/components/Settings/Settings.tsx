@@ -1,6 +1,6 @@
 import BreakAudioView from "./BreakAudioView";
-import type { UseBreakSoundResult } from "./useBreakSound";
-import type { useTimer } from "../Timer/useTimer";
+import type { UseBreakSoundResult } from "../../hooks/useBreakSound";
+import type { useTimer } from "../../hooks/useTimer";
 import "./Settings.css";
 import "../../App";
 

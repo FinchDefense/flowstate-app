@@ -1,6 +1,6 @@
 import "./TaskList.css";
 import { useState, useEffect, useRef } from "react";
-import { getRandomQuote, type Quote } from "../Timer/quotes";
+import { getRandomQuote, type Quote } from "../../hooks/quotes";
 import { QuestItemLeftPanel } from "./QuestItemLeftPanel";
 import { QuestItemRightPanel } from "./QuestItemRightPanel";
 

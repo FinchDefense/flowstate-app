@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { GameMenu } from "./components/GameMenu/GameMenu.tsx";
 import { FocusMode } from "./components/Timer/FocusMode.tsx";
-import { useTimer } from "./components/Timer/useTimer.ts";
-import { useBreakSound } from "./components/Settings/useBreakSound";
+import { useTimer } from "./hooks/useTimer";
+import { useBreakSound } from "./hooks/useBreakSound";
 import { set, get } from "idb-keyval";
 
 import "./App.css";
