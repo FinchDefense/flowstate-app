@@ -1,12 +1,26 @@
-import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { GameMenu } from "./components/GameMenu/GameMenu.tsx";
 import { FocusMode } from "./components/Timer/FocusMode.tsx";
 import { useTimer } from "./hooks/useTimer";
 import { useBreakSound } from "./hooks/useBreakSound";
-import { set, get } from "idb-keyval";
+import { useMusic } from "./hooks/useMusic";
+import { useAppSettings } from "./hooks/useAppSettings";
+import { useAlarmSettings } from "./hooks/useAlarmSettings";
+import { useAutoStart } from "./hooks/useAutoStart";
+import { useMusicVolume } from "./hooks/useMusicVolume";
+import { useNavigation } from "./hooks/useNavigation";
+import { useUsername } from "./hooks/useUsername";
+import { useThemeEffect } from "./hooks/useThemeEffect";
 
 import "./App.css";
 import "./index.css";
+import { useCallback, useState } from "react";
+
+export interface Session {
+  id: string;
+  type: "focus" | "shortBreak" | "longBreak";
+  duration: number;
+  timestamp: number;
+}
 
 const FLAME_COLORS = [
   "#FFE808",
@@ -25,180 +39,46 @@ const EMBER_STYLES = FLAME_COLORS.map((color, index) => ({
 })) as React.CSSProperties[];
 
 export function App() {
-  const [inFocusMode, setInFocusMode] = useState<boolean>(false);
-  const [isStartingPage, setIsStartingPage] = useState<boolean>(true);
-  const [isGameMenuPage, setIsGameMenuPage] = useState<boolean>(false);
-  const [isExiting, setIsExiting] = useState<boolean>(false);
-  const [hasFolder, setHasFolder] = useState<boolean>(false);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [currentTrack, setCurrentTrack] = useState<string>("");
-  const [alarmVolume, setAlarmVolume] = useState<number>(() => {
-    const savedVolume = localStorage.getItem("alarm-volume");
-    return savedVolume ? Number(savedVolume) : 7;
-  });
-  const [musicVolume, setMusicVolume] = useState<number>(() => {
-    const savedVolume = localStorage.getItem("music-volume");
-    const volume = savedVolume ? Number(savedVolume) : 7;
-    return Math.max(1, Math.min(10, volume));
-  });
-  const [alarmPlayCount, setAlarmPlayCount] = useState<number>(() => {
-    const savedPlayCount = localStorage.getItem("alarm-play-count");
-    return savedPlayCount ? Number(savedPlayCount) : 1;
-  });
-  const [autoStartBreak, setAutoStartBreak] = useState<boolean>(() => {
-    return localStorage.getItem("auto-start-break") === "true";
-  });
-  const [autoStartFocus, setAutoStartFocus] = useState<boolean>(() => {
-    return localStorage.getItem("auto-start-focus") === "true";
-  });
-  const [darkMode, setDarkMode] = useState<boolean>(() => {
-    const savedTheme = localStorage.getItem("dark-mode");
-    return savedTheme === null ? true : savedTheme === "true";
-  });
-  const [compactMode, setCompactMode] = useState<boolean>(() => {
-    return localStorage.getItem("compact-mode") === "true";
-  });
-  const [isMuted, setIsMuted] = useState<boolean>(() => {
-    return localStorage.getItem("global-mute") === "true";
-  });
+  const {
+    isStartingPage,
+    isGameMenuPage,
+    setIsGameMenuPage,
+    inFocusMode,
+    setInFocusMode,
+    isExiting,
+  } = useNavigation();
 
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const {
+    darkMode,
+    setDarkMode,
+    compactMode,
+    setCompactMode,
+    isMuted,
+    setIsMuted,
+  } = useAppSettings();
+  const { alarmVolume, setAlarmVolume, alarmPlayCount, setAlarmPlayCount } =
+    useAlarmSettings();
+  const {
+    autoStartBreak,
+    setAutoStartBreak,
+    autoStartFocus,
+    setAutoStartFocus,
+  } = useAutoStart();
+  const { musicVolume, setMusicVolume } = useMusicVolume();
 
-  const filesRef = useRef<File[]>([]);
-  const currentUrlRef = useRef<string>("");
-  const musicWasPlayingForAlarmRef = useRef(false);
+  const {
+    hasFolder,
+    isPlaying,
+    currentTrack,
+    audioRef,
+    handleMusicFileChange,
+    toggleMusic,
+    skipMusic,
+    pauseMusicForAlarm,
+    resumeMusicAfterAlarm,
+  } = useMusic(isMuted, musicVolume);
 
-  useEffect(() => {
-    async function loadStoredFolder() {
-      try {
-        const retrievedFolder = await get<File[]>("current-folder");
-        if (retrievedFolder && retrievedFolder.length > 0) {
-          filesRef.current = retrievedFolder;
-          setHasFolder(true);
-        }
-      } catch (error) {
-        console.error("Failed to load folder from IndexedDB:", error);
-      }
-    }
-    loadStoredFolder();
-  }, []);
-
-  const revokeCurrentUrl = useCallback(() => {
-    if (currentUrlRef.current) {
-      URL.revokeObjectURL(currentUrlRef.current);
-      currentUrlRef.current = "";
-    }
-  }, []);
-
-  const playRandomTrack = useCallback(
-    function playRandomTrack() {
-      const audio = audioRef.current;
-      const files = filesRef.current;
-
-      if (files.length === 0 || !audio) return;
-
-      try {
-        const randomIndex = Math.floor(Math.random() * files.length);
-        const randomFile = files[randomIndex];
-        revokeCurrentUrl();
-
-        currentUrlRef.current = URL.createObjectURL(randomFile);
-        audio.src = currentUrlRef.current;
-        setCurrentTrack(randomFile.name);
-
-        audio.play().catch((err) => {
-          console.error("Playback interrupted or blocked by browser:", err);
-        });
-        setIsPlaying(true);
-      } catch (error) {
-        console.error("Playback setup failed, skipping track:", error);
-        playRandomTrack();
-      }
-    },
-    [revokeCurrentUrl],
-  );
-
-  const handleMusicFileChange = async (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const selectedFiles = event.target.files;
-    if (!selectedFiles) return;
-
-    const foundFiles: File[] = [];
-
-    for (let i = 0; i < selectedFiles.length; i++) {
-      const file = selectedFiles[i];
-      const nameLower = file.name.toLowerCase();
-      if (nameLower.endsWith(".mp3") || nameLower.endsWith(".mp4")) {
-        foundFiles.push(file);
-      }
-    }
-
-    if (foundFiles.length === 0) {
-      alert("No mp3 or mp4 files found in this folder!");
-      return;
-    }
-
-    filesRef.current = foundFiles;
-    try {
-      await set("current-folder", foundFiles);
-      setHasFolder(true);
-    } catch (error) {
-      console.error("Failed to save folder to IndexedDB:", error);
-      alert("Failed to securely store folder index in browser cache storage.");
-    }
-  };
-
-  const toggleMusic = useCallback(() => {
-    if (!audioRef.current) return;
-
-    if (!currentUrlRef.current) {
-      playRandomTrack();
-    } else if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current.play().catch(console.error);
-      setIsPlaying(true);
-    }
-  }, [isPlaying, playRandomTrack]);
-
-  const skipMusic = useCallback(() => {
-    if (!audioRef.current || !currentUrlRef.current) return;
-
-    audioRef.current.pause();
-    revokeCurrentUrl();
-    playRandomTrack();
-  }, [playRandomTrack, revokeCurrentUrl]);
-
-  const pauseMusicForAlarm = useCallback(() => {
-    const audio = audioRef.current;
-    musicWasPlayingForAlarmRef.current = Boolean(
-      audio && !audio.paused && currentUrlRef.current,
-    );
-
-    if (musicWasPlayingForAlarmRef.current && audio) {
-      audio.pause();
-      setIsPlaying(false);
-    }
-  }, []);
-
-  const resumeMusicAfterAlarm = useCallback(() => {
-    const audio = audioRef.current;
-    if (!musicWasPlayingForAlarmRef.current || !audio) return;
-
-    musicWasPlayingForAlarmRef.current = false;
-    audio.play().catch((error: Error) => {
-      console.error("Music playback was blocked after the alarm:", error);
-    });
-    setIsPlaying(true);
-  }, []);
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = isMuted ? 0 : musicVolume / 10;
-    }
-  }, [isMuted, musicVolume]);
+  const displayName = useUsername();
 
   const breakSound = useBreakSound(
     alarmVolume,
@@ -207,102 +87,29 @@ export function App() {
     resumeMusicAfterAlarm,
     isMuted,
   );
+
+  const [sessionLog, setSessionLog] = useState<Session[]>(() => {
+    const savedSessionLog = localStorage.getItem("session-log");
+    return savedSessionLog ? JSON.parse(savedSessionLog) : [];
+  });
+
+  const handleSessionComplete = useCallback((newSession: Session) => {
+    setSessionLog((prev) => {
+      const updatedLog = [...prev, newSession];
+      localStorage.setItem("session-log", JSON.stringify(updatedLog));
+      return updatedLog;
+    });
+  }, []);
+
   const timer = useTimer(
     1500,
     300,
     breakSound.playBreakSound,
     autoStartBreak,
     autoStartFocus,
+    handleSessionComplete,
   );
-
-  useEffect(() => {
-    const root = document.documentElement;
-    root.classList.remove("phase-focus", "phase-break");
-    root.classList.add(timer.isOnBreak ? "phase-break" : "phase-focus");
-
-    return () => {
-      root.classList.remove("phase-focus", "phase-break");
-    };
-  }, [timer.isOnBreak]);
-
-  useEffect(() => {
-    const root = document.documentElement;
-    root.classList.toggle("theme-dark", darkMode);
-    root.classList.toggle("theme-light", !darkMode);
-    root.classList.toggle("compact-mode", compactMode);
-  }, [darkMode, compactMode]);
-
-  const displayName = useMemo(() => {
-    const currentName = localStorage.getItem("flowstate_userName");
-    return currentName ? currentName : "";
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("alarm-volume", String(alarmVolume));
-  }, [alarmVolume]);
-
-  useEffect(() => {
-    localStorage.setItem("alarm-play-count", String(alarmPlayCount));
-  }, [alarmPlayCount]);
-
-  useEffect(() => {
-    localStorage.setItem("auto-start-break", String(autoStartBreak));
-  }, [autoStartBreak]);
-
-  useEffect(() => {
-    localStorage.setItem("auto-start-focus", String(autoStartFocus));
-  }, [autoStartFocus]);
-
-  useEffect(() => {
-    localStorage.setItem("dark-mode", String(darkMode));
-  }, [darkMode]);
-
-  useEffect(() => {
-    localStorage.setItem("compact-mode", String(compactMode));
-  }, [compactMode]);
-
-  useEffect(() => {
-    localStorage.setItem("global-mute", String(isMuted));
-  }, [isMuted]);
-
-  useEffect(() => {
-    localStorage.setItem("music-volume", String(musicVolume));
-  }, [musicVolume]);
-
-  useEffect(() => {
-    const audio = new Audio();
-    audioRef.current = audio;
-
-    const handleTrackEnd = () => {
-      playRandomTrack();
-    };
-
-    audio.addEventListener("ended", handleTrackEnd);
-
-    return () => {
-      audio.pause();
-      audio.removeEventListener("ended", handleTrackEnd);
-      revokeCurrentUrl();
-      audioRef.current = null;
-    };
-  }, [playRandomTrack, revokeCurrentUrl]);
-
-  useEffect(() => {
-    if (!isStartingPage) return;
-
-    const handleKeyDown = () => {
-      setIsGameMenuPage(true);
-      setIsExiting(true);
-      setTimeout(() => {
-        setIsStartingPage(false);
-      }, 1200);
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isStartingPage]);
+  useThemeEffect(timer.isOnBreak);
 
   if (isStartingPage) {
     return (
@@ -374,6 +181,7 @@ export function App() {
         musicVolume={musicVolume}
         setMusicVolume={setMusicVolume}
         breakSound={breakSound}
+        sessionLog={sessionLog}
       />
     );
   }

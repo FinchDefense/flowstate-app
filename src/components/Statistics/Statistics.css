@@ -1,0 +1,5 @@
+.dashboard-card.chart-height-fix {
+  height: 350px;       /* 👈 Forces a layout bounding box for Recharts to measure */
+  min-height: 300px;
+  width: 100%;
+}

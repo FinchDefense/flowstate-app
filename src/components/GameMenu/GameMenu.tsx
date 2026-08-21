@@ -5,9 +5,11 @@ import { Timer } from "../Timer/Timer.tsx";
 import { TaskList } from "../TaskList/TaskList.tsx"
 import { Credits } from "../Credits/Credits.tsx";
 import { Settings } from "../Settings/Settings.tsx";
+import { Statistics } from "../Statistics/Statistics.tsx";
 import "./GameMenu.css";
 import { FlowMusicButton } from "../FlowMusicButton.tsx";
 import type { UseBreakSoundResult } from "../../hooks/useBreakSound";
+import type { Session } from "../../App.tsx";
 
 interface GameMenuProps {
   timer: ReturnType<typeof useTimer>;
@@ -39,6 +41,7 @@ interface GameMenuProps {
   musicVolume: number;
   setMusicVolume: React.Dispatch<React.SetStateAction<number>>;
   breakSound: UseBreakSoundResult;
+  sessionLog: Session[];
 }
 
 export function GameMenu({
@@ -71,12 +74,14 @@ export function GameMenu({
   musicVolume,
   setMusicVolume,
   breakSound,
+  sessionLog,
 }: GameMenuProps) {
   const [showTimer, setShowTimer] = useState<boolean>(false);
   const [showTaskList, setShowTaskList] = useState<boolean>(false);
   const [showCredits, setShowCredits] = useState<boolean>(false);
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [showImageUploader, setShowImageUploader] = useState<boolean>(false);
+  const [showStatistics, setShowStatistics] = useState<boolean>(false);
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -138,6 +143,10 @@ export function GameMenu({
     return <ImageUploader setShowImageUploader={setShowImageUploader} imageUrl={imageUrl} setImageUrl={setImageUrl} fileInputRef={fileInputRef} />
   }
 
+  if (showStatistics) {
+    return <Statistics sessionLog={sessionLog} />
+  }
+
   const localBackgroundStyle = imageUrl ? {
     backgroundImage: `url('${imageUrl}')`,
     backgroundSize: "cover",
@@ -154,7 +163,7 @@ export function GameMenu({
         <div className="game-menu-nav">
           <button className="menu-btn" onClick={() => setShowTimer(true)}>ENTER THE ZONE</button>
           <button className="menu-btn" onClick={() => setShowTaskList(true)}>QUEST LOG</button>
-          <button className="menu-btn">STATISTICS</button>
+          <button className="menu-btn" onClick={() => setShowStatistics(true)}>STATISTICS</button>
           <button className="menu-btn" onClick={() => setShowSettings(true)}>OPTIONS</button>
           <button className="menu-btn" onClick={() => setShowCredits(true)}>CREDITS</button>
           <button className="menu-btn" onClick={() => setShowImageUploader(true)}>CHANGE WALLPAPER</button>

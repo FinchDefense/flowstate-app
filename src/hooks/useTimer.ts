@@ -21,20 +21,35 @@ export function useTimer(
   onFocusComplete?: () => void,
   autoStartBreak = false,
   autoStartFocus = false,
+  onSessionComplete?: (session: Session) => void,
 ) {
   const savedFocusDuration = localStorage.getItem("focus-duration");
   const savedShortBreakDuration = localStorage.getItem("short-break-duration");
   const savedLongBreakDuration = localStorage.getItem("long-break-duration");
   const savedBreakInterval = localStorage.getItem("long-break-interval");
-  const focusDurationDefault = savedFocusDuration ? Number(savedFocusDuration) : initialTime;
-  const shortBreakDurationDefault = savedShortBreakDuration ? Number(savedShortBreakDuration) : initialBreakTime;
-  const longBreakDurationDefault = savedLongBreakDuration ? Number(savedLongBreakDuration) : 900;
-  const breakIntervalDefault = savedBreakInterval ? Number(savedBreakInterval) : 4;
+  const focusDurationDefault = savedFocusDuration
+    ? Number(savedFocusDuration)
+    : initialTime;
+  const shortBreakDurationDefault = savedShortBreakDuration
+    ? Number(savedShortBreakDuration)
+    : initialBreakTime;
+  const longBreakDurationDefault = savedLongBreakDuration
+    ? Number(savedLongBreakDuration)
+    : 900;
+  const breakIntervalDefault = savedBreakInterval
+    ? Number(savedBreakInterval)
+    : 4;
 
-  const [focusDuration, setFocusDuration] = useState<number>(focusDurationDefault);
-  const [shortBreakDuration, setShortBreakDuration] = useState<number>(shortBreakDurationDefault);
-  const [longBreakDuration, setLongBreakDuration] = useState<number>(longBreakDurationDefault);
-  const [breakInterval, setBreakInterval] = useState<number>(breakIntervalDefault);
+  const [focusDuration, setFocusDuration] =
+    useState<number>(focusDurationDefault);
+  const [shortBreakDuration, setShortBreakDuration] = useState<number>(
+    shortBreakDurationDefault,
+  );
+  const [longBreakDuration, setLongBreakDuration] = useState<number>(
+    longBreakDurationDefault,
+  );
+  const [breakInterval, setBreakInterval] =
+    useState<number>(breakIntervalDefault);
 
   const [time, setTime] = useState<number>(() => {
     const savedTime = localStorage.getItem("timer-time");
@@ -76,6 +91,8 @@ export function useTimer(
   });
 
   const onFocusCompleteRef = useRef(onFocusComplete);
+  const onSessionCompleteRef = useRef(onSessionComplete);
+
   useEffect(() => {
     stateRef.current = {
       isOnBreak,
@@ -97,7 +114,11 @@ export function useTimer(
     autoStartBreak,
     autoStartFocus,
   ]);
-  
+
+  useEffect(() => {
+    onSessionCompleteRef.current = onSessionComplete;
+  }, [onSessionComplete])
+
   useEffect(() => {
     onFocusCompleteRef.current = onFocusComplete;
   }, [onFocusComplete]);
@@ -198,7 +219,14 @@ export function useTimer(
         setBreakTime(shortBreakDuration);
       }
     }
-  }, [breakInterval, focusDuration, isOnBreak, longBreakDuration, numBreaks, shortBreakDuration]);
+  }, [
+    breakInterval,
+    focusDuration,
+    isOnBreak,
+    longBreakDuration,
+    numBreaks,
+    shortBreakDuration,
+  ]);
 
   const skipSession = useCallback(() => {
     if (!workerRef.current) return;
@@ -223,7 +251,14 @@ export function useTimer(
       setTime(focusDuration);
     }
     console.log(numBreaks);
-  }, [breakInterval, focusDuration, isOnBreak, longBreakDuration, numBreaks, shortBreakDuration]);
+  }, [
+    breakInterval,
+    focusDuration,
+    isOnBreak,
+    longBreakDuration,
+    numBreaks,
+    shortBreakDuration,
+  ]);
 
   const presetTime = useCallback((seconds: number) => {
     if (!workerRef.current) return;
@@ -234,19 +269,25 @@ export function useTimer(
     setIsRunning(false);
   }, []);
 
-  const updateFocusDuration = useCallback((seconds: number) => {
-    const nextDuration = Math.max(1, Math.floor(seconds));
-    setFocusDuration(nextDuration);
-    localStorage.setItem("focus-duration", String(nextDuration));
-    if (!isOnBreak && !isRunning) setTime(nextDuration);
-  }, [isOnBreak, isRunning]);
+  const updateFocusDuration = useCallback(
+    (seconds: number) => {
+      const nextDuration = Math.max(1, Math.floor(seconds));
+      setFocusDuration(nextDuration);
+      localStorage.setItem("focus-duration", String(nextDuration));
+      if (!isOnBreak && !isRunning) setTime(nextDuration);
+    },
+    [isOnBreak, isRunning],
+  );
 
-  const updateShortBreakDuration = useCallback((seconds: number) => {
-    const nextDuration = Math.max(1, Math.floor(seconds));
-    setShortBreakDuration(nextDuration);
-    localStorage.setItem("short-break-duration", String(nextDuration));
-    if (isOnBreak && !isRunningBreak) setBreakTime(nextDuration);
-  }, [isOnBreak, isRunningBreak]);
+  const updateShortBreakDuration = useCallback(
+    (seconds: number) => {
+      const nextDuration = Math.max(1, Math.floor(seconds));
+      setShortBreakDuration(nextDuration);
+      localStorage.setItem("short-break-duration", String(nextDuration));
+      if (isOnBreak && !isRunningBreak) setBreakTime(nextDuration);
+    },
+    [isOnBreak, isRunningBreak],
+  );
 
   const updateLongBreakDuration = useCallback((seconds: number) => {
     const nextDuration = Math.max(1, Math.floor(seconds));
@@ -324,15 +365,24 @@ export function useTimer(
       if (!activeBreak) {
         if (timeRemaining <= 0) {
           workerRef.current?.postMessage("STOP");
+
+          onSessionCompleteRef.current?.({
+            id: crypto.randomUUID(),
+            type: "focus",
+            duration: currentFocusDuration,
+            timestamp: Date.now(),
+          });
+
           onFocusCompleteRef.current?.();
           setNumPomos((prevNumPomos) => prevNumPomos + 1);
           setNumBreaks((prevNumBreaks) => prevNumBreaks + 1);
           setIsOnBreak(true);
           setIsRunning(false);
           const nextBreakNumber = completedBreaks + 1;
-          const nextBreakDuration = nextBreakNumber % currentBreakInterval === 0
-            ? currentLongBreakDuration
-            : currentShortBreakDuration;
+          const nextBreakDuration =
+            nextBreakNumber % currentBreakInterval === 0
+              ? currentLongBreakDuration
+              : currentShortBreakDuration;
           setTime(nextBreakDuration);
           setBreakTime(nextBreakDuration);
           if (shouldAutoStartBreak) {
@@ -350,6 +400,17 @@ export function useTimer(
       } else {
         if (timeRemaining <= 0) {
           workerRef.current?.postMessage("STOP");
+
+          const isLongBreak = completedBreaks % currentBreakInterval === 0;
+          onSessionCompleteRef.current?.({
+            id: crypto.randomUUID(),
+            type: isLongBreak ? "longBreak" : "shortBreak",
+            duration: isLongBreak
+              ? currentLongBreakDuration
+              : currentShortBreakDuration,
+            timestamp: Date.now(),
+          });
+
           setIsOnBreak(false);
           setIsRunningBreak(false);
           setTime(currentFocusDuration);

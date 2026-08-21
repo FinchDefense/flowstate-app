@@ -13,7 +13,9 @@
     "dayjs": "^1.11.21",
     "idb-keyval": "^6.3.0",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react-circular-progressbar": "^2.2.0",
+    "react-dom": "^19.2.7",
+    "recharts": "^3.10.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
