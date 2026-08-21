@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import "./FlowMusicButton.css";
 
 interface FlowMusicButtonProps {
@@ -9,6 +9,9 @@ interface FlowMusicButtonProps {
   onToggleMusic: () => void;
   onSkipMusic: () => void;
   audioRef: React.RefObject<HTMLAudioElement | null>;
+  isMuted: boolean;
+  musicVolume: number;
+  setMusicVolume: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export function FlowMusicButton({
@@ -19,6 +22,9 @@ export function FlowMusicButton({
   onToggleMusic,
   onSkipMusic,
   audioRef,
+  isMuted,
+  musicVolume,
+  setMusicVolume,
 }: FlowMusicButtonProps) {
   const directoryInputProps = {
     webkitdirectory: "",
@@ -28,13 +34,10 @@ export function FlowMusicButton({
     directory?: string;
   };
 
-  const [volumeValue, setVolumeValue] = useState<number>(7);
   useEffect(() => {
     if (!audioRef.current) return;
-    else {
-      audioRef.current.volume = (volumeValue / 10);
-    }
-  }, [volumeValue, audioRef]);
+    audioRef.current.volume = isMuted ? 0 : musicVolume / 10;
+  }, [musicVolume, audioRef, isMuted]);
 
   return (
     <div className="flowmusicbutton-container">
@@ -77,8 +80,8 @@ export function FlowMusicButton({
               className="volume-slider"
               min={1}
               max={10}
-              value={volumeValue}
-              onChange={(e) => setVolumeValue(Number(e.target.value))}
+              value={musicVolume}
+              onChange={(e) => setMusicVolume(Number(e.target.value))}
             />
           </div>
           {currentTrack && (

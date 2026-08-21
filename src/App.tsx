@@ -36,6 +36,10 @@ export function App() {
     const savedVolume = localStorage.getItem("alarm-volume");
     return savedVolume ? Number(savedVolume) : 7;
   });
+  const [musicVolume, setMusicVolume] = useState<number>(() => {
+    const savedVolume = localStorage.getItem("music-volume");
+    return savedVolume ? Number(savedVolume) : 7;
+  });
   const [alarmPlayCount, setAlarmPlayCount] = useState<number>(() => {
     const savedPlayCount = localStorage.getItem("alarm-play-count");
     return savedPlayCount ? Number(savedPlayCount) : 1;
@@ -52,6 +56,9 @@ export function App() {
   });
   const [compactMode, setCompactMode] = useState<boolean>(() => {
     return localStorage.getItem("compact-mode") === "true";
+  });
+  const [isMuted, setIsMuted] = useState<boolean>(() => {
+    return localStorage.getItem("global-mute") === "true";
   });
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -96,6 +103,7 @@ export function App() {
 
         currentUrlRef.current = URL.createObjectURL(randomFile);
         audio.src = currentUrlRef.current;
+        audio.volume = isMuted ? 0 : musicVolume / 10;
         setCurrentTrack(randomFile.name);
 
         audio.play().catch((err) => {
@@ -107,7 +115,7 @@ export function App() {
         playRandomTrack();
       }
     },
-    [revokeCurrentUrl],
+    [isMuted, musicVolume, revokeCurrentUrl],
   );
 
   const handleMusicFileChange = async (
@@ -150,10 +158,11 @@ export function App() {
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
+      audioRef.current.volume = isMuted ? 0 : musicVolume / 10;
       audioRef.current.play().catch(console.error);
       setIsPlaying(true);
     }
-  }, [isPlaying, playRandomTrack]);
+  }, [isMuted, isPlaying, musicVolume, playRandomTrack]);
 
   const skipMusic = useCallback(() => {
     if (!audioRef.current || !currentUrlRef.current) return;
@@ -186,11 +195,18 @@ export function App() {
     setIsPlaying(true);
   }, []);
 
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = isMuted ? 0 : musicVolume / 10;
+    }
+  }, [isMuted, musicVolume]);
+
   const breakSound = useBreakSound(
     alarmVolume,
     alarmPlayCount,
     pauseMusicForAlarm,
     resumeMusicAfterAlarm,
+    isMuted,
   );
   const timer = useTimer(
     1500,
@@ -245,6 +261,14 @@ export function App() {
   useEffect(() => {
     localStorage.setItem("compact-mode", String(compactMode));
   }, [compactMode]);
+
+  useEffect(() => {
+    localStorage.setItem("global-mute", String(isMuted));
+  }, [isMuted]);
+
+  useEffect(() => {
+    localStorage.setItem("music-volume", String(musicVolume));
+  }, [musicVolume]);
 
   useEffect(() => {
     const audio = new Audio();
@@ -344,6 +368,12 @@ export function App() {
         setDarkMode={setDarkMode}
         compactMode={compactMode}
         setCompactMode={setCompactMode}
+        isMuted={isMuted}
+        setIsMuted={setIsMuted}
+        resetToDefaults={timer.resetToDefaults}
+        resetCompletedSessions={timer.resetCompletedSessions}
+        musicVolume={musicVolume}
+        setMusicVolume={setMusicVolume}
         breakSound={breakSound}
       />
     );

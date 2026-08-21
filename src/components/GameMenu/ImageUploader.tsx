@@ -7,7 +7,7 @@ interface ImageUploaderProps {
   fileInputRef: React.RefObject<HTMLInputElement | null>;
 }
 
-export const ImageUploader: React.FC = ({ setShowImageUploader, imageUrl, setImageUrl, fileInputRef }: ImageUploaderProps) => {
+export const ImageUploader: React.FC<ImageUploaderProps> = ({ setShowImageUploader, imageUrl, setImageUrl, fileInputRef }) => {
   
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {

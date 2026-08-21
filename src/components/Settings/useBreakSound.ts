@@ -17,6 +17,7 @@ export function useBreakSound(
   alarmPlayCount: number,
   onAlarmStart?: () => void,
   onAlarmEnd?: () => void,
+  isMuted = false,
 ): UseBreakSoundResult {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const audioInstanceRef = useRef<HTMLAudioElement | null>(null);
@@ -64,9 +65,9 @@ export function useBreakSound(
 
   useEffect(() => {
     if (audioInstanceRef.current) {
-      audioInstanceRef.current.volume = alarmVolume / 10;
+      audioInstanceRef.current.volume = isMuted ? 0 : alarmVolume / 10;
     }
-  }, [alarmVolume]);
+  }, [alarmVolume, isMuted]);
 
   const openFilePicker = (): void => {
     const fileInput = fileInputRef.current;
@@ -112,7 +113,7 @@ export function useBreakSound(
     onAlarmStartRef.current?.();
 
     const audio = new Audio(breakAudioUrl);
-    audio.volume = alarmVolume / 10;
+    audio.volume = isMuted ? 0 : alarmVolume / 10;
     audioInstanceRef.current = audio;
 
     const finishAlarm = (): void => {

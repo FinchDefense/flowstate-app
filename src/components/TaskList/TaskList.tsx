@@ -35,7 +35,7 @@ interface TaskListProps {
 }
 
 export function TaskList({ setShowTaskList }: TaskListProps) {
-  const [quote, setQuote] = useState<Quote>(() => getRandomQuote());
+  const [quote] = useState<Quote>(() => getRandomQuote());
   const [showQuestSetUp, setShowQuestSetUp] = useState<boolean>(false);
   const [currentQuestName, setCurrentQuestName] = useState<string>("");
   const [currentCampaign, setCurrentCampaign] = useState<CampaignEvents>("");

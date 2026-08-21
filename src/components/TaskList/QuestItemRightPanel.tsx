@@ -17,7 +17,6 @@ export function QuestItemRightPanel({ quest, onUpdate }: QuestItemRightPanelProp
   const [presentLoreStory, setPresentLoreStory] = useState<string>(
     quest.loreStory,
   );
-  const [presentBattleStep, setPresentBattleStep] = useState<string>("");
   const [presentBattleSteps, setPresentBattleSteps] = useState<string[]>(
     quest.battleSteps,
   );

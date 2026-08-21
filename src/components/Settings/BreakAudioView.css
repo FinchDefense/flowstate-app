@@ -1,13 +1,15 @@
 .sound-selector-container {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
+  justify-content: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-bottom: 6px;
 }
 
 .sound-label {
-  font-family: "Lora", "Georgia", serif;
-  font-size: 1.1rem;
+  font-family: var(--rpg-font-body);
+  font-size: 1rem;
   font-weight: 500;
   text-transform: capitalize;
   letter-spacing: 0.05em;
@@ -17,6 +19,7 @@
 .break-sound-select-wrapper {
   position: relative;
   display: inline-block;
+  min-width: 210px;
 }
 
 .break-sound-select-wrapper::after {
@@ -38,11 +41,12 @@
 .break-sound-select,
 .upload-custom-btn,
 .play-btn {
-  padding: 10px 16px;
-  font-family: "Lora", "Georgia", serif;
-  font-size: 14px;
+  padding: 9px 14px;
+  font-family: var(--rpg-font-display);
+  font-size: 0.72rem;
   font-weight: 600;
-  border-radius: 4px;
+  letter-spacing: 0.04em;
+  border-radius: 3px;
   cursor: pointer;
   box-sizing: border-box;
   display: inline-flex;
@@ -55,6 +59,7 @@
 }
 
 .break-sound-select {
+  width: 100%;
   background-color: var(--surface-control);
   color: var(--text-secondary);
   border: 2px solid var(--border-strong);
@@ -73,6 +78,7 @@
   background-color: var(--surface-control);
   color: var(--accent-gold);
   border: 2px solid var(--border-subtle);
+  text-transform: uppercase;
 }
 
 .upload-custom-btn:hover {
@@ -85,6 +91,7 @@
   background-color: var(--accent-red-strong);
   color: var(--text-on-accent);
   border: 2px solid var(--accent-red-strong);
+  text-transform: uppercase;
 }
 
 .play-btn:hover {
@@ -97,4 +104,21 @@
 .upload-custom-btn:active,
 .play-btn:active {
   transform: translateY(1px);
+}
+
+@media (max-width: 640px) {
+  .sound-selector-container {
+    align-items: stretch;
+  }
+
+  .sound-label,
+  .break-sound-select-wrapper,
+  .upload-custom-btn,
+  .play-btn {
+    width: 100%;
+  }
+
+  .sound-label {
+    margin-bottom: -2px;
+  }
 }

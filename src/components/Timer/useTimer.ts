@@ -22,14 +22,28 @@ export function useTimer(
   autoStartBreak = false,
   autoStartFocus = false,
 ) {
+  const savedFocusDuration = localStorage.getItem("focus-duration");
+  const savedShortBreakDuration = localStorage.getItem("short-break-duration");
+  const savedLongBreakDuration = localStorage.getItem("long-break-duration");
+  const savedBreakInterval = localStorage.getItem("long-break-interval");
+  const focusDurationDefault = savedFocusDuration ? Number(savedFocusDuration) : initialTime;
+  const shortBreakDurationDefault = savedShortBreakDuration ? Number(savedShortBreakDuration) : initialBreakTime;
+  const longBreakDurationDefault = savedLongBreakDuration ? Number(savedLongBreakDuration) : 900;
+  const breakIntervalDefault = savedBreakInterval ? Number(savedBreakInterval) : 4;
+
+  const [focusDuration, setFocusDuration] = useState<number>(focusDurationDefault);
+  const [shortBreakDuration, setShortBreakDuration] = useState<number>(shortBreakDurationDefault);
+  const [longBreakDuration, setLongBreakDuration] = useState<number>(longBreakDurationDefault);
+  const [breakInterval, setBreakInterval] = useState<number>(breakIntervalDefault);
+
   const [time, setTime] = useState<number>(() => {
     const savedTime = localStorage.getItem("timer-time");
-    return savedTime ? Number(savedTime) : 1500;
+    return savedTime ? Number(savedTime) : focusDurationDefault;
   });
 
   const [breakTime, setBreakTime] = useState<number>(() => {
     const savedBreak = localStorage.getItem("timer-break");
-    return savedBreak ? Number(savedBreak) : 300;
+    return savedBreak ? Number(savedBreak) : shortBreakDurationDefault;
   });
 
   const [numPomos, setNumPomos] = useState<number>(() => {
@@ -52,27 +66,38 @@ export function useTimer(
   const endTimeRef = useRef<number | null>(null);
   const stateRef = useRef({
     isOnBreak,
-    initialTime,
-    initialBreakTime,
+    focusDuration,
+    shortBreakDuration,
+    longBreakDuration,
+    breakInterval,
+    numBreaks,
     autoStartBreak,
     autoStartFocus,
   });
+
   const onFocusCompleteRef = useRef(onFocusComplete);
   useEffect(() => {
     stateRef.current = {
       isOnBreak,
-      initialTime,
-      initialBreakTime,
+      focusDuration,
+      shortBreakDuration,
+      longBreakDuration,
+      breakInterval,
+      numBreaks,
       autoStartBreak,
       autoStartFocus,
     };
   }, [
     isOnBreak,
-    initialTime,
-    initialBreakTime,
+    focusDuration,
+    shortBreakDuration,
+    longBreakDuration,
+    breakInterval,
+    numBreaks,
     autoStartBreak,
     autoStartFocus,
   ]);
+  
   useEffect(() => {
     onFocusCompleteRef.current = onFocusComplete;
   }, [onFocusComplete]);
@@ -164,16 +189,16 @@ export function useTimer(
 
     if (!isOnBreak) {
       setIsRunning(false);
-      setTime(1500);
+      setTime(focusDuration);
     } else {
       setIsRunningBreak(false);
-      if (numBreaks > 0 && numBreaks % 4 === 0) {
-        setBreakTime(900);
+      if (numBreaks > 0 && numBreaks % breakInterval === 0) {
+        setBreakTime(longBreakDuration);
       } else {
-        setBreakTime(300);
+        setBreakTime(shortBreakDuration);
       }
     }
-  }, [isOnBreak, numBreaks]);
+  }, [breakInterval, focusDuration, isOnBreak, longBreakDuration, numBreaks, shortBreakDuration]);
 
   const skipSession = useCallback(() => {
     if (!workerRef.current) return;
@@ -186,19 +211,19 @@ export function useTimer(
       setIsRunningBreak(false);
       setNumBreaks((prevNumBreaks) => prevNumBreaks + 1);
       setNumPomos((prevNumPomos) => prevNumPomos + 1);
-      if (numBreaks > 0 && (numBreaks + 1) % 4 === 0) {
-        setBreakTime(900);
+      if (numBreaks > 0 && (numBreaks + 1) % breakInterval === 0) {
+        setBreakTime(longBreakDuration);
       } else {
-        setBreakTime(300);
+        setBreakTime(shortBreakDuration);
       }
     } else {
       setIsOnBreak(false);
       setIsRunningBreak(false);
       setIsRunning(false);
-      setTime(1500);
+      setTime(focusDuration);
     }
     console.log(numBreaks);
-  }, [isOnBreak, numBreaks]);
+  }, [breakInterval, focusDuration, isOnBreak, longBreakDuration, numBreaks, shortBreakDuration]);
 
   const presetTime = useCallback((seconds: number) => {
     if (!workerRef.current) return;
@@ -207,6 +232,59 @@ export function useTimer(
     endTimeRef.current = null;
     setTime(seconds);
     setIsRunning(false);
+  }, []);
+
+  const updateFocusDuration = useCallback((seconds: number) => {
+    const nextDuration = Math.max(1, Math.floor(seconds));
+    setFocusDuration(nextDuration);
+    localStorage.setItem("focus-duration", String(nextDuration));
+    if (!isOnBreak && !isRunning) setTime(nextDuration);
+  }, [isOnBreak, isRunning]);
+
+  const updateShortBreakDuration = useCallback((seconds: number) => {
+    const nextDuration = Math.max(1, Math.floor(seconds));
+    setShortBreakDuration(nextDuration);
+    localStorage.setItem("short-break-duration", String(nextDuration));
+    if (isOnBreak && !isRunningBreak) setBreakTime(nextDuration);
+  }, [isOnBreak, isRunningBreak]);
+
+  const updateLongBreakDuration = useCallback((seconds: number) => {
+    const nextDuration = Math.max(1, Math.floor(seconds));
+    setLongBreakDuration(nextDuration);
+    localStorage.setItem("long-break-duration", String(nextDuration));
+  }, []);
+
+  const updateBreakInterval = useCallback((interval: number) => {
+    const nextInterval = Math.max(1, Math.floor(interval));
+    setBreakInterval(nextInterval);
+    localStorage.setItem("long-break-interval", String(nextInterval));
+  }, []);
+
+  const resetToDefaults = useCallback(() => {
+    workerRef.current?.postMessage("STOP");
+    endTimeRef.current = null;
+    localStorage.removeItem("timer-time");
+    localStorage.removeItem("timer-break");
+    localStorage.removeItem("timeRemaining");
+    setTime(initialTime);
+    setBreakTime(initialBreakTime);
+    setFocusDuration(initialTime);
+    setShortBreakDuration(initialBreakTime);
+    setLongBreakDuration(900);
+    setBreakInterval(4);
+    localStorage.removeItem("focus-duration");
+    localStorage.removeItem("short-break-duration");
+    localStorage.removeItem("long-break-duration");
+    localStorage.removeItem("long-break-interval");
+    setNumBreaks(0);
+    setIsOnBreak(false);
+    setIsRunning(false);
+    setIsRunningBreak(false);
+  }, [initialBreakTime, initialTime]);
+
+  const resetCompletedSessions = useCallback(() => {
+    setNumPomos(0);
+    localStorage.removeItem("numPomos");
   }, []);
 
   useEffect(() => {
@@ -231,8 +309,11 @@ export function useTimer(
 
       const {
         isOnBreak: activeBreak,
-        initialTime: initT,
-        initialBreakTime: initB,
+        focusDuration: currentFocusDuration,
+        shortBreakDuration: currentShortBreakDuration,
+        longBreakDuration: currentLongBreakDuration,
+        breakInterval: currentBreakInterval,
+        numBreaks: completedBreaks,
         autoStartBreak: shouldAutoStartBreak,
         autoStartFocus: shouldAutoStartFocus,
       } = stateRef.current;
@@ -248,10 +329,14 @@ export function useTimer(
           setNumBreaks((prevNumBreaks) => prevNumBreaks + 1);
           setIsOnBreak(true);
           setIsRunning(false);
-          setTime(initB);
-          setBreakTime(initB);
+          const nextBreakNumber = completedBreaks + 1;
+          const nextBreakDuration = nextBreakNumber % currentBreakInterval === 0
+            ? currentLongBreakDuration
+            : currentShortBreakDuration;
+          setTime(nextBreakDuration);
+          setBreakTime(nextBreakDuration);
           if (shouldAutoStartBreak) {
-            endTimeRef.current = Date.now() + initB * 1000;
+            endTimeRef.current = Date.now() + nextBreakDuration * 1000;
             setIsRunningBreak(true);
             workerRef.current?.postMessage("START");
           } else {
@@ -267,9 +352,9 @@ export function useTimer(
           workerRef.current?.postMessage("STOP");
           setIsOnBreak(false);
           setIsRunningBreak(false);
-          setTime(initT);
+          setTime(currentFocusDuration);
           if (shouldAutoStartFocus) {
-            endTimeRef.current = Date.now() + initT * 1000;
+            endTimeRef.current = Date.now() + currentFocusDuration * 1000;
             setIsRunning(true);
             workerRef.current?.postMessage("START");
           } else {
@@ -286,12 +371,12 @@ export function useTimer(
   }, []);
 
   useEffect(() => {
-    if (numBreaks > 0 && numBreaks % 4 === 0) {
-      setBreakTime(900);
+    if (numBreaks > 0 && numBreaks % breakInterval === 0) {
+      setBreakTime(longBreakDuration);
     } else {
-      setBreakTime(300);
+      setBreakTime(shortBreakDuration);
     }
-  }, [numBreaks]);
+  }, [breakInterval, longBreakDuration, numBreaks, shortBreakDuration]);
 
   useEffect(() => {
     localStorage.setItem("numPomos", String(numPomos));
@@ -354,6 +439,16 @@ export function useTimer(
     skipSession,
     handleReset,
     presetTime,
+    resetToDefaults,
+    resetCompletedSessions,
+    focusDuration,
+    shortBreakDuration,
+    longBreakDuration,
+    breakInterval,
+    updateFocusDuration,
+    updateShortBreakDuration,
+    updateLongBreakDuration,
+    updateBreakInterval,
     toggleMood,
     startBreakTimer,
     stopBreakTimer,

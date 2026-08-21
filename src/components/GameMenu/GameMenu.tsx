@@ -32,6 +32,12 @@ interface GameMenuProps {
   setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
   compactMode: boolean;
   setCompactMode: React.Dispatch<React.SetStateAction<boolean>>;
+  isMuted: boolean;
+  setIsMuted: React.Dispatch<React.SetStateAction<boolean>>;
+  resetToDefaults: () => void;
+  resetCompletedSessions: () => void;
+  musicVolume: number;
+  setMusicVolume: React.Dispatch<React.SetStateAction<number>>;
   breakSound: UseBreakSoundResult;
 }
 
@@ -58,6 +64,12 @@ export function GameMenu({
   setDarkMode,
   compactMode,
   setCompactMode,
+  isMuted,
+  setIsMuted,
+  resetToDefaults,
+  resetCompletedSessions,
+  musicVolume,
+  setMusicVolume,
   breakSound,
 }: GameMenuProps) {
   const [showTimer, setShowTimer] = useState<boolean>(false);
@@ -100,6 +112,7 @@ export function GameMenu({
     return (
       <Settings
         setShowSettings={setShowSettings}
+        timer={timer}
         alarmVolume={alarmVolume}
         setAlarmVolume={setAlarmVolume}
         alarmPlayCount={alarmPlayCount}
@@ -112,6 +125,10 @@ export function GameMenu({
         setDarkMode={setDarkMode}
         compactMode={compactMode}
         setCompactMode={setCompactMode}
+        isMuted={isMuted}
+        setIsMuted={setIsMuted}
+        resetToDefaults={resetToDefaults}
+        resetCompletedSessions={resetCompletedSessions}
         breakSound={breakSound}
       />
     )
@@ -151,6 +168,9 @@ export function GameMenu({
             onToggleMusic={onToggleMusic}
             onSkipMusic={onSkipMusic}
             audioRef={audioRef}
+            isMuted={isMuted}
+            musicVolume={musicVolume}
+            setMusicVolume={setMusicVolume}
           />
         </div>
       </div>

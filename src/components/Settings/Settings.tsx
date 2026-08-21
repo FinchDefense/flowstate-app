@@ -1,11 +1,12 @@
-import { useState } from "react";
 import BreakAudioView from "./BreakAudioView";
 import type { UseBreakSoundResult } from "./useBreakSound";
+import type { useTimer } from "../Timer/useTimer";
 import "./Settings.css";
 import "../../App";
 
 interface SettingsProps {
   setShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
+  timer: ReturnType<typeof useTimer>;
   alarmVolume: number;
   setAlarmVolume: React.Dispatch<React.SetStateAction<number>>;
   alarmPlayCount: number;
@@ -18,11 +19,16 @@ interface SettingsProps {
   setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
   compactMode: boolean;
   setCompactMode: React.Dispatch<React.SetStateAction<boolean>>;
+  isMuted: boolean;
+  setIsMuted: React.Dispatch<React.SetStateAction<boolean>>;
+  resetToDefaults: () => void;
+  resetCompletedSessions: () => void;
   breakSound: UseBreakSoundResult;
 }
 
 export function Settings({
   setShowSettings,
+  timer,
   alarmVolume,
   setAlarmVolume,
   alarmPlayCount,
@@ -35,121 +41,49 @@ export function Settings({
   setDarkMode,
   compactMode,
   setCompactMode,
+  isMuted,
+  setIsMuted,
+  resetToDefaults,
+  resetCompletedSessions,
   breakSound,
 }: SettingsProps) {
-  const [inputName, setInputName] = useState<string>(() => {
-    const currentName = localStorage.getItem("flowstate_userName");
-    return currentName ? currentName : "";
-  });
-
-  const [displayName, setDisplayName] = useState<string>(() => {
-    const currentName = localStorage.getItem("flowstate_userName");
-    return currentName ? currentName : "";
-  });
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputName(event.target.value);
-  };
-
-  const handleDisplayChange = () => {
-    if (inputName.trim() === "") {
-      alert("Please enter a name");
-      return;
-    }
-
-    setDisplayName(inputName);
-    localStorage.setItem("flowstate_userName", inputName);
-    setInputName("");
-  };
-
   return (
     <div className="settings-container">
-      <button className="back-button" onClick={() => setShowSettings(false)}>
+      <button className="back-button settings" onClick={() => setShowSettings(false)}>
         ← Back to Menu
       </button>
       <div className="settings-title">SETTINGS</div>
-      <div className="timer-config">
-        <div className="row-wrapper">
-          <span>Focus Length: </span>
-          <input className="focus-length-input" />
+      <section className="settings-section timer-config">
+        <h2>Timer Durations</h2>
+        <div className="row-wrapper"><label htmlFor="focus-length-input">Focus Length</label><input id="focus-length-input" className="focus-length-input" type="number" min={1} value={Math.floor(timer.focusDuration / 60)} onChange={(e) => timer.updateFocusDuration(Number(e.target.value) * 60)} /></div>
+        <div className="row-wrapper"><label htmlFor="short-break-length-input">Short Break</label><input id="short-break-length-input" className="short-break-length-input" type="number" min={1} value={Math.floor(timer.shortBreakDuration / 60)} onChange={(e) => timer.updateShortBreakDuration(Number(e.target.value) * 60)} /></div>
+        <div className="row-wrapper"><label htmlFor="long-break-length-input">Long Break</label><input id="long-break-length-input" className="long-break-length-input" type="number" min={1} value={Math.floor(timer.longBreakDuration / 60)} onChange={(e) => timer.updateLongBreakDuration(Number(e.target.value) * 60)} /></div>
+        <div className="row-wrapper"><label htmlFor="long-break-interval-input">Long Break Interval</label><input id="long-break-interval-input" className="long-break-interval-input" type="number" min={1} value={timer.breakInterval} onChange={(e) => timer.updateBreakInterval(Number(e.target.value))} /></div>
+      </section>
+
+      <section className="settings-section audio-and-alerts">
+        <h2>Alarm & Break Audio</h2>
+        <BreakAudioView {...breakSound} />
+        <div className="settings-control-row alarm-volume"><span>Alarm Volume</span><input type="range" className="volume-slider" min={1} max={10} value={alarmVolume} onChange={(e) => setAlarmVolume(Number(e.target.value))} /></div>
+        <div className="settings-control-row alarm-repeat"><label htmlFor="alarm-play-count">Alarm Plays</label><input id="alarm-play-count" type="number" min={1} max={10} step={1} value={alarmPlayCount} onChange={(e) => { const nextCount = Number(e.target.value); if (Number.isFinite(nextCount)) setAlarmPlayCount(Math.min(10, Math.max(1, nextCount))); }} /></div>
+        <label className="settings-toggle"><input type="checkbox" checked={isMuted} onChange={(e) => setIsMuted(e.target.checked)} /><span>Mute all audio</span></label>
+      </section>
+
+      <section className="settings-section">
+        <h2>Automation & Appearance</h2>
+        <label className="settings-toggle"><input type="checkbox" checked={autoStartBreak} onChange={(e) => setAutoStartBreak(e.target.checked)} /><span>Auto-start breaks</span></label>
+        <label className="settings-toggle"><input type="checkbox" checked={autoStartFocus} onChange={(e) => setAutoStartFocus(e.target.checked)} /><span>Auto-start focus</span></label>
+        <label className="settings-toggle"><input type="checkbox" checked={darkMode} onChange={(e) => setDarkMode(e.target.checked)} /><span>Dark mode</span></label>
+        <label className="settings-toggle"><input type="checkbox" checked={compactMode} onChange={(e) => setCompactMode(e.target.checked)} /><span>Compact / Zen mode</span></label>
+      </section>
+
+      <section className="settings-section settings-actions-section">
+        <h2>Reset</h2>
+        <div className="settings-actions">
+          <button type="button" onClick={resetToDefaults}>Reset timer defaults</button>
+          <button type="button" onClick={resetCompletedSessions}>Reset completed sessions</button>
         </div>
-        <div className="row-wrapper">
-          <span>Short Break: </span>
-          <input className="short-break-length-input" />
-        </div>
-        <div className="row-wrapper">
-          <span>Long Break: </span>
-          <input className="long-break-length-input" />
-        </div>
-        <div className="row-wrapper">
-          <span>Long Break interval: </span>
-          <input className="long-break-interval-input" />
-        </div>
-      </div>
-      <div className="audio-and-alerts">
-        <BreakAudioView
-          {...breakSound}
-        />
-        <div className="alarm-volume">
-          <span>Alarm Volume</span>
-          <input
-            type="range"
-            className="volume-slider"
-            min={1}
-            max={10}
-            value={alarmVolume}
-            onChange={(e) => setAlarmVolume(Number(e.target.value))}
-          />
-        </div>
-        <div className="alarm-repeat">
-          <label htmlFor="alarm-play-count">Alarm Plays</label>
-          <input
-            id="alarm-play-count"
-            type="number"
-            min={1}
-            max={10}
-            step={1}
-            value={alarmPlayCount}
-            onChange={(e) => {
-              const nextCount = Number(e.target.value);
-              if (Number.isFinite(nextCount)) {
-                setAlarmPlayCount(Math.min(10, Math.max(1, nextCount)));
-              }
-            }}
-          />
-        </div>
-        <label className="settings-toggle">
-          <input
-            type="checkbox"
-            checked={autoStartBreak}
-            onChange={(e) => setAutoStartBreak(e.target.checked)}
-          />
-          <span>Auto-start breaks</span>
-        </label>
-        <label className="settings-toggle">
-          <input
-            type="checkbox"
-            checked={autoStartFocus}
-            onChange={(e) => setAutoStartFocus(e.target.checked)}
-          />
-          <span>Auto-start focus</span>
-        </label>
-        <label className="settings-toggle">
-          <input
-            type="checkbox"
-            checked={darkMode}
-            onChange={(e) => setDarkMode(e.target.checked)}
-          />
-          <span>Dark mode</span>
-        </label>
-        <label className="settings-toggle">
-          <input
-            type="checkbox"
-            checked={compactMode}
-            onChange={(e) => setCompactMode(e.target.checked)}
-          />
-          <span>Compact / Zen mode</span>
-        </label>
-      </div>
+      </section>
       <div className="visuals"></div>
     </div>
   );
