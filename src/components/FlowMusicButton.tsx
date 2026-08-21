@@ -37,7 +37,7 @@ export function FlowMusicButton({
   useEffect(() => {
     if (!audioRef.current) return;
     audioRef.current.volume = isMuted ? 0 : musicVolume / 10;
-  }, [musicVolume, audioRef, isMuted]);
+  }, [musicVolume, isMuted]);
 
   return (
     <div className="flowmusicbutton-container">
@@ -78,10 +78,13 @@ export function FlowMusicButton({
             <input
               type="range"
               className="volume-slider"
-              min={1}
-              max={10}
-              value={musicVolume}
-              onChange={(e) => setMusicVolume(Number(e.target.value))}
+              min="1"
+              max="10"
+              value={musicVolume.toString()}
+              onChange={(e) => {
+                const val = Number(e.target.value);
+                setMusicVolume(Math.max(1, Math.min(10, val)));
+              }}
             />
           </div>
           {currentTrack && (

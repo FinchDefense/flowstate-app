@@ -38,7 +38,8 @@ export function App() {
   });
   const [musicVolume, setMusicVolume] = useState<number>(() => {
     const savedVolume = localStorage.getItem("music-volume");
-    return savedVolume ? Number(savedVolume) : 7;
+    const volume = savedVolume ? Number(savedVolume) : 7;
+    return Math.max(1, Math.min(10, volume));
   });
   const [alarmPlayCount, setAlarmPlayCount] = useState<number>(() => {
     const savedPlayCount = localStorage.getItem("alarm-play-count");
@@ -103,7 +104,6 @@ export function App() {
 
         currentUrlRef.current = URL.createObjectURL(randomFile);
         audio.src = currentUrlRef.current;
-        audio.volume = isMuted ? 0 : musicVolume / 10;
         setCurrentTrack(randomFile.name);
 
         audio.play().catch((err) => {
@@ -115,7 +115,7 @@ export function App() {
         playRandomTrack();
       }
     },
-    [isMuted, musicVolume, revokeCurrentUrl],
+    [revokeCurrentUrl],
   );
 
   const handleMusicFileChange = async (
@@ -158,11 +158,10 @@ export function App() {
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
-      audioRef.current.volume = isMuted ? 0 : musicVolume / 10;
       audioRef.current.play().catch(console.error);
       setIsPlaying(true);
     }
-  }, [isMuted, isPlaying, musicVolume, playRandomTrack]);
+  }, [isPlaying, playRandomTrack]);
 
   const skipMusic = useCallback(() => {
     if (!audioRef.current || !currentUrlRef.current) return;
