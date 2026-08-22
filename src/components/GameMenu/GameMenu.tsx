@@ -42,6 +42,8 @@ interface GameMenuProps {
   setMusicVolume: React.Dispatch<React.SetStateAction<number>>;
   breakSound: UseBreakSoundResult;
   sessionLog: Session[];
+  displayName: string;
+  setDisplayName: (name: string) => void;
 }
 
 export function GameMenu({
@@ -75,6 +77,8 @@ export function GameMenu({
   setMusicVolume,
   breakSound,
   sessionLog,
+  displayName,
+  setDisplayName,
 }: GameMenuProps) {
   const [showTimer, setShowTimer] = useState<boolean>(false);
   const [showTaskList, setShowTaskList] = useState<boolean>(false);
@@ -135,6 +139,8 @@ export function GameMenu({
         resetToDefaults={resetToDefaults}
         resetCompletedSessions={resetCompletedSessions}
         breakSound={breakSound}
+        displayName={displayName}
+        setDisplayName={setDisplayName}
       />
     )
   }

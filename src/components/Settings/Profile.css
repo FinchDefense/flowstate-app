@@ -1,55 +1,96 @@
 .name-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin: 15px 0px;
+  display: block;
+  margin: 4px 0 0;
   width: 100%;
 }
 
-.name-input-box {
-  width: 320px;
-  max-width: 70%;
-  padding: 10px 16px;
-  border-radius: 8px;
+.profile-introduction {
+  margin: -6px 0 18px;
+  color: var(--rpg-text-dim);
+  font-family: var(--rpg-font-body);
+  font-size: 1.05rem;
+}
 
-  background-color: var(--surface-input);
-  color: var(--text-primary);
-  border: 1px solid var(--border-subtle);
-  transition: border-color 0.2s ease;
+.name-field-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--rpg-gold-light);
+  font-family: var(--rpg-font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.name-field-controls {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.name-input-box {
+  flex: 1;
+  min-width: 0;
+  padding: 11px 14px;
+  background: var(--surface-input);
+  color: var(--rpg-text-main);
+  border: 1px solid var(--rpg-border-highlight);
+  border-radius: 2px;
+  box-shadow: var(--rpg-inner-shadow);
+  font-family: var(--rpg-font-body);
+  font-size: 1.1rem;
   outline: none;
-  font-size: 0.875rem;
+  transition: var(--rpg-transition);
 }
 
 .name-input-box::placeholder {
-  color: var(--text-muted);
+  color: var(--rpg-text-dim);
   font-style: italic;
 }
 
 .name-input-box:focus {
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 2px var(--focus-ring);
+  border-color: var(--rpg-gold-light);
+  box-shadow: var(--rpg-inner-shadow), 0 0 0 2px var(--focus-ring);
 }
 
 .name-container button {
-  height: 42px;
-  border-radius: 8px;
-  padding: 0px 24px;
-  background-color: var(--accent-blue);
-  color: var(--text-on-accent);
-  border: none;
-  font-size: 0.875rem;
-  font-weight: bold;
+  min-width: 128px;
+  padding: 0 18px;
+  background: var(--rpg-deep-burgundy);
+  color: var(--rpg-gold-light);
+  border: 1px solid var(--rpg-gold);
+  border-radius: 2px;
+  font-family: var(--rpg-font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--rpg-transition);
   white-space: nowrap;
 }
 
 .name-container button:hover {
-  background-color: var(--accent-blue);
-  transform: scale(1.02);
+  background: var(--rpg-hover-danger-red);
+  color: var(--rpg-aged-parchment);
+  box-shadow: var(--rpg-glow-gold);
 }
 
 .name-container button:active {
-  transform: scale(0.98);
+  transform: translateY(1px);
+}
+
+.saved-message {
+  color: var(--rpg-aged-parchment);
+  font-style: italic;
+  text-transform: none;
+}
+
+@media (max-width: 520px) {
+  .name-field-controls {
+    flex-direction: column;
+  }
+
+  .name-container button {
+    min-height: 42px;
+  }
 }

@@ -78,7 +78,7 @@ export function App() {
     resumeMusicAfterAlarm,
   } = useMusic(isMuted, musicVolume);
 
-  const displayName = useUsername();
+  const { displayName, setDisplayName } = useUsername();
 
   const breakSound = useBreakSound(
     alarmVolume,
@@ -182,6 +182,8 @@ export function App() {
         setMusicVolume={setMusicVolume}
         breakSound={breakSound}
         sessionLog={sessionLog}
+        displayName={displayName}
+        setDisplayName={setDisplayName}
       />
     );
   }

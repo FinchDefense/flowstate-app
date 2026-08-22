@@ -11,23 +11,28 @@ export function Profile({ inputName, handleInputChange, handleDisplayChange }: P
   const [isSaved, setIsSaved] = useState<boolean>(false);
 
   return (
-    <div className="name-container">
-      <input 
-      className="name-input-box"
-      placeholder="Type Your Name Here "
-      value={inputName}
-      onChange={handleInputChange}
-      />
-      <button
-        onClick={() => {
-          handleDisplayChange();
-          setIsSaved(true);
-          setTimeout(() => {
-            setIsSaved(false);
-          }, 2000);
-        }}>
-        {isSaved ? <span style={{ color: "light gray", fontWeight: 300, fontStyle: 'italic'}}>Saved ✅</span>: "Enter"}
-      </button>
-    </div>
+    <form className="name-container" onSubmit={(event) => {
+      event.preventDefault();
+      handleDisplayChange();
+      setIsSaved(true);
+      setTimeout(() => {
+        setIsSaved(false);
+      }, 2000);
+    }}>
+      <label className="name-field-label" htmlFor="profile-name-input">Adventurer name</label>
+      <div className="name-field-controls">
+        <input
+          id="profile-name-input"
+          className="name-input-box"
+          placeholder="Enter your name"
+          maxLength={32}
+          value={inputName}
+          onChange={handleInputChange}
+        />
+        <button type="submit">
+          {isSaved ? <span className="saved-message">Saved</span> : "Save name"}
+        </button>
+      </div>
+    </form>
   )
 }

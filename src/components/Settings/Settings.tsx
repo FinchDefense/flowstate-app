@@ -1,8 +1,10 @@
 import BreakAudioView from "./BreakAudioView";
 import type { UseBreakSoundResult } from "../../hooks/useBreakSound";
 import type { useTimer } from "../../hooks/useTimer";
+import { Profile } from "./Profile";
 import "./Settings.css";
 import "../../App";
+import { useState } from "react";
 
 interface SettingsProps {
   setShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,6 +26,8 @@ interface SettingsProps {
   resetToDefaults: () => void;
   resetCompletedSessions: () => void;
   breakSound: UseBreakSoundResult;
+  displayName: string;
+  setDisplayName: (name: string) => void;
 }
 
 export function Settings({
@@ -46,13 +50,26 @@ export function Settings({
   resetToDefaults,
   resetCompletedSessions,
   breakSound,
+  displayName,
+  setDisplayName,
 }: SettingsProps) {
+  const [inputName, setInputName] = useState(displayName);
+
   return (
     <div className="settings-container">
       <button className="back-button settings" onClick={() => setShowSettings(false)}>
         ← Back to Menu
       </button>
       <div className="settings-title">SETTINGS</div>
+      <section className="settings-section profile-section">
+        <h2>Hero Profile</h2>
+        <p className="profile-introduction">Choose the name that will greet you at the start of each session.</p>
+        <Profile
+          inputName={inputName}
+          handleInputChange={(event) => setInputName(event.target.value)}
+          handleDisplayChange={() => setDisplayName(inputName)}
+        />
+      </section>
       <section className="settings-section timer-config">
         <h2>Timer Durations</h2>
         <div className="row-wrapper"><label htmlFor="focus-length-input">Focus Length</label><input id="focus-length-input" className="focus-length-input" type="number" min={1} value={Math.floor(timer.focusDuration / 60)} onChange={(e) => timer.updateFocusDuration(Number(e.target.value) * 60)} /></div>
