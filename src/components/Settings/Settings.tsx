@@ -26,6 +26,8 @@ interface SettingsProps {
   resetToDefaults: () => void;
   resetCompletedSessions: () => void;
   breakSound: UseBreakSoundResult;
+  hasMusicFolder: boolean;
+  onMusicFolderChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   displayName: string;
   setDisplayName: (name: string) => void;
 }
@@ -50,6 +52,8 @@ export function Settings({
   resetToDefaults,
   resetCompletedSessions,
   breakSound,
+  hasMusicFolder,
+  onMusicFolderChange,
   displayName,
   setDisplayName,
 }: SettingsProps) {
@@ -84,6 +88,27 @@ export function Settings({
         <div className="settings-control-row alarm-volume"><span>Alarm Volume</span><input type="range" className="volume-slider" min={1} max={10} value={alarmVolume} onChange={(e) => setAlarmVolume(Number(e.target.value))} /></div>
         <div className="settings-control-row alarm-repeat"><label htmlFor="alarm-play-count">Alarm Plays</label><input id="alarm-play-count" type="number" min={1} max={10} step={1} value={alarmPlayCount} onChange={(e) => { const nextCount = Number(e.target.value); if (Number.isFinite(nextCount)) setAlarmPlayCount(Math.min(10, Math.max(1, nextCount))); }} /></div>
         <label className="settings-toggle"><input type="checkbox" checked={isMuted} onChange={(e) => setIsMuted(e.target.checked)} /><span>Mute all audio</span></label>
+      </section>
+
+      <section className="settings-section flow-music-settings">
+        <h2>Flow Music</h2>
+        <div className="flow-music-settings-copy">
+          <span className="flow-music-status-mark" aria-hidden="true">♫</span>
+          <div>
+            <p className="flow-music-status">{hasMusicFolder ? "Music library ready" : "No music library selected"}</p>
+            <p className="flow-music-description">Choose a folder of MP3 or MP4 tracks for the Flow Music player.</p>
+          </div>
+        </div>
+        <label className="music-folder-picker">
+          <span>📁 {hasMusicFolder ? "Change music folder" : "Choose music folder"}</span>
+          <input
+            type="file"
+            multiple
+            onChange={onMusicFolderChange}
+            className="music-folder-input"
+            {...({ webkitdirectory: "", directory: "" } as React.InputHTMLAttributes<HTMLInputElement> & { webkitdirectory?: string; directory?: string })}
+          />
+        </label>
       </section>
 
       <section className="settings-section">

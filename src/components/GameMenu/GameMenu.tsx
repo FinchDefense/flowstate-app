@@ -139,6 +139,8 @@ export function GameMenu({
         resetToDefaults={resetToDefaults}
         resetCompletedSessions={resetCompletedSessions}
         breakSound={breakSound}
+        hasMusicFolder={hasFolder}
+        onMusicFolderChange={onMusicFileChange}
         displayName={displayName}
         setDisplayName={setDisplayName}
       />

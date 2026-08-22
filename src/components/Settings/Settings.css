@@ -205,6 +205,77 @@ input:focus, input:hover {
   padding-bottom: 12px;
 }
 
+.flow-music-settings-copy {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.flow-music-status-mark {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  color: var(--rpg-gold-light);
+  border: 1px solid var(--rpg-gold);
+  border-radius: 50%;
+  font-size: 1.3rem;
+  line-height: 1;
+  box-shadow: var(--rpg-glow-gold);
+}
+
+.flow-music-status,
+.flow-music-description {
+  margin: 0;
+  text-align: left;
+  font-family: var(--rpg-font-body);
+}
+
+.flow-music-status {
+  color: var(--rpg-text-main);
+  font-size: 1.12rem;
+  font-weight: 600;
+}
+
+.flow-music-description {
+  margin-top: 2px;
+  color: var(--rpg-text-dim);
+  font-size: 0.98rem;
+}
+
+.music-folder-picker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 18px;
+  box-sizing: border-box;
+  color: var(--rpg-gold-light);
+  background: var(--rpg-deep-charcoal);
+  border: 1px solid var(--rpg-border-highlight);
+  border-radius: 2px;
+  font-family: var(--rpg-font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--rpg-transition);
+}
+
+.music-folder-picker:hover {
+  color: var(--rpg-aged-parchment);
+  border-color: var(--rpg-gold-light);
+  box-shadow: var(--rpg-glow-gold);
+  transform: translateY(-1px);
+}
+
+.music-folder-input {
+  display: none;
+}
+
 .settings-actions button {
   padding: 10px 16px;
   min-width: 180px;
@@ -249,6 +320,10 @@ input:focus, input:hover {
   }
 
   .settings-actions button {
+    width: 100%;
+  }
+
+  .music-folder-picker {
     width: 100%;
   }
 }
