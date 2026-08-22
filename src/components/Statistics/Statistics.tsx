@@ -19,7 +19,10 @@ interface StatisticsProps {
 }
 
 export function Statistics({ sessionLog, setShowStatistics }: StatisticsProps) {
-  const [userGoal, setUserGoal] = useState<number>(25);
+  const [userGoal, setUserGoal] = useState<number>(() => {
+    const savedUserGoal = localStorage.getItem('user-goal');
+    return savedUserGoal ? +savedUserGoal : 25;
+  });
 
   const stats = useMemo(() => {
     const focusSessionsToday = sessionLog.filter(
@@ -60,7 +63,9 @@ export function Statistics({ sessionLog, setShowStatistics }: StatisticsProps) {
 
   const handleUserGoalInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setUserGoal(+e.target.value);
+      const newUserGoal = +(e.target.value);
+      setUserGoal(newUserGoal);
+      localStorage.setItem('user-goal', String(newUserGoal));
     },
     [],
   );
