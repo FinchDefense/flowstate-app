@@ -144,7 +144,7 @@ export function GameMenu({
   }
 
   if (showStatistics) {
-    return <Statistics sessionLog={sessionLog} />
+    return <Statistics sessionLog={sessionLog} setShowStatistics={setShowStatistics} showStatistics={showStatistics} />
   }
 
   const localBackgroundStyle = imageUrl ? {

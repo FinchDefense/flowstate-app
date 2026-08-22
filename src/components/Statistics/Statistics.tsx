@@ -14,9 +14,11 @@ import "./Statistics.css";
 
 interface StatisticsProps {
   sessionLog: Session[];
+  setShowStatistics: React.Dispatch<React.SetStateAction<boolean>>;
+  showStatistics: boolean;
 }
 
-export function Statistics({ sessionLog }: StatisticsProps) {
+export function Statistics({ sessionLog, setShowStatistics }: StatisticsProps) {
   const [userGoal, setUserGoal] = useState<number>(25);
 
   const stats = useMemo(() => {
@@ -33,8 +35,13 @@ export function Statistics({ sessionLog }: StatisticsProps) {
     const totalFocusSessionsToday = focusSessionsToday.length;
     const totalFocusMinutesToday = totalFocusSecondsToday / 60;
 
-    const focusSessionsAllTime = sessionLog.filter((session) => session.type === 'focus');
-    const totalFocusMinutesAllTime = focusSessionsAllTime.reduce((total, session) => total + session.duration, 0);
+    const focusSessionsAllTime = sessionLog.filter(
+      (session) => session.type === "focus",
+    );
+    const totalFocusMinutesAllTime = focusSessionsAllTime.reduce(
+      (total, session) => total + session.duration,
+      0,
+    );
     const totalFocusSessionsAllTime = focusSessionsAllTime.length;
 
     return {
@@ -59,7 +66,13 @@ export function Statistics({ sessionLog }: StatisticsProps) {
   );
 
   const chartData = useMemo(() => {
-    const days = [];
+    interface ChartDaySlot {
+      dayLabel: string;
+      dateString: string;
+      minutes: number;
+    }
+
+    const days: ChartDaySlot[] = [];
     const now = new Date();
 
     for (let i = 0; i < 7; i++) {
@@ -84,7 +97,11 @@ export function Statistics({ sessionLog }: StatisticsProps) {
   }, [sessionLog]);
 
   const currentStreak = useMemo(() => {
-    const datesOfFocus = new Set(sessionLog.filter(session => session.type === 'focus').map(session => new Date(session.timestamp).toDateString()));
+    const datesOfFocus = new Set(
+      sessionLog
+        .filter((session) => session.type === "focus")
+        .map((session) => new Date(session.timestamp).toDateString()),
+    );
     const today = new Date();
     const todayString = today.toDateString();
 
@@ -98,29 +115,86 @@ export function Statistics({ sessionLog }: StatisticsProps) {
 
     const startPoint = datesOfFocus.has(todayString) ? today : yesterday;
     let streakCounter = 0;
-    
+
     while (datesOfFocus.has(startPoint.toDateString())) {
       streakCounter++;
       startPoint.setDate(startPoint.getDate() - 1);
     }
 
     return streakCounter;
-  }, [sessionLog])
+  }, [sessionLog]);
 
   return (
     <div className="stats-page-wrapper">
       <h2>Your Performance Dashboard</h2>
 
+      <button
+        className="back-button statistics"
+        onClick={() => setShowStatistics(false)}
+      >
+        ← Back to Menu
+      </button>
+
       <div className="stat-cards">
-        <span>
-          🎯 Focus Hours Today:{" "}
-          {Math.round(stats.totalFocusMinutesToday / 60)}
+        <span className="stat-card-item">
+          <span style={{ marginRight: "8px" }}>🎯</span>Focus Hours Today:{" "}
+          <strong>{Math.round(stats.totalFocusMinutesToday / 60)}</strong>
         </span>
-        <span>🏆 Total Focus Hours (All Time):{" "} {Math.round(stats.totalFocusMinutesAllTime / 60)}</span>
-        <span>🔢 Study Sessions Today:{" "} {Math.round(stats.totalFocusSessionsToday)}</span>
-        <span>⏳ Total Study Sessions (All Time):{" "} {stats.totalFocusSessionsAllTime}</span>
-          <div className="summary-number">🔥 {currentStreak}</div>
-          <div className="summary-label">{currentStreak === 1 ? 'Day Streak' : 'Days Streak'}</div>
+        <span className="stat-card-item">
+          <span style={{ marginRight: "8px" }}>🏆</span> Total Focus Hours:{" "}
+          <strong>{Math.round(stats.totalFocusMinutesAllTime / 60)}</strong>
+        </span>
+        <span className="stat-card-item">
+          <span style={{ marginRight: "8px" }}>🔢</span> Study Sessions Today:{" "}
+          <strong>{Math.round(stats.totalFocusSessionsToday)}</strong>
+        </span>
+        <span className="stat-card-item">
+          <span style={{ marginRight: "8px" }}>⏳</span> Total Study Sessions:{" "}
+          <strong>{stats.totalFocusSessionsAllTime}</strong>
+        </span>
+      </div>
+
+      <div className="summary-number">
+        🔥 {currentStreak} {currentStreak === 1 ? "Day Streak" : "Days Streak"}
+      </div>
+
+      <div className="session-log-container">
+        <h2>The Annal of Aeons</h2>
+        {sessionLog
+          .slice(-5)
+          .reverse()
+          .map((session) => (
+            <div
+              key={session.id}
+              className={`session-log-card ${session.type}`}
+            >
+              <span className="session-tag">
+                {session.type === "focus" ? "🔥 Focus" : "☕ Break"}
+              </span>
+              <span className="session-duration">
+                {session.duration / 60} mins
+              </span>
+              <span className="session-time">
+                {new Date(session.timestamp).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </span>
+              <span className="session-time-range">
+                {new Date(
+                  session.timestamp - session.duration * 1000,
+                ).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+                {" - "}
+                {new Date(session.timestamp).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </span>
+            </div>
+          ))}
       </div>
 
       <div className="dashboard-card">
@@ -140,6 +214,14 @@ export function Statistics({ sessionLog }: StatisticsProps) {
           You spent {Math.round(stats.totalFocusMinutesToday)} minutes focused
           today.
         </p>
+
+        <input
+          type="number"
+          min="1"
+          className="user-goal-input"
+          placeholder="Set daily focus goal (e.g., 240 mins)"
+          onChange={handleUserGoalInputChange}
+        />
       </div>
 
       <div className="dashboard-card chart-height-fix">

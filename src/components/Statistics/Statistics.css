@@ -1,5 +1,165 @@
-.dashboard-card.chart-height-fix {
-  height: 350px;       /* 👈 Forces a layout bounding box for Recharts to measure */
-  min-height: 300px;
+.stats-page-wrapper {
+  max-width: 960px;
   width: 100%;
+  margin: 30px auto;
+  padding: 24px 16px 32px;
+  color: var(--rpg-text-main);
+  box-sizing: border-box;
+}
+
+.stats-page-wrapper h2 {
+  margin-bottom: 20px;
+  color: var(--rpg-gold-light);
+  font-family: var(--rpg-font-display);
+  font-size: 1.5rem;
+  letter-spacing: 0.04em;
+}
+
+.stat-cards {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.stat-card-item {
+  flex: 1;
+  padding: 14px 12px;
+  border: 1px solid var(--rpg-border);
+  border-radius: 6px;
+  background: var(--rpg-panel-bg);
+  color: var(--rpg-text-dim);
+  text-align: center;
+  box-shadow: var(--rpg-inner-shadow);
+  font-family: var(--rpg-font-body);
+  font-size: 0.9rem;
+}
+
+.summary-number {
+  color: var(--rpg-hover-fire-orange);
+  font-family: var(--rpg-font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 40px;
+}
+
+.summary-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rpg-gold-light);
+  font-family: var(--rpg-font-display);
+  font-size: 0.85rem;
+}
+
+.session-log-container,
+.dashboard-card {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  padding: 18px;
+  border: 1px solid var(--rpg-border);
+  border-radius: 6px;
+  background: var(--rpg-panel-bg);
+  box-shadow: var(--rpg-inner-shadow);
+}
+
+.session-log-container h2,
+.dashboard-card h3 {
+  margin: 0 0 12px;
+  color: var(--rpg-gold-light);
+  font-family: var(--rpg-font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.session-log-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(90, 80, 64, 0.55);
+  color: var(--rpg-text-main);
+  font-family: var(--rpg-font-body);
+}
+
+.session-log-card:last-child {
+  border-bottom: none;
+}
+
+.session-meta-info {
+  display: flex;
+  gap: 16px;
+}
+
+.session-tag {
+  font-weight: 600;
+}
+
+.session-log-card.focus .session-tag {
+  color: var(--rpg-hover-fire-orange);
+}
+
+.session-log-card.break .session-tag {
+  color: var(--rpg-hover-mana-green);
+}
+
+.session-duration {
+  color: var(--rpg-gold-light);
+  font-weight: 600;
+}
+
+.session-time,
+.session-time-range {
+  color: var(--rpg-text-dim);
+  font-size: 0.9rem;
+}
+
+.circle-size-container {
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 14px;
+}
+
+.subtitle-text {
+  color: var(--rpg-text-dim);
+  font-family: var(--rpg-font-body);
+  text-align: center;
+}
+
+.dashboard-card.chart-height-fix {
+  height: 240px;
+}
+
+.user-goal-input {
+  width: 50%;
+  margin: 20px auto;
+  padding: 12px 60px 12px 14px;
+  background: linear-gradient(135deg, #1c1a17 0%, #0f0e0c 100%);
+  border: 2px solid #3a3225; /* Dark metallic/wood border */
+  border-radius: 0px; /* Sharp medieval corners */
+  color: #e2d9c5; /* Off-white text */
+  font-family: 'Metamorphous', cursive;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.user-goal-input::placeholder {
+  color: #5a5142;
+  font-style: italic;
+}
+
+.user-goal-input:hover {
+  border-color: #5c4e36;
+}
+
+.user-goal-input:focus {
+  border-color: #ff9100; 
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5), 0 0 8px rgba(255, 145, 0, 0.4);
+}
+
+.back-button.statistics {
+  margin-top: -75px;
 }
