@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import type { Session } from "../App";
 
 const workerCode = `
   let timerId = null;
@@ -15,13 +16,21 @@ const workerCode = `
   };
 `;
 
+const moodColors = {
+  "⚡ ENERGETIC": ["#ff6b6b", "#ff9f43", "#f0932b", "#ff7979"],
+  "◉ CALM": ["#00ffff", "#4d96ff", "#00d2d3", "#7bed9f"],
+  "✦ CREATIVE": ["#ff6bd6", "#a66bff", "#ff00ff", "#7b2ffc"],
+  "◎ FOCUSED": ["#6bcb77", "#00d4ff", "#7dd3fc", "#fcd34d"],
+};
+
 export function useTimer(
   initialTime: number = 1500,
   initialBreakTime = 300,
+  onSessionComplete: (newSession: Session, activeQuestDifficulty: "trivial" | "guarded" | "perilous") => void = () => {},
   onFocusComplete?: () => void,
   autoStartBreak = false,
   autoStartFocus = false,
-  onSessionComplete?: (session: Session) => void,
+  activeQuestDifficulty: "trivial" | "guarded" | "perilous" = "guarded",
 ) {
   const savedFocusDuration = localStorage.getItem("focus-duration");
   const savedShortBreakDuration = localStorage.getItem("short-break-duration");
@@ -92,6 +101,7 @@ export function useTimer(
 
   const onFocusCompleteRef = useRef(onFocusComplete);
   const onSessionCompleteRef = useRef(onSessionComplete);
+  const activeQuestDifficultyRef = useRef(activeQuestDifficulty);
 
   useEffect(() => {
     stateRef.current = {
@@ -123,12 +133,9 @@ export function useTimer(
     onFocusCompleteRef.current = onFocusComplete;
   }, [onFocusComplete]);
 
-  const moodColors = {
-    "⚡ ENERGETIC": ["#ff6b6b", "#ff9f43", "#f0932b", "#ff7979"],
-    "◉ CALM": ["#00ffff", "#4d96ff", "#00d2d3", "#7bed9f"],
-    "✦ CREATIVE": ["#ff6bd6", "#a66bff", "#ff00ff", "#7b2ffc"],
-    "◎ FOCUSED": ["#6bcb77", "#00d4ff", "#7dd3fc", "#fcd34d"],
-  };
+  useEffect(() => {
+    activeQuestDifficultyRef.current = activeQuestDifficulty;
+  }, [activeQuestDifficulty]);
 
   const formatTime = useCallback((totalSeconds: number): string => {
     const minutes = Math.floor(totalSeconds / 60);
@@ -150,7 +157,7 @@ export function useTimer(
     setGlowIntensity(0.4 + Math.random() * 0.4);
     setGlowBlur(15 + Math.random() * 25);
     setGlowSpread(3 + Math.random() * 8);
-  }, [currentMood, moodColors]);
+  }, [currentMood]);
 
   const toggleMood = useCallback(() => {
     const moods = ["⚡ ENERGETIC", "◉ CALM", "✦ CREATIVE", "◎ FOCUSED"];
@@ -250,7 +257,6 @@ export function useTimer(
       setIsRunning(false);
       setTime(focusDuration);
     }
-    console.log(numBreaks);
   }, [
     breakInterval,
     focusDuration,
@@ -371,7 +377,7 @@ export function useTimer(
             type: "focus",
             duration: currentFocusDuration,
             timestamp: Date.now(),
-          });
+          }, activeQuestDifficultyRef.current);
 
           onFocusCompleteRef.current?.();
           setNumPomos((prevNumPomos) => prevNumPomos + 1);
@@ -409,7 +415,7 @@ export function useTimer(
               ? currentLongBreakDuration
               : currentShortBreakDuration,
             timestamp: Date.now(),
-          });
+          }, activeQuestDifficultyRef.current);
 
           setIsOnBreak(false);
           setIsRunningBreak(false);
@@ -430,14 +436,6 @@ export function useTimer(
       }
     };
   }, []);
-
-  useEffect(() => {
-    if (numBreaks > 0 && numBreaks % breakInterval === 0) {
-      setBreakTime(longBreakDuration);
-    } else {
-      setBreakTime(shortBreakDuration);
-    }
-  }, [breakInterval, longBreakDuration, numBreaks, shortBreakDuration]);
 
   useEffect(() => {
     localStorage.setItem("numPomos", String(numPomos));

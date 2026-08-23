@@ -4,7 +4,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 9px;
+  margin-top: 10px;
 }
 
 .flowmusicbutton-pick-label {
@@ -44,12 +45,12 @@
 }
 
 .flowmusicbutton-toggle {
-  padding: 25px 40px;
-  font-size: 1.3rem;
+  padding: 15px 30px;
+  font-size: 0.86rem;
   cursor: pointer;
   color: var(--text-on-accent);
   border: none;
-  border-radius: 50px;
+  border-radius: 3px;
   font-weight: bold;
   white-space: nowrap;
   flex-shrink: 0;
@@ -66,7 +67,7 @@
 }
 
 .flowmusicbutton-skip {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -83,13 +84,23 @@
 }
 
 .flowmusicbutton-track {
-  font-size: 0.9rem;
-  color: var(--text-subtle);
-  margin-top: 15px;
+  overflow: hidden;
+  margin: 9px 0 0;
+  color: var(--rpg-text-main);
+  font-family: var(--rpg-font-body);
+  font-size: 0.95rem;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.flowmusicbutton-track strong {
+  color: var(--rpg-gold-light);
+  font-weight: 600;
 }
 
 .volume-slider-container {
-  margin-top: 20px;
+  margin-top: 8px;
 }
 
 .setting-label {
@@ -97,7 +108,7 @@
 }
 
 .volume-slider {
-  width: 60%;
+  width: 82%;
   cursor: pointer;
 }
 

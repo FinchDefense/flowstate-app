@@ -9,6 +9,7 @@ interface TimerDisplayProps {
   glowSpread: number;
   getOpacityHex: (intensity: number) => string;
   onSkip?: () => void;
+  activeQuestTitle: string;
 }
 
 export function TimerDisplay({
@@ -22,23 +23,34 @@ export function TimerDisplay({
   breakTime,
   isOnBreak,
   onSkip,
+  activeQuestTitle,
 }: TimerDisplayProps) {
-  const displayColor = isOnBreak ? '#4ade80' : glowColor;
-  
+  const displayColor = isOnBreak ? "#4ade80" : glowColor;
+
   const timerDisplayStyle = {
     borderColor: displayColor,
     boxShadow: `0 0 ${glowBlur}px ${glowSpread}px ${displayColor}${getOpacityHex(glowIntensity)}`,
-    transition: 'border-color 0.5s ease, box-shadow 0.5s ease',
-    cursor: onSkip ? 'pointer' : 'default',
+    transition: "border-color 0.5s ease, box-shadow 0.5s ease",
+    cursor: onSkip ? "pointer" : "default",
   };
-  
+
   return (
-    <div className="timer-display" style={timerDisplayStyle} onDoubleClick={onSkip}
-      title="Double click or press 'S' to skip session">
-      <div className="timer-status">
-        {isOnBreak ? '☕ Break Time' : '🎯 Focus Session'}
+    <div className="timer-display-container">
+      <div
+        className="timer-display"
+        style={timerDisplayStyle}
+        onDoubleClick={onSkip}
+        title="Double click or press 'S' to skip session"
+      >
+        <div className="timer-status">
+          {isOnBreak ? "☕ Break Time" : "🎯 Focus Session"}
+        </div>
+        <div className="timer-display-time">
+          {isOnBreak ? formatTime(breakTime) : formatTime(time)}
+        </div>
       </div>
-      <div className="timer-display-time">{isOnBreak ? formatTime(breakTime) : formatTime(time)}</div>
+
+      <h3 className="timer-current-objective">{activeQuestTitle ? `Objective: ${activeQuestTitle}` : "No Quest Active"}</h3>
     </div>
-  )
+  );
 }

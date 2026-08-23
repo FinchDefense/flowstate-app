@@ -1,11 +1,14 @@
-@import url('https://googleapis.com');
-
 .game-menu-sidebar {
-  width: 25vw;
-  height: 100vh;
-  margin-left: 10%;
-  background-color: var(--surface-panel);
-  padding-top: 60px;
+  width: min(360px, 32vw);
+  min-height: 100vh;
+  margin-left: 7%;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, rgba(18, 17, 21, 0.96), rgba(12, 12, 14, 0.9));
+  border-right: 1px solid var(--rpg-border);
+  box-shadow: 12px 0 30px rgba(0, 0, 0, 0.28);
+  padding: 42px 0 28px;
+  display: flex;
+  flex-direction: column;
 }
 
 .game-title {
@@ -32,9 +35,62 @@
 .game-menu-nav {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin: 30px 0;
+  gap: 5px;
+  margin: 24px 0 0;
 }
+
+.FlowMusicButton {
+  margin: 20px 18px 4px;
+  padding: 14px 0 16px;
+  border-top: 1px solid var(--rpg-border);
+  border-bottom: 1px solid var(--rpg-border);
+}
+
+.player-profile {
+  margin: 0 18px 12px;
+  padding: 14px 16px 13px;
+  border: 1px solid var(--rpg-border-highlight);
+  border-left: 3px solid var(--rpg-gold);
+  background: linear-gradient(135deg, rgba(74, 14, 23, 0.34), rgba(12, 12, 14, 0.7));
+  box-shadow: var(--rpg-inner-shadow);
+  font-family: var(--rpg-font-body);
+}
+
+.player-profile-heading { display: flex; align-items: baseline; gap: 8px; }
+.player-level-label, .xp-label {
+  color: var(--rpg-text-dim);
+  font-family: var(--rpg-font-display);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+}
+.player-level-number { color: var(--rpg-gold-light); font-family: var(--rpg-font-display); font-size: 1.55rem; }
+.player-rank { margin-left: auto; color: var(--rpg-text-main); font-size: 0.95rem; font-style: italic; }
+.xp-bar { height: 7px; margin: 11px 0 6px; overflow: hidden; background: #100e0d; border: 1px solid var(--rpg-border); }
+.xp-bar span { display: block; height: 100%; background: linear-gradient(90deg, #8a5e0b, var(--rpg-gold-light)); box-shadow: 0 0 10px rgba(230, 202, 133, 0.45); transition: width 0.35s ease; }
+.xp-label { display: block; font-size: 0.58rem; letter-spacing: 0.1em; }
+
+@media (max-width: 800px) {
+  .game-menu-sidebar { width: min(100%, 420px); margin-left: 0; min-height: 100vh; }
+}
+
+@media (max-height: 760px) {
+  .game-menu-sidebar { padding-top: 24px; }
+  .game-title { font-size: 1.5rem; }
+  .FlowMusicButton { margin-top: 12px; padding: 10px 0 12px; }
+  .game-menu-nav { margin-top: 14px; }
+  .player-profile { padding: 10px 14px; }
+  .game-menu-nav .menu-btn { padding-top: 8px; padding-bottom: 8px; }
+}
+
+:root.theme-light .game-menu-sidebar {
+  background: linear-gradient(180deg, rgba(255, 250, 242, 0.96), rgba(241, 237, 230, 0.92));
+}
+
+:root.theme-light .player-profile {
+  background: linear-gradient(135deg, rgba(245, 221, 221, 0.7), rgba(255, 253, 248, 0.85));
+}
+
+:root.theme-light .xp-bar { background: #e0d7cc; }
 
 .game-menu-nav .menu-btn {
   font-family: "Inter", sans-serif;

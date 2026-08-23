@@ -12,6 +12,7 @@ interface TimerProps {
   setIsGameMenuPage: React.Dispatch<React.SetStateAction<boolean>>;
   setShowTimer: React.Dispatch<React.SetStateAction<boolean>>;
   compactMode: boolean;
+  activeQuestTitle: string;
 }
 
 export function Timer({
@@ -20,6 +21,7 @@ export function Timer({
   setIsGameMenuPage,
   setShowTimer,
   compactMode,
+  activeQuestTitle,
 }: TimerProps) {
   return (
     <div className={`timer-container${compactMode ? " compact-mode" : ""}`}>
@@ -46,6 +48,7 @@ export function Timer({
         glowSpread={timer.glowSpread}
         getOpacityHex={timer.getOpacityHex}
         onSkip={timer.skipSession}
+        activeQuestTitle={activeQuestTitle}
       />
 
       <div className="timer-buttons-main-controls">

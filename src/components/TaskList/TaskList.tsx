@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { getRandomQuote, type Quote } from "../../hooks/quotes";
 import { QuestItemLeftPanel } from "./QuestItemLeftPanel";
 import { QuestItemRightPanel } from "./QuestItemRightPanel";
+import type { QuestDifficulty } from "../../hooks/usePlayerStats";
 
 export type CampaignEvents =
   | ""
@@ -32,11 +33,12 @@ export interface Quest {
 
 interface TaskListProps {
   setShowTaskList: React.Dispatch<React.SetStateAction<boolean>>;
+  handleToggleQuest: (id: string, title: string, difficulty: QuestDifficulty) => void;
+  activeQuestId: string | null
 }
 
-export function TaskList({ setShowTaskList }: TaskListProps) {
+export function TaskList({ setShowTaskList, handleToggleQuest, activeQuestId }: TaskListProps) {
   const [quote] = useState<Quote>(() => getRandomQuote());
-  const [showQuestSetUp, setShowQuestSetUp] = useState<boolean>(false);
   const [currentQuestName, setCurrentQuestName] = useState<string>("");
   const [currentCampaign, setCurrentCampaign] = useState<CampaignEvents>("");
   const [currentThreatTier, setCurrentThreatTier] = useState<ThreatTier>("");
@@ -51,8 +53,6 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
     const savedFilter = localStorage.getItem("current-filter");
     return savedFilter ? (savedFilter as Filters) : "All";
   });
-  const [filteredQuests, setFilteredQuests]= useState<Quest[]>([]);
-
   const [selectedQuestId, setSelectedQuestId] = useState<string>("");
   const selectedQuest = quests.find((quest) => quest.id === selectedQuestId);
   const rightPanelAnimationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -110,24 +110,16 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
   }
 
   useEffect(() => {
-    if (currentQuestName.trim() !== "") setShowQuestSetUp(true);
-    else setShowQuestSetUp(false);
-  }, [currentQuestName]);
-
-  useEffect(() => {
     localStorage.setItem("quests", JSON.stringify(quests));
   }, [quests]);
 
-  useEffect(() => {
-    if (currentFilter === 'All') setFilteredQuests(quests);
-    if (currentFilter === 'Active') setFilteredQuests(quests.filter(quest => !quest.completed));
-    if (currentFilter === 'Completed') setFilteredQuests(quests.filter(quest => quest.completed));
-    if (currentFilter === 'Priority') setFilteredQuests(quests.filter(quest => quest.threatTier === 'Perilous'));
-  }, [currentFilter, quests])
-
-  useEffect(() => {
-
-  })
+  const filteredQuests = currentFilter === "Active"
+    ? quests.filter((quest) => !quest.completed)
+    : currentFilter === "Completed"
+      ? quests.filter((quest) => quest.completed)
+      : currentFilter === "Priority"
+        ? quests.filter((quest) => quest.threatTier === "Perilous")
+        : quests;
 
   return (
     <div className="task-list-container">
@@ -154,7 +146,6 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
         <button
           className="add-task-button"
           onClick={() => {
-            setShowQuestSetUp(false);
             createNewQuest();
             setCurrentQuestName("");
             setCurrentCampaign("");
@@ -168,7 +159,7 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
         </button>
       </div>
 
-      {showQuestSetUp && (
+      {currentQuestName.trim() !== "" && (
         <div className="quest-info-container">
           <div className="campaign-selector">
             <span>🛡️</span> <p>Assign Campaign: </p>
@@ -316,7 +307,7 @@ export function TaskList({ setShowTaskList }: TaskListProps) {
 
         {selectedQuest && (
           <div className={`right-panel ${isDissolving ? 'ancient-dust' : ''}`} key={selectedQuest.id}>
-            <QuestItemRightPanel quest={selectedQuest} onUpdate={onUpdate} />
+            <QuestItemRightPanel quest={selectedQuest} onUpdate={onUpdate} handleToggleQuest={handleToggleQuest} activeQuestId={activeQuestId} />
           </div>
         )}
       </div>

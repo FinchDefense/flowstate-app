@@ -46,6 +46,11 @@
   transition: color 0.5s ease;
 }
 
+.timer-display-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .timer-display {
   width: 60vw;
   min-width: 50vw;
@@ -169,6 +174,7 @@
   font-weight: 600;
   letter-spacing: 0.5px;
 }
+
 
 @keyframes fadeOutIn {
   0% {

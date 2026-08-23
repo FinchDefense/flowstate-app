@@ -10,10 +10,11 @@ import { useMusicVolume } from "./hooks/useMusicVolume";
 import { useNavigation } from "./hooks/useNavigation";
 import { useUsername } from "./hooks/useUsername";
 import { useThemeEffect } from "./hooks/useThemeEffect";
+import { usePlayerStats, type QuestDifficulty } from "./hooks/usePlayerStats.ts";
 
 import "./App.css";
 import "./index.css";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export interface Session {
   id: string;
@@ -39,6 +40,39 @@ const EMBER_STYLES = FLAME_COLORS.map((color, index) => ({
 })) as React.CSSProperties[];
 
 export function App() {
+  const [currentLevel, setCurrentLevel] = useState<number>(() => {
+    const savedCurrentLevel = localStorage.getItem("user-level");
+    return savedCurrentLevel ? +savedCurrentLevel : 1;
+  });
+  const [currentXp, setCurrentXp] = useState<number>(() => {
+    const savedCurrentXp = localStorage.getItem("user-xp");
+    return savedCurrentXp ? +savedCurrentXp : 0;
+  });
+
+  const [activeQuestId, setActiveQuestId] = useState<string | null>(null);
+  const [activeQuestTitle, setActiveQuestTitle] = useState<string>(() => {
+    const savedActiveQuestTitle = localStorage.getItem("active-quest-title");
+    return savedActiveQuestTitle ? savedActiveQuestTitle : "";
+  });
+  const [activeQuestDifficulty, setActiveQuestDifficulty] = useState<QuestDifficulty>(() => {
+    const savedActiveQuestDifficulty = localStorage.getItem('active-quest-difficulty');
+    return savedActiveQuestDifficulty === "trivial" || savedActiveQuestDifficulty === "perilous"
+      ? savedActiveQuestDifficulty
+      : "guarded";
+  });
+
+  const { handleUserGainXp, xpNeededForNextLevel } = usePlayerStats(
+    currentLevel,
+    currentXp,
+    setCurrentLevel,
+    setCurrentXp,
+  );
+
+  useEffect(() => {
+    localStorage.setItem("user-level", String(currentLevel));
+    localStorage.setItem("user-xp", String(currentXp));
+  }, [currentLevel, currentXp]);
+
   const {
     isStartingPage,
     isGameMenuPage,
@@ -93,22 +127,32 @@ export function App() {
     return savedSessionLog ? JSON.parse(savedSessionLog) : [];
   });
 
-  const handleSessionComplete = useCallback((newSession: Session) => {
+  const handleSessionComplete = useCallback((newSession: Session, difficulty: QuestDifficulty) => {
     setSessionLog((prev) => {
       const updatedLog = [...prev, newSession];
       localStorage.setItem("session-log", JSON.stringify(updatedLog));
       return updatedLog;
     });
-  }, []);
+
+    if (newSession.type === "focus" && activeQuestTitle !== "") {
+      const result = handleUserGainXp(newSession.duration / 60, difficulty);
+      alert(`You gained ${result.xpGained}!`);
+      if (result.leveledUp) {
+        alert(`DING! You reached Level ${result.finalLevel}!`);
+      }
+    }
+  }, [activeQuestTitle, handleUserGainXp]);
 
   const timer = useTimer(
     1500,
     300,
+    handleSessionComplete,
     breakSound.playBreakSound,
     autoStartBreak,
     autoStartFocus,
-    handleSessionComplete,
+    activeQuestDifficulty,
   );
+
   useThemeEffect(timer.isOnBreak);
 
   if (isStartingPage) {
@@ -184,6 +228,14 @@ export function App() {
         sessionLog={sessionLog}
         displayName={displayName}
         setDisplayName={setDisplayName}
+        activeQuestId={activeQuestId}
+        setActiveQuestId={setActiveQuestId}
+        activeQuestTitle={activeQuestTitle}
+        setActiveQuestTitle={setActiveQuestTitle}
+        setActiveQuestDifficulty={setActiveQuestDifficulty}
+        currentLevel={currentLevel}
+        currentXp={currentXp}
+        xpNeededForNextValue={xpNeededForNextLevel}
       />
     );
   }

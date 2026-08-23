@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { type CampaignEvents, type Quest, type ThreatTier } from "./TaskList";
+import type { QuestDifficulty } from "../../hooks/usePlayerStats";
 
 interface QuestItemRightPanelProps {
   quest: Quest;
-  onUpdate: (updatedQuest: Quest) => void
+  onUpdate: (updatedQuest: Quest) => void;
+  handleToggleQuest: (id: string, title: string, difficulty: QuestDifficulty) => void;
+  activeQuestId: string | null;
 }
 
-export function QuestItemRightPanel({ quest, onUpdate }: QuestItemRightPanelProps) {
+export function QuestItemRightPanel({ quest, onUpdate, handleToggleQuest, activeQuestId }: QuestItemRightPanelProps) {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [presentCampaign, setPresentCampaign] = useState<CampaignEvents>(
     quest.campaign as CampaignEvents,
@@ -26,6 +29,8 @@ export function QuestItemRightPanel({ quest, onUpdate }: QuestItemRightPanelProp
   ) => {
     setPresentLoreStory(e.target.value);
   };
+
+  const isActive = activeQuestId === quest.id;
 
   if (isUpdating)
     return (
@@ -226,6 +231,26 @@ export function QuestItemRightPanel({ quest, onUpdate }: QuestItemRightPanelProp
             onClick={() => setIsUpdating(true)}
           >
             EDIT
+          </button>
+
+          <button
+            className="track-on-timer-btn"
+            onClick={() => {
+              const normalizedDifficulty = quest.threatTier.toLowerCase();
+              const difficulty: QuestDifficulty = normalizedDifficulty === "trivial" || normalizedDifficulty === "perilous"
+                ? normalizedDifficulty
+                : "guarded";
+              handleToggleQuest(quest.id, quest.title, difficulty);
+              if (isActive) {
+                localStorage.removeItem("active-quest-title");
+                localStorage.removeItem("active-quest-difficulty");
+              } else {
+                localStorage.setItem("active-quest-title", quest.title);
+                localStorage.setItem("active-quest-difficulty", difficulty);
+              }
+            }}
+          >
+            {isActive ? "Abandon Quest" : "Equip Quest"}
           </button>
         </div>
       </div>

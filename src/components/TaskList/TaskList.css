@@ -688,24 +688,53 @@ body {
   transform: scale(0.9);
 }
 
-.quest-item-edit-btn {
+.quest-item-edit-btn,
+.track-on-timer-btn {
   background-color: transparent;
-  font-family: 'Courier New', Courier, monospace;
-  color: var(--rpg-text-main);
   border: none;
-  padding: 10px 5px;
-  margin-top: 5px;
-  font-size: 1.1rem;
-  letter-spacing: 0.3em;
-  font-weight: 750;
+  padding: 8px 5px; 
   cursor: pointer;
-  padding-bottom: 70px;
+  
+  transition: color 0.2s ease, transform 0.1s ease;
+  will-change: transform;
+}
+
+.quest-item-edit-btn {
+  font-family: 'Courier New', Courier, monospace;
+  color: var(--rpg-text-main); 
+  margin-top: 5px;
+  font-size: 0.95rem; 
+  letter-spacing: 0.15em; 
+  font-weight: 500; 
 }
 
 .quest-item-edit-btn:hover {
+  color: var(--rpg-hover-mana-green);
+  animation: active-hover-flashing 0.6s infinite alternate;
+  transform: translateY(2px) translateZ(0);
+}
+
+.quest-item-edit-btn:active {
+  transform: translateY(3px) translateZ(0); 
+}
+
+.track-on-timer-btn {
+  font-family: 'Press Start 2P', 'Impact', 'Arial Black', sans-serif; 
+  color: var(--rpg-text-main);
+  margin-top: 3px;
+  font-size: 1.1rem; 
+  letter-spacing: 0.2em; 
+  font-weight: 800; 
+}
+
+.track-on-timer-btn:hover {
   color: var(--rpg-hover-amber);
   animation: active-hover-flashing 0.6s infinite alternate;
-  transform: translateY(2px);
+  transform: translateY(2px) translateZ(0);
+}
+
+.track-on-timer-btn:active {
+  transform: translateY(4px) translateZ(0); 
 }
 
 .quest-item-all-details.editing-mode {
