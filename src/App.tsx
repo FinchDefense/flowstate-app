@@ -10,7 +10,11 @@ import { useMusicVolume } from "./hooks/useMusicVolume";
 import { useNavigation } from "./hooks/useNavigation";
 import { useUsername } from "./hooks/useUsername";
 import { useThemeEffect } from "./hooks/useThemeEffect";
-import { usePlayerStats, type QuestDifficulty } from "./hooks/usePlayerStats.ts";
+import {
+  usePlayerStats,
+  type QuestDifficulty,
+} from "./hooks/usePlayerStats.ts";
+import { Toaster, toast } from "sonner";
 
 import "./App.css";
 import "./index.css";
@@ -54,12 +58,16 @@ export function App() {
     const savedActiveQuestTitle = localStorage.getItem("active-quest-title");
     return savedActiveQuestTitle ? savedActiveQuestTitle : "";
   });
-  const [activeQuestDifficulty, setActiveQuestDifficulty] = useState<QuestDifficulty>(() => {
-    const savedActiveQuestDifficulty = localStorage.getItem('active-quest-difficulty');
-    return savedActiveQuestDifficulty === "trivial" || savedActiveQuestDifficulty === "perilous"
-      ? savedActiveQuestDifficulty
-      : "guarded";
-  });
+  const [activeQuestDifficulty, setActiveQuestDifficulty] =
+    useState<QuestDifficulty>(() => {
+      const savedActiveQuestDifficulty = localStorage.getItem(
+        "active-quest-difficulty",
+      );
+      return savedActiveQuestDifficulty === "trivial" ||
+        savedActiveQuestDifficulty === "perilous"
+        ? savedActiveQuestDifficulty
+        : "guarded";
+    });
 
   const { handleUserGainXp, xpNeededForNextLevel } = usePlayerStats(
     currentLevel,
@@ -127,21 +135,33 @@ export function App() {
     return savedSessionLog ? JSON.parse(savedSessionLog) : [];
   });
 
-  const handleSessionComplete = useCallback((newSession: Session, difficulty: QuestDifficulty) => {
-    setSessionLog((prev) => {
-      const updatedLog = [...prev, newSession];
-      localStorage.setItem("session-log", JSON.stringify(updatedLog));
-      return updatedLog;
-    });
+  const handleSessionComplete = useCallback(
+    (newSession: Session, difficulty: QuestDifficulty) => {
+      setSessionLog((prev) => {
+        const updatedLog = [...prev, newSession];
+        localStorage.setItem("session-log", JSON.stringify(updatedLog));
+        return updatedLog;
+      });
 
-    if (newSession.type === "focus" && activeQuestTitle !== "") {
-      const result = handleUserGainXp(newSession.duration / 60, difficulty);
-      alert(`You gained ${result.xpGained}!`);
-      if (result.leveledUp) {
-        alert(`DING! You reached Level ${result.finalLevel}!`);
+      if (newSession.type === "focus" && activeQuestTitle !== "") {
+        const result = handleUserGainXp(newSession.duration / 60, difficulty);
+        toast.success(`🎉 +${result.xpGained} XP Gained!`, {
+          description: "Great focus session. Keep it up!",
+          duration: 4000,
+        });
+
+        if (result.leveledUp) {
+          setTimeout(() => {
+            toast.info(`🚀 LEVEL UP!`, {
+              description: `You just reached Level ${result.finalLevel}!`,
+              duration: 6000,
+            });
+          }, 800);
+        }
       }
-    }
-  }, [activeQuestTitle, handleUserGainXp]);
+    },
+    [activeQuestTitle, handleUserGainXp],
+  );
 
   const timer = useTimer(
     1500,
@@ -155,95 +175,118 @@ export function App() {
 
   useThemeEffect(timer.isOnBreak);
 
+  const notifications = (
+    <Toaster
+      position="bottom-right"
+      closeButton
+      toastOptions={{
+        className: "flowstate-toast",
+        duration: 4000,
+      }}
+    />
+  );
+
   if (isStartingPage) {
     return (
-      <div className={`welcome-message ${isExiting ? "exiting" : ""}`}>
-        <div className="cinder-container left-edge">
-          {EMBER_STYLES.slice(0, 6).map((style, idx) => (
-            <div key={idx} className={`cinder c${idx + 1}`} style={style}></div>
-          ))}
+      <>
+        {notifications}
+        <div className={`welcome-message ${isExiting ? "exiting" : ""}`}>
+          <div className="cinder-container left-edge">
+            {EMBER_STYLES.slice(0, 6).map((style, idx) => (
+              <div key={idx} className={`cinder c${idx + 1}`} style={style}></div>
+            ))}
+          </div>
+
+          <div className="main-intro">Welcome Back {displayName || "Guest"}</div>
+
+          <div className="cinder-container right-edge">
+            {EMBER_STYLES.slice(6, 12).map((style, idx) => (
+              <div key={idx} className={`cinder c${idx + 7}`} style={style}></div>
+            ))}
+          </div>
+
+          <div className="sub-intro">Ready to Focus?</div>
+          <div className="press-any-key">Press any Key</div>
         </div>
-
-        <div className="main-intro">Welcome Back {displayName || "Guest"}</div>
-
-        <div className="cinder-container right-edge">
-          {EMBER_STYLES.slice(6, 12).map((style, idx) => (
-            <div key={idx} className={`cinder c${idx + 7}`} style={style}></div>
-          ))}
-        </div>
-
-        <div className="sub-intro">Ready to Focus?</div>
-        <div className="press-any-key">Press any Key</div>
-      </div>
+      </>
     );
   }
 
   if (inFocusMode) {
     return (
-      <FocusMode
-        time={timer.time}
-        formatTime={timer.formatTime}
-        numPomos={timer.numPomos}
-        setInFocusMode={setInFocusMode}
-        handleStartPause={timer.handleStartPause}
-        isRunning={timer.isRunning}
-        isOnBreak={timer.isOnBreak}
-        breakTime={timer.breakTime}
-      />
+      <>
+        {notifications}
+        <FocusMode
+          time={timer.time}
+          formatTime={timer.formatTime}
+          numPomos={timer.numPomos}
+          setInFocusMode={setInFocusMode}
+          handleStartPause={timer.handleStartPause}
+          isRunning={timer.isRunning}
+          isOnBreak={timer.isOnBreak}
+          breakTime={timer.breakTime}
+        />
+      </>
     );
   }
 
   if (isGameMenuPage) {
     return (
-      <GameMenu
-        timer={timer}
-        setInFocusMode={setInFocusMode}
-        setIsGameMenuPage={setIsGameMenuPage}
-        hasFolder={hasFolder}
-        isPlaying={isPlaying}
-        currentTrack={currentTrack}
-        onMusicFileChange={handleMusicFileChange}
-        onToggleMusic={toggleMusic}
-        onSkipMusic={skipMusic}
-        audioRef={audioRef}
-        alarmVolume={alarmVolume}
-        setAlarmVolume={setAlarmVolume}
-        alarmPlayCount={alarmPlayCount}
-        setAlarmPlayCount={setAlarmPlayCount}
-        autoStartBreak={autoStartBreak}
-        setAutoStartBreak={setAutoStartBreak}
-        autoStartFocus={autoStartFocus}
-        setAutoStartFocus={setAutoStartFocus}
-        darkMode={darkMode}
-        setDarkMode={setDarkMode}
-        compactMode={compactMode}
-        setCompactMode={setCompactMode}
-        isMuted={isMuted}
-        setIsMuted={setIsMuted}
-        resetToDefaults={timer.resetToDefaults}
-        resetCompletedSessions={timer.resetCompletedSessions}
-        musicVolume={musicVolume}
-        setMusicVolume={setMusicVolume}
-        breakSound={breakSound}
-        sessionLog={sessionLog}
-        displayName={displayName}
-        setDisplayName={setDisplayName}
-        activeQuestId={activeQuestId}
-        setActiveQuestId={setActiveQuestId}
-        activeQuestTitle={activeQuestTitle}
-        setActiveQuestTitle={setActiveQuestTitle}
-        setActiveQuestDifficulty={setActiveQuestDifficulty}
-        currentLevel={currentLevel}
-        currentXp={currentXp}
-        xpNeededForNextValue={xpNeededForNextLevel}
-      />
+      <>
+        {notifications}
+        <GameMenu
+          timer={timer}
+          setInFocusMode={setInFocusMode}
+          setIsGameMenuPage={setIsGameMenuPage}
+          hasFolder={hasFolder}
+          isPlaying={isPlaying}
+          currentTrack={currentTrack}
+          onMusicFileChange={handleMusicFileChange}
+          onToggleMusic={toggleMusic}
+          onSkipMusic={skipMusic}
+          audioRef={audioRef}
+          alarmVolume={alarmVolume}
+          setAlarmVolume={setAlarmVolume}
+          alarmPlayCount={alarmPlayCount}
+          setAlarmPlayCount={setAlarmPlayCount}
+          autoStartBreak={autoStartBreak}
+          setAutoStartBreak={setAutoStartBreak}
+          autoStartFocus={autoStartFocus}
+          setAutoStartFocus={setAutoStartFocus}
+          darkMode={darkMode}
+          setDarkMode={setDarkMode}
+          compactMode={compactMode}
+          setCompactMode={setCompactMode}
+          isMuted={isMuted}
+          setIsMuted={setIsMuted}
+          resetToDefaults={timer.resetToDefaults}
+          resetCompletedSessions={timer.resetCompletedSessions}
+          musicVolume={musicVolume}
+          setMusicVolume={setMusicVolume}
+          breakSound={breakSound}
+          sessionLog={sessionLog}
+          displayName={displayName}
+          setDisplayName={setDisplayName}
+          activeQuestId={activeQuestId}
+          setActiveQuestId={setActiveQuestId}
+          activeQuestTitle={activeQuestTitle}
+          setActiveQuestTitle={setActiveQuestTitle}
+          setActiveQuestDifficulty={setActiveQuestDifficulty}
+          currentLevel={currentLevel}
+          currentXp={currentXp}
+          xpNeededForNextValue={xpNeededForNextLevel}
+        />
+      </>
     );
   }
 
   return (
-    <div className="app-container">
-      <div className="header"></div>
-    </div>
+    <>
+      {notifications}
+      <div className="app-container">
+        <div className="header"></div>
+      </div>
+    </>
   );
 }
 

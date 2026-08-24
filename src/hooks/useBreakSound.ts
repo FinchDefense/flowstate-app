@@ -3,6 +3,36 @@ import type { ChangeEvent } from "react";
 
 const ALARM_DURATION_MS = 10_000;
 
+function prepareAudio(
+  audio: HTMLAudioElement,
+  source: string,
+  volume: number,
+): void {
+  audio.src = source;
+  audio.preload = "auto";
+  audio.currentTime = 0;
+  audio.volume = volume;
+  audio.muted = false;
+  audio.load();
+}
+
+function resetAudio(audio: HTMLAudioElement): void {
+  audio.pause();
+  audio.currentTime = 0;
+}
+
+function setEndedHandler(
+  audio: HTMLAudioElement,
+  handler: () => void,
+): void {
+  audio.onended = handler;
+}
+
+function replayAudio(audio: HTMLAudioElement): Promise<void> {
+  audio.currentTime = 0;
+  return audio.play();
+}
+
 export interface UseBreakSoundResult {
   breakAudioUrl: string;
   fileInputRef: React.RefObject<HTMLInputElement | null>;
@@ -36,12 +66,6 @@ export function useBreakSound(
   });
 
   useEffect(() => {
-    if (!breakAudioUrl.startsWith("blob:")) {
-      localStorage.setItem("break-audio", breakAudioUrl);
-    }
-  }, [breakAudioUrl]);
-
-  useEffect(() => {
     return () => {
       if (breakAudioUrl.startsWith("blob:")) {
         URL.revokeObjectURL(breakAudioUrl);
@@ -68,6 +92,30 @@ export function useBreakSound(
       audioInstanceRef.current.volume = isMuted ? 0 : alarmVolume / 10;
     }
   }, [alarmVolume, isMuted]);
+
+  useEffect(() => {
+    const unlockAudio = (): void => {
+      const audio = audioInstanceRef.current ?? new Audio();
+      audioInstanceRef.current = audio;
+      audio.src = breakAudioUrl;
+      audio.preload = "auto";
+      audio.muted = true;
+      audio.play().then(() => {
+        audio.pause();
+        audio.currentTime = 0;
+        audio.muted = isMuted;
+      }).catch(() => {
+        audio.muted = isMuted;
+      });
+    };
+
+    window.addEventListener("pointerdown", unlockAudio, { once: true });
+    window.addEventListener("keydown", unlockAudio, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", unlockAudio);
+      window.removeEventListener("keydown", unlockAudio);
+    };
+  }, [breakAudioUrl, isMuted]);
 
   const openFilePicker = (): void => {
     const fileInput = fileInputRef.current;
@@ -106,31 +154,29 @@ export function useBreakSound(
     }
 
     if (audioInstanceRef.current) {
-      audioInstanceRef.current.pause();
+      resetAudio(audioInstanceRef.current);
     }
 
     remainingPlaysRef.current = Math.max(1, Math.floor(alarmPlayCount));
     onAlarmStartRef.current?.();
 
-    const audio = new Audio(breakAudioUrl);
-    audio.volume = isMuted ? 0 : alarmVolume / 10;
+    const audio = audioInstanceRef.current ?? new Audio();
+    prepareAudio(audio, breakAudioUrl, isMuted ? 0 : alarmVolume / 10);
     audioInstanceRef.current = audio;
 
     const finishAlarm = (): void => {
       if (audioInstanceRef.current !== audio) return;
 
-      audio.pause();
-      audio.currentTime = 0;
+      resetAudio(audio);
       audioInstanceRef.current = null;
       remainingPlaysRef.current = 0;
       onAlarmEndRef.current?.();
     };
 
-    audio.addEventListener("ended", () => {
+    setEndedHandler(audio, () => {
       remainingPlaysRef.current -= 1;
       if (remainingPlaysRef.current > 0) {
-        audio.currentTime = 0;
-        audio.play().catch((error: Error) => {
+        replayAudio(audio).catch((error: Error) => {
           console.error("Break sound playback was blocked:", error);
         });
       } else {

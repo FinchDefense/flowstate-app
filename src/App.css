@@ -188,6 +188,23 @@ body {
   flex-direction: column;
 }
 
+.flowstate-toast {
+  background: var(--surface-panel-solid) !important;
+  border: 1px solid var(--border-accent) !important;
+  border-radius: 6px !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 8px 24px var(--shadow-medium) !important;
+}
+
+.flowstate-toast [data-title] {
+  color: var(--text-primary) !important;
+  font-family: var(--rpg-font-display);
+}
+
+.flowstate-toast [data-description] {
+  color: var(--text-secondary) !important;
+}
+
 .welcome-message {
   animation: cinematic-dissolve 3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
   display: flex;
