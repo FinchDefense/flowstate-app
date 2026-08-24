@@ -103,19 +103,22 @@ export function useBreakSound(
       audio.play().then(() => {
         audio.pause();
         audio.currentTime = 0;
-        audio.muted = isMuted;
-      }).catch(() => {
-        audio.muted = isMuted;
-      });
+      }).catch(() => undefined);
     };
 
-    window.addEventListener("pointerdown", unlockAudio, { once: true });
-    window.addEventListener("keydown", unlockAudio, { once: true });
-    return () => {
-      window.removeEventListener("pointerdown", unlockAudio);
-      window.removeEventListener("keydown", unlockAudio);
+    const handleUserInteraction = (): void => {
+      unlockAudio();
+      window.removeEventListener("pointerdown", handleUserInteraction);
+      window.removeEventListener("keydown", handleUserInteraction);
     };
-  }, [breakAudioUrl, isMuted]);
+
+    window.addEventListener("pointerdown", handleUserInteraction);
+    window.addEventListener("keydown", handleUserInteraction);
+    return () => {
+      window.removeEventListener("pointerdown", handleUserInteraction);
+      window.removeEventListener("keydown", handleUserInteraction);
+    };
+  }, [breakAudioUrl]);
 
   const openFilePicker = (): void => {
     const fileInput = fileInputRef.current;
