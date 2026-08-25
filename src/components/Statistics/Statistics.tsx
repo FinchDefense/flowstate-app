@@ -180,10 +180,7 @@ export function Statistics({ sessionLog, setShowStatistics }: StatisticsProps) {
                 {session.duration / 60} mins
               </span>
               <span className="session-time">
-                {new Date(session.timestamp).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
+                {new Date(session.timestamp).toDateString()}
               </span>
               <span className="session-time-range">
                 {new Date(

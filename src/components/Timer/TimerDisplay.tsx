@@ -50,7 +50,7 @@ export function TimerDisplay({
         </div>
       </div>
 
-      <h3 className="timer-current-objective">{activeQuestTitle ? `Objective: ${activeQuestTitle}` : "No Quest Active"}</h3>
+      <h3 className="timer-current-objective">{activeQuestTitle ? `Objective: ${activeQuestTitle.toUpperCase()}` : "No Quest Active"}</h3>
     </div>
   );
 }

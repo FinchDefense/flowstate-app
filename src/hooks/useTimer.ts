@@ -476,7 +476,7 @@ export function useTimer(
     const remaining = isOnBreak ? breakTime : time;
     const isRunningCurrentTimer = isOnBreak ? isRunningBreak : isRunning;
     const status = isRunningCurrentTimer ? "Running" : "Paused";
-    document.title = `FlowState | ${mode} ${formatTime(remaining)} | ${status}`;
+    document.title = `${mode} ${formatTime(remaining)} | ${status}`;
   }, [breakTime, time, formatTime, isOnBreak, isRunning, isRunningBreak]);
 
   return {
