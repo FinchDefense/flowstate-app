@@ -62,8 +62,18 @@ export function useBreakSound(
   }, [onAlarmStart, onAlarmEnd]);
 
   const [breakAudioUrl, setBreakAudioUrl] = useState<string>(() => {
-    return localStorage.getItem("break-audio") || "/audio/lofi-audio.mp3";
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("breakAudioUrl");
+      if (saved) return saved;
+    }
+    return "/audio/lofi-audio.mp3";
   });
+
+  useEffect(() => {
+    if (breakAudioUrl && !breakAudioUrl.startsWith("blob:")) {
+      localStorage.setItem("breakAudioUrl", breakAudioUrl);
+    }
+  }, [breakAudioUrl]);
 
   useEffect(() => {
     return () => {
@@ -83,7 +93,6 @@ export function useBreakSound(
       }
 
       remainingPlaysRef.current = 0;
-      onAlarmEndRef.current?.();
     };
   }, [breakAudioUrl]);
 
